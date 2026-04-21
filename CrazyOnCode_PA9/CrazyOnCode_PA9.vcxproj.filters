@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{a165677d-30b4-4561-b3cb-69698c91c9be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{b1546d1d-caa0-4c3b-b573-e422c1f6d276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{cd4c1076-508c-4bfd-8b88-54b82020b430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{07a09546-8a68-4143-a988-ee842a2d8f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\bin">
+      <UniqueIdentifier>{cdc6a329-4da8-46c5-b115-c1362c3add68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{cccffe0b-9046-4e3f-8886-2f3a6110eb5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\exampleFeature">
+      <UniqueIdentifier>{c223689f-b001-42f6-b025-f1d1fa3dd425}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="example.cpp">
+      <Filter>src\exampleFeature</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="example.hpp">
+      <Filter>src\exampleFeature</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
