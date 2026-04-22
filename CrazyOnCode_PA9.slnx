@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="CrazyOnCode_PA9/CrazyOnCode_PA9.vcxproj" />
+  <Project Path="CrazyOnCode_PA9/CrazyOnCode_PA9.vcxproj" Id="c665e4f3-86e2-43df-834a-22d812a9f788" />
 </Solution>
