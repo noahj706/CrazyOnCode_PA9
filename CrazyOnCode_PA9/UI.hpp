@@ -11,7 +11,7 @@ private:
 
 public:
 	Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20) :
-		Entity(pos),score1(0), score2(0), textColor(BLACK) 
+		Entity(pos),score1(0), score2(0), fontSize(fontSize), textColor(BLACK) 
 	{
 		speed = 0;
 		angle = 0;
@@ -25,9 +25,9 @@ public:
 		DrawText("Player 1:", position.x, position.y, fontSize, textColor);
 		DrawText(std::to_string(score1).c_str(), position.x + 120, position.y, fontSize, textColor);
 
-		DrawText("Player 2:", position.x, position.y, fontSize, textColor);
-		DrawText(std::to_string(score2).c_str(), position.x + 120, position.y
-			+ fontSize + 5, fontSize, textColor);
+		// Draw Player 2 should be below player 1
+		DrawText("Player 2:", position.x, position.y + fontSize + 5, fontSize, textColor);
+		DrawText(std::to_string(score2).c_str(), position.x + 120, position.y + fontSize + 5, fontSize, textColor);
 	}
 
 	void addScore(bool isPlayer1)
@@ -50,9 +50,8 @@ public:
 	int getScore1() const { return score1; }
 	int getScore2() const { return score2; }
 
-	bool hasWinner(int winnningScore) const
+	bool hasWinner(int winningScore = 15) const
 	{
-		return (score1 >= 13 || score2 >= 13); // placeholder for user to choose how many rounds
-											   // currently only 13
+		return (score1 >= winningScore || score2 >= winningScore); // Default score of 15, can be set to another winning score
 	}
 };
