@@ -1,5 +1,5 @@
 /*
-Programmer: Noah Julius, Angelo Reyes, Walker [LASTNAME], Lincoln [LASTNAME]
+Programmer: Noah Julius, Angelo Reyes, Walker Raubuch, Lincoln [LASTNAME]
 Title: Atari Combat Recreation / PA9
 Description: Local 2 player pvp with tanks, first to 15 wins
 */
@@ -9,5 +9,5 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 
 int main(void)
 {
-   
+	
 }
