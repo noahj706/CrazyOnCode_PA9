@@ -4,11 +4,12 @@ void Entity::updateVelocity()//basically polar to cartesian coords
 {
 	velocity = {speed * cosf(angle), speed * sinf(angle)};
 }
-Entity::Entity(Vector2 position = { 0,0 }, float angle = 0, float speed = 0)//constructor
+Entity::Entity(Vector2 position, float angle, float speed)//constructor
 {
 	this->position = position;
 	this->angle = angle;
 	this->speed = speed;
+	this->velocity = { 0,0 };
 }
 
 void Entity::moveForward()//uses updateVelocity() and then adds it to position

@@ -138,12 +138,14 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\raylib.h" />
     <ClInclude Include="..\include\raymath.h" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
+    <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib" />
