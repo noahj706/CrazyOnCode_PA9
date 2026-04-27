@@ -47,6 +47,7 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>src\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="example.hpp">
@@ -66,6 +67,7 @@
     </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>src\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
