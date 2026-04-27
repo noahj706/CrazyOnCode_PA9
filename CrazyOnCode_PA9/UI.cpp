@@ -48,3 +48,9 @@
 //    CloseWindow();
 //    return 0;
 //}
+// Conversion of main functionalities to "Game Manager" class
+// create overlay (Instantiate scoreboard with custom parameters)
+// Scoreboard scoreboard ({50, 30}, 30);
+// methods in relation to collisions
+// void p1Shot();
+// void p2Shot();

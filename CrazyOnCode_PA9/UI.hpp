@@ -29,18 +29,15 @@ public:
 		DrawText("Player 2:", position.x, position.y + fontSize + 5, fontSize, textColor);
 		DrawText(std::to_string(score2).c_str(), position.x + 120, position.y + fontSize + 5, fontSize, textColor);
 	}
-
-	void addScore(bool isPlayer1)
+	void addScoreP1()
 	{
-		if (isPlayer1)
-		{
-			score1++;
-		}
-		else
-		{
-			score2++;
-		}
+		score1++;
 	}
+	void addScoreP2()
+	{
+		score2++;
+	}
+
 	void resetScore()
 	{
 		score1 = 0;
