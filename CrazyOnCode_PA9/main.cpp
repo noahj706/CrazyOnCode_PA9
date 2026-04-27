@@ -5,9 +5,10 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 */
 
 #include "raylib.h"
-
+#include "Player.hpp"
+#include "bullet.hpp"
 
 int main(void)
 {
-	
+	testBullet();
 }

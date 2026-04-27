@@ -1,5 +1,6 @@
 // ------- INCLUDE LIBRARIES -------
 #include "player.hpp"
+#include "bullet.hpp"
 
 // ------- FUNCTION DEFINITIONS -------
 
@@ -156,7 +157,7 @@ void Player::testPlayer(void)
 
 		// Set the background of the level
 		ClearBackground(RAYWHITE);
-		
+
 		// Perform drawing
 		p1.draw();
 		p2.draw();
@@ -164,6 +165,7 @@ void Player::testPlayer(void)
 		// Player movement
 		p1.update();
 		p2.update();
+
 
 		// End Drawing
 		EndDrawing();
