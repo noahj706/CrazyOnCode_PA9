@@ -45,7 +45,7 @@
     <ClCompile Include="UI.cpp">
       <Filter>src\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.cpp">
       <Filter>src\player</Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,8 +64,8 @@
     <ClInclude Include="UI.hpp">
       <Filter>src\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp" />
-     <Filter>src\player</Filter>
+    <ClInclude Include="Player.hpp">
+      <Filter>src\player</Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
