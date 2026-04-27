@@ -28,6 +28,15 @@
     <Filter Include="include">
       <UniqueIdentifier>{5ac184ca-91bc-4a36-b398-68d905f29adb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{bef76bd2-efea-4c7c-90ec-4ab72836e4f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\player">
+      <UniqueIdentifier>{6afdfae2-9d25-4ec5-8f14-fa6449547357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\bullet">
+      <UniqueIdentifier>{db60ffa9-eb78-4236-9a89-7fcdd44567e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example.cpp">
@@ -39,7 +48,15 @@
     <ClCompile Include="entity.cpp">
       <Filter>src\entity</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="UI.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>src\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>src\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="example.hpp">
@@ -54,7 +71,15 @@
     <ClInclude Include="..\include\raymath.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp" />
+    <ClInclude Include="UI.hpp">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.hpp">
+      <Filter>src\bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>src\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
