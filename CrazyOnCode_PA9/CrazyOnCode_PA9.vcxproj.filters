@@ -39,7 +39,9 @@
     <ClCompile Include="entity.cpp">
       <Filter>src\entity</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>src\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="example.hpp">
@@ -54,7 +56,9 @@
     <ClInclude Include="..\include\raymath.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Player.hpp">
+      <Filter>src\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
