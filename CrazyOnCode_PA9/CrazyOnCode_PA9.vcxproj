@@ -140,6 +140,7 @@
     <ClCompile Include="example.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\raylib.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
     <ClInclude Include="UI.hpp" />
+    <ClInclude Include="Player.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib" />
