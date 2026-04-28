@@ -1,5 +1,6 @@
 // ------- INCLUDE LIBRARIES -------
 #include "player.hpp"
+#include "bullet.hpp"
 
 // ------- FUNCTION DEFINITIONS -------
 
@@ -143,7 +144,43 @@
 //}
 
 /* Test function for the player */
-//void Player::testPlayer(void)
-//{
-//
-//}
+void Player::testPlayer(void)
+{
+	// Define constant screen variables
+	const int screenWidth = 800;
+	const int screenHeight = 450;
+	const Vector2 screenCenter = { screenWidth / 2,screenHeight / 2 };
+
+	// Initialization
+	InitWindow(screenWidth, screenHeight, "Player Test");
+	SetTargetFPS(60);
+
+	// Create player
+	Player p1(screenCenter, 0, 5, 1);
+	Player p2({100,100}, 0, 5, 2);
+
+	// Gameplay Loop
+	while (!WindowShouldClose())
+	{
+		// Begin Drawing
+		BeginDrawing();
+
+		// Set the background of the level
+		ClearBackground(RAYWHITE);
+
+		// Perform drawing
+		p1.draw();
+		p2.draw();
+
+		// Player movement
+		p1.update();
+		p2.update();
+
+
+		// End Drawing
+		EndDrawing();
+
+	}
+
+	CloseWindow();
+}
