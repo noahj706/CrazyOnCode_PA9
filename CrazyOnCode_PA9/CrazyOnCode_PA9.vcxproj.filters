@@ -34,6 +34,15 @@
     <Filter Include="src\map">
       <UniqueIdentifier>{81883030-0114-489e-a102-a053685ab177}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{bef76bd2-efea-4c7c-90ec-4ab72836e4f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\player">
+      <UniqueIdentifier>{6afdfae2-9d25-4ec5-8f14-fa6449547357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\bullet">
+      <UniqueIdentifier>{db60ffa9-eb78-4236-9a89-7fcdd44567e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example.cpp">
@@ -53,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="wallTest.cpp">
       <Filter>src\walls</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet.cpp">
+      <Filter>src\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>src\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +94,15 @@
     </ClInclude>
     <ClInclude Include="walltest.hpp">
       <Filter>src\walls</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.hpp">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.hpp">
+      <Filter>src\bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>src\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
