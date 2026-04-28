@@ -5,9 +5,9 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 */
 
 #include "raylib.h"
-
+#include "Player.hpp"
 
 int main(void)
 {
-	
+	Player::testPlayer();
 }
