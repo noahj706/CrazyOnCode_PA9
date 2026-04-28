@@ -12,7 +12,7 @@ class Entity
 
 public:		
 	Vector2 position;
-	float angle; //will be stored as deg, getters can pass as deg or radians with DEG2RAD from raylib
+	float angle; //will be stored as degrees, if using cosf() or singf() mult it DEG2RAD
 	float speed; //distance added to position for movement
 
 	Entity(const Vector2& position = {0,0}, const float& angle = 0, const float& speed = 0);//constructor

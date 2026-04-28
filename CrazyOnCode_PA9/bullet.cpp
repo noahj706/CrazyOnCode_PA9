@@ -1,10 +1,11 @@
+//primary programmer: Noah Julius
 #include "bullet.hpp"
 #include <vector>
 #include <iostream>
 
 Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
-, const float& radius)//constructor
-	: CircleEntity(position, angle, speed, radius) {};
+, const float& radius, unsigned int bounces)//constructor
+	: CircleEntity(position, angle, speed, radius), bounces(bounces) {};
 
 void Bullet::update() 
 {
@@ -14,6 +15,40 @@ void Bullet::draw()
 {
 	DrawCircleV(position, getRadius(), ORANGE);
 }
+void Bullet::bulletHitPlayerAct()//bullet disappears
+{
+	delete this;
+}
+bool Bullet::bulletHitHorzWallAct()//bullet will bounce or disapear, returns true if bullet disapearts
+{
+	if (bounces > 0)
+	{
+		angle = 360.0f - angle;//reflects angle vertically
+		--bounces;
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool Bullet::bulletHitVertWallAct()//bullet will bounce or disapear, returns true if bullet disapearts
+{
+	if (bounces > 0)
+	{
+		angle = 180.0f - angle;//reflects angle horizontally
+		--bounces;
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+
+
 
 using std::vector;
 
@@ -39,8 +74,26 @@ void testBullet()
 		
 		if (IsKeyPressed('F'))
 		{
-			bList.push_back(new Bullet(screenCenter));
+			bList.push_back(new Bullet(screenCenter, 45));
 			std::cout << "SHOOT!!" << std::endl;
+		}
+		if (IsKeyPressed(' '))
+		{
+			if (bList.back()->bulletHitHorzWallAct())
+			{
+				delete bList.back();
+				bList.pop_back();
+			}
+			std::cout << "BOING!!!" << std::endl;
+		}
+		if (IsKeyPressed('M'))
+		{
+			if (bList.back()->bulletHitVertWallAct())
+			{
+				delete bList.back();
+				bList.pop_back();
+			}
+			std::cout << "BOING!!!" << std::endl;
 		}
 
 		for (int i = 0; i < bList.size(); ++i)
@@ -49,8 +102,7 @@ void testBullet()
 		}
 		for (int i = 0; i < bList.size(); ++i)
 		{
-			//bList[i]->draw();
-			bList[i]->drawBase();
+			bList[i]->draw();
 		}
 
 		EndDrawing();

@@ -2,14 +2,15 @@
 
 void Entity::updateVelocity()//basically polar to cartesian coords
 {
-	velocity = {speed * cosf(angle), speed * sinf(angle)};
+	velocity = {speed * cosf(angle * DEG2RAD), speed * sinf(angle * DEG2RAD)};
 }
 Entity::Entity(const Vector2& position, const float& angle, const float& speed)//constructor
+	: position(position), angle(fmodf(angle, 360.0f)), speed(speed), velocity({0,0})
 {
-	this->position = position;
-	this->angle = angle;
-	this->speed = speed;
-	this->velocity = { 0,0 };
+	if (this->angle < 0)//ensures no negative angles, maintains direction
+	{
+		this->angle += 360.0f;
+	}
 }
 void Entity::moveForward()//uses updateVelocity() and then adds it to position
 {
