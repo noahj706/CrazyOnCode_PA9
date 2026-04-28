@@ -1,7 +1,7 @@
 #pragma once
 #include "map.cpp"
 #include "wall.hpp"
-
+/*
 class map:public wall
 {
 	public:
@@ -12,3 +12,4 @@ class map:public wall
 		void inputfile();
 		
 };
+*/

@@ -138,15 +138,24 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="wall.cpp" />
+    <ClCompile Include="wallTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\raylib.h" />
     <ClInclude Include="..\include\raymath.h" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
+    <ClInclude Include="map.hpp" />
+    <ClInclude Include="wall.hpp" />
+    <ClInclude Include="walltest.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mapbse.tnkm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

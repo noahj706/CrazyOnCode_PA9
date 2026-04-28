@@ -28,6 +28,12 @@
     <Filter Include="include">
       <UniqueIdentifier>{5ac184ca-91bc-4a36-b398-68d905f29adb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\walls">
+      <UniqueIdentifier>{af250ca1-9001-4489-b400-ed0c1bdd6c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\map">
+      <UniqueIdentifier>{81883030-0114-489e-a102-a053685ab177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example.cpp">
@@ -38,6 +44,15 @@
     </ClCompile>
     <ClCompile Include="entity.cpp">
       <Filter>src\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>src\walls</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="wallTest.cpp">
+      <Filter>src\walls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,10 +68,24 @@
     <ClInclude Include="..\include\raymath.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="wall.hpp">
+      <Filter>src\walls</Filter>
+    </ClInclude>
+    <ClInclude Include="map.hpp">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="walltest.hpp">
+      <Filter>src\walls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
       <Filter>lib</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mapbse.tnkm">
+      <Filter>assets</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 #include "map.hpp"
-
+/*
 map::map()
 {
 
@@ -14,3 +14,5 @@ void map::inputfile()
 {
 
 }
+
+*/
