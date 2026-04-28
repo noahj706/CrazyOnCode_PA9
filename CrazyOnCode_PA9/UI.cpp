@@ -1,56 +1,93 @@
 #include "UI.hpp"
 
-// Example of setting up the scoreboard in main cpp
-//#include "UI.hpp" 
-//#include "raylib.h"
-//
-//int main() {
-//    // Window initialization
-//    InitWindow(800, 600, "Scoreboard Example");
-//    SetTargetFPS(60);
-//
-//    // Create scoreboard with default position and font size
-//    Scoreboard scoreboard;
-//
-//    // Or create with custom position and font size
-//    // Scoreboard scoreboard({50, 30}, 30);
-//
-//    while (!WindowShouldClose()) 
-//    {
-//        // Game logic - add scores
-//        if (IsKeyPressed(KEY_A)) 
-//        {
-//            scoreboard.addScore(true);   // Player 1 scores
-//        }
-//        if (IsKeyPressed(KEY_L)) {
-//            scoreboard.addScore(false);  // Player 2 scores
-//        }
-//
-//        // Check for winner
-//        if (scoreboard.hasWinner(5)) 
-//        {  // First to 5 wins
-//            // Handle game over
-//            if (IsKeyPressed(KEY_R)) 
-//            {
-//                scoreboard.resetScore();
-//            }
-//        }
-//
-//        // Drawing
-//        BeginDrawing();
-//        ClearBackground(RAYWHITE);
-//
-//        scoreboard.draw();  // Draw the scoreboard
-//
-//        EndDrawing();
-//    }
-//
-//    CloseWindow();
-//    return 0;
-//}
-// Conversion of main functionalities to "Game Manager" class
-// create overlay (Instantiate scoreboard with custom parameters)
-// Scoreboard scoreboard ({50, 30}, 30);
-// methods in relation to collisions
-// void p1Shot();
-// void p2Shot();
+Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds)
+    : RectangleEntity(pos, 0, 0, 200, fontSize * 2 + 10)
+    , score1(0)
+    , score2(0)
+    , fontSize(fontSize)
+    , textColor(BLACK)
+    , numRounds(numRounds)
+{
+}
+
+void Scoreboard::draw()
+{
+    DrawText("Player 1:", position.x, position.y, fontSize, textColor);
+    DrawText(std::to_string(score1).c_str(), position.x + 120, position.y, fontSize, textColor);
+
+    // Draw Player 2 below player 1
+    DrawText("Player 2:", position.x, position.y + fontSize + 5, fontSize, textColor);
+    DrawText(std::to_string(score2).c_str(), position.x + 120, position.y + fontSize + 5, fontSize, textColor);
+}
+
+void Scoreboard::update()  // Add this implementation
+{
+    // The scoreboard doesn't need to update every frame
+    // Just leave it empty or add any logic needed
+}
+
+void Scoreboard::addScoreP1()
+{
+    score1++;
+}
+
+void Scoreboard::addScoreP2()
+{
+    score2++;
+}
+
+int Scoreboard::getScore1() const
+{
+    return score1;
+}
+
+int Scoreboard::getScore2() const
+{
+    return score2;
+}
+void Scoreboard::resetScore()
+{
+    score1 = 0;
+    score2 = 0;
+}
+
+void Scoreboard::testUI()
+{
+    // Initialize window
+    const int screenWidth = 800;
+    const int screenHeight = 600;
+    InitWindow(screenWidth, screenHeight, "Scoreboard Demo");
+    SetTargetFPS(60);
+
+
+    // Call a method on the object
+    addScoreP1();  // Add 1 point to Player 1
+
+    // Main game loop
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        // Draw the scoreboard
+        draw();
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+}
+
+unsigned int Scoreboard::foundWinner() const
+{
+    if (score1 >= numRounds)
+    {
+        return 1;
+    }
+    else if (score2 >= numRounds)
+    {
+        return 2;
+    }
+    return 0;
+}
+
