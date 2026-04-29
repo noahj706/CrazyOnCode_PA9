@@ -1,5 +1,11 @@
 #pragma once
+#include <iostream>
+using std::cout;
+using std::endl;
+using std::string;
+using std::fstream;
 #include "entity.hpp"
+
 
 #define WALL_SIZE 50.0f
 class Wall : public RectangleEntity
@@ -17,6 +23,7 @@ class Wall : public RectangleEntity
 		// generates the walls from a text file, 
 		// this is for future use and is not currently implemented
 		void arenaFromfile(const char* filename);
+		void infile(const char* filename);
 
 
 	private:

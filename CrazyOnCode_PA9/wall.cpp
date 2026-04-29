@@ -9,7 +9,7 @@ int Wall::drawWallDisplay()
     const int screenWidth = 900;
     const int screenHeight = 500;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(screenWidth, screenHeight, "TestMap");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -86,7 +86,26 @@ void Wall::defaultArena1()// 500 / 900
 void Wall::arenaFromfile(const char* filename)
 {
     // get the "mapbse.tnkm" file.
+    // walls = w
+    // empty = E
+    // playerspawn = @
+    // 18 wide 900 devided by 50 = 18
+    // 10 high 500 devided by 50 = 10
 
+    //test map: WEE@EWWEEWEEEWW
+    // getline 
+	
+
+}
+
+void Wall::infile(const char* filename)
+{
+	fstream map;
+    map.open("mapTest.tnkm");
+    if (map == nullptr)
+    {
+		cout << "Error opening file: " << filename << endl;
+    }
 }
 
 
