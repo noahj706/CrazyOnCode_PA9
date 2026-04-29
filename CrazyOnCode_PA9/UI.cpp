@@ -16,15 +16,14 @@ void Scoreboard::draw()
     DrawText("Player 1:", position.x, position.y, fontSize, textColor);
     DrawText(std::to_string(score1).c_str(), position.x + 120, position.y, fontSize, textColor);
 
-    // Draw Player 2 below player 1
+    // Draws Player 2 below player 1
     DrawText("Player 2:", position.x, position.y + fontSize + 5, fontSize, textColor);
     DrawText(std::to_string(score2).c_str(), position.x + 120, position.y + fontSize + 5, fontSize, textColor);
 }
 
-void Scoreboard::update()  // Add this implementation
+void Scoreboard::update() 
 {
-    // The scoreboard doesn't need to update every frame
-    // Just leave it empty or add any logic needed
+
 }
 
 void Scoreboard::addScoreP1()
@@ -59,10 +58,6 @@ void Scoreboard::testUI()
     const int screenHeight = 600;
     InitWindow(screenWidth, screenHeight, "Scoreboard Demo");
     SetTargetFPS(60);
-
-
-    // Call a method on the object
-    addScoreP1();  // Add 1 point to Player 1
 
     // Main game loop
     while (!WindowShouldClose())
