@@ -1,4 +1,5 @@
 #include "UI.hpp"
+#include <iostream>
 
 Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds)
     : RectangleEntity(pos, 0, 0, 200, fontSize * 2 + 10)
@@ -71,6 +72,25 @@ void Scoreboard::testUI()
 
         // Draw the scoreboard
         draw();
+        if (IsKeyPressed('T'))
+        {
+            addScoreP1();
+        }
+        if (IsKeyPressed('Y'))
+        {
+            addScoreP2();
+        }
+
+        if (foundWinner() == 1)
+        {
+            std::cout << "Player 1 won!" << std::endl;
+            resetScore();
+        }
+        if (foundWinner() == 2)
+        {
+            std::cout << "Player 2 won!" << std::endl;
+            resetScore();
+        }
 
         EndDrawing();
     }
