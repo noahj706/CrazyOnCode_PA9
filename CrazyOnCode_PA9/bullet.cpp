@@ -2,8 +2,7 @@
 #include <vector>
 #include <iostream>
 
-Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
-, const float& radius)//constructor
+Bullet::Bullet(const Vector2& position, const float& angle, const float& speed, const float& radius)//constructor
 	: CircleEntity(position, angle, speed, radius) {};
 
 void Bullet::update() 

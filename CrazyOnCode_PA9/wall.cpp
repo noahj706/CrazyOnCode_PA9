@@ -1,6 +1,6 @@
 #include "wall.hpp"
 
-int Wall::drawWall()
+int Wall::drawWallDisplay()
 {
     // Initialization
    //--------------------------------------------------------------------------------------
@@ -11,6 +11,7 @@ int Wall::drawWall()
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
+	
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -26,10 +27,10 @@ int Wall::drawWall()
 
         ClearBackground(RAYWHITE);
 
-		//DrawRectangle(0, 0, WALL_SIZE, WALL_SIZE, BROWN);
-        //DrawRectangle(0+WALL_SIZE, 0, WALL_SIZE, WALL_SIZE, BROWN);
 
-        Wall Wall1;
+        //Wall Wall1;
+        Wall wall1;
+        wall1.draw();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -42,15 +43,18 @@ int Wall::drawWall()
 	return 0;
 }
 
-Wall::Wall()
-{
-    for (int i = 0; i < 20; i++)
-    {
-		DrawRectangle(i * WALL_SIZE, 0, WALL_SIZE, WALL_SIZE, BROWN);
-
-    }
-}
+Wall::Wall(const Vector2& position, const float& angle, const float& speed, const float& width, const float& height)
+    : RectangleEntity(position, angle, speed, width, height) {};
 
 Wall::~Wall()
 {
+}
+
+void Wall::update()
+{
+}
+void Wall::draw()
+{
+     
+     DrawRectangleRec(getBounds(), BROWN);
 }
