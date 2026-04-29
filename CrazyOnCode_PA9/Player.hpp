@@ -166,8 +166,8 @@ public:
 			p2.update();
 
 			// Collisions
-			p1.checkCollisionsWith(p2);
-			p2.checkCollisionsWith(p1);
+			//p1.checkCollisionsWith(p2);
+			//p2.checkCollisionsWith(p1);
 
 			// End Drawing
 			EndDrawing();
