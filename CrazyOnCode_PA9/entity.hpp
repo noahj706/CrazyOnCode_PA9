@@ -37,7 +37,7 @@ public:
 		const float& radius = 1);//constructor
 	~CircleEntity() = default; //destructor
 
-	Vector2 getCenter();//returns a point that is centered on the shape
+	Vector2 getCenter() const;//returns a point that is centered on the shape
 	const float& getRadius() const;//returns radius 
 
 	void drawBase();//draws a red outline of the shape
