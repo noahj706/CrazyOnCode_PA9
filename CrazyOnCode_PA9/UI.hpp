@@ -29,16 +29,21 @@ public:
     void loadSounds();
     void draw() override;
     void update() override; 
+
+    // Score methods
     void addScoreP1();
     void addScoreP2();
     void resetScore();
-    void testUI();
-    void playFire();
+
+    // audio methods for playing sounds of your choice
+    void playFire(); 
     void playDestroyed();
 
-
+    // getters
     int getScore1() const;
     int getScore2() const;
+
+    void testUI();
     unsigned int foundWinner() const;
 
 };

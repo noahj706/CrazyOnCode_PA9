@@ -13,7 +13,7 @@ Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
     , destroyed{0}
     , firePath(firePath)
     , destroyedPath(destroyedPath)
-    , soundsLoaded(false)
+    , soundsLoaded(false) // allows for sound error checking
 {
 }
 
@@ -102,7 +102,7 @@ void Scoreboard::testUI()
     const int screenWidth = 800;
     const int screenHeight = 600;
     InitWindow(screenWidth, screenHeight, "Scoreboard Demo");
-    InitAudioDevice();
+    InitAudioDevice(); // Make sure to place this before loadSounds()
     loadSounds();
     SetTargetFPS(60);
 
@@ -138,7 +138,7 @@ void Scoreboard::testUI()
 
         EndDrawing();
     }
-    CloseAudioDevice();
+    CloseAudioDevice(); // Similarly to Initwindow having a CloseWindow(), InitAudioDevice has this
     CloseWindow();
 }
 
