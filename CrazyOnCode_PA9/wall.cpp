@@ -6,8 +6,8 @@ int Wall::drawWallDisplay()
 {
     // Initialization
    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 900;
+    const int screenHeight = 500;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
@@ -27,12 +27,12 @@ int Wall::drawWallDisplay()
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(LIGHTGRAY);
 
 
         //Wall Wall1;
         Wall wall1;
-        wall1.defaultArena();
+        wall1.defaultArena1();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -61,17 +61,21 @@ void Wall::draw()
      DrawRectangleRec(getBounds(), BROWN);
 }
 
-void Wall::defaultArena()
-{
-	for (int i = 0; i < 16; i++)
-    {
-        Wall wall1({i*WALL_SIZE,0});
-        Wall wall2({i*WALL_SIZE,450-WALL_SIZE});
-        Wall wall3({ 0,i * WALL_SIZE });
-        Wall wall4({ 800 - WALL_SIZE,i * WALL_SIZE });
+void Wall::defaultArena1()// 500 / 900
+{   
+    // I did not know how to do this without hardcoding the values.
+    const int screenWidth = 900;
+    const int screenHeight = 500;
+	for (int i = 0; i < 18; i++)
+    {   
+        
+        Wall wall1({i * WALL_SIZE,0}); //
+        Wall wall2({i * WALL_SIZE,screenHeight - WALL_SIZE}); // bottom edge of screen
+        Wall wall3({ 0,50 + i * WALL_SIZE }); // 
+        Wall wall4({ screenWidth - WALL_SIZE,50 + i * WALL_SIZE });
         wall1.draw();
-        wall2.draw();
         wall3.draw();
+        wall2.draw();
         wall4.draw();
     }
 }
