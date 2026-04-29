@@ -19,7 +19,7 @@ enum WhatsColliding
 WALKERRRR!!! implament this code into your player class when you get the chance!!! ty
 
 	void playerHitWallAct();
-	void playerHitBulletAct();
+	void playerHitBulletAct();S
 
 */
 
