@@ -1,14 +1,59 @@
 #include "UI.hpp"
 #include <iostream>
 
-Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds)
+Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
+    const char* firePath, const char* destroyedPath)
     : RectangleEntity(pos, 0, 0, 200, fontSize * 2 + 10)
     , score1(0)
     , score2(0)
     , fontSize(fontSize)
     , textColor(BLACK)
     , numRounds(numRounds)
+    , fire{0}
+    , destroyed{0}
+    , firePath(firePath)
+    , destroyedPath(destroyedPath)
+    , soundsLoaded(false)
 {
+}
+
+void Scoreboard::loadSounds()
+{
+    if (soundsLoaded) return;  // Prevents double loading
+
+    if (firePath && FileExists(firePath))
+    {
+        fire = LoadSound(firePath);
+        if (fire.frameCount > 0)
+        {
+            std::cout << "Fire sound loaded successfully" << std::endl;
+        }
+        else
+        {
+            std::cout << "Failed to load fire sound" << std::endl;
+        }
+
+    }
+
+    if (destroyedPath && FileExists(destroyedPath))
+    {
+        destroyed = LoadSound(destroyedPath);
+        if (destroyed.frameCount > 0)
+        {
+            std::cout << "Destroyed sound loaded successfully" << std::endl;
+        }
+        else
+        {
+            std::cout << "Failed to load destroyed sound" << std::endl;
+        }
+    }
+    soundsLoaded = true;
+}
+
+Scoreboard::~Scoreboard()
+{
+    UnloadSound(fire);
+    UnloadSound(destroyed);
 }
 
 void Scoreboard::draw()
@@ -57,6 +102,8 @@ void Scoreboard::testUI()
     const int screenWidth = 800;
     const int screenHeight = 600;
     InitWindow(screenWidth, screenHeight, "Scoreboard Demo");
+    InitAudioDevice();
+    loadSounds();
     SetTargetFPS(60);
 
     // Main game loop
@@ -70,10 +117,12 @@ void Scoreboard::testUI()
         if (IsKeyPressed('T'))
         {
             addScoreP1();
+            playFire();
         }
         if (IsKeyPressed('Y'))
         {
             addScoreP2();
+            playDestroyed();
         }
 
         if (foundWinner() == 1)
@@ -89,8 +138,19 @@ void Scoreboard::testUI()
 
         EndDrawing();
     }
-
+    CloseAudioDevice();
     CloseWindow();
+}
+
+// Use this to play fire sound example shown in testUI
+void Scoreboard::playFire()
+{
+    PlaySound(fire);
+}
+// destroyed sound effect
+void Scoreboard::playDestroyed()
+{
+    PlaySound(destroyed);
 }
 
 unsigned int Scoreboard::foundWinner() const

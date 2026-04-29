@@ -154,6 +154,10 @@
   <ItemGroup>
     <Library Include="..\lib\raylib.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="destroyed.wav" />
+    <Media Include="smoke.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
