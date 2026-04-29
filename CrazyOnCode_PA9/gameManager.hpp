@@ -3,31 +3,24 @@
 #include "bullet.hpp"
 #include "Player.hpp"
 #include "UI.hpp"
+#include "wall.hpp"
 
 #include <vector>
 #include <list>
 
+#define SCREENWIDTH 900
+#define SCREENHEIGHT 500
+#define BG_COLOR {137, 195, 71, 255}
+
 using std::vector;
 using std::list;
 
-enum WhatsColliding
-{
-	PLAYER, BULLET, WALL
-};
 
-/*
-WALKERRRR!!! implament this code into your player class when you get the chance!!! ty
-
-	void playerHitWallAct();
-	void playerHitBulletAct();S
-
-*/
-
-class gameManager//this class will manage all of the other objects in the program, game loop is also contained here
+class GameManager//this class will manage all of the other objects in the program, game loop is also contained here
 {
 	list<Bullet*> bullets;//linked list instead of vector for frequent deletion efficiency
 	vector<Player*> players;//vector for random access efficiency (doesnt matter for 2 player but nice if expanded)
-	//walls list go here once made
+	vector<Wall*> walls;
 	Scoreboard scoreBoard;
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
@@ -52,9 +45,14 @@ class gameManager//this class will manage all of the other objects in the progra
 		for (auto pCur : list)
 		{
 			pCur->draw();
+			//pCur->drawBase();
 		}
 	}
 
-	void gameLoop();//loops for entirety of game window being open
+	void play();//loops for entirety of game window being open
 
+public:
+
+	GameManager();//constructor
+	~GameManager() = default;//destrctor
 };

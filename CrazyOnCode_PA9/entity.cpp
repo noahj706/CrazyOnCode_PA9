@@ -53,7 +53,7 @@ Rectangle RectangleEntity::getBounds()//returns shape as raylib Rectangle type
 }
 Vector2 RectangleEntity::getCenter()//returns a point that is centered on the shape
 {
-	return { position.x + width, position.y - height };
+	return { position.x + width / 2, position.y + height / 2 };
 }
 void RectangleEntity::setPositionFromCenter(const Vector2& centerCoords)//sets position such that the rectangle is centered on passed coords
 {

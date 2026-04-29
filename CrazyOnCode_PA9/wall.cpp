@@ -64,6 +64,7 @@ void Wall::draw()
 void Wall::defaultArena1()// 500 / 900
 {   
     // I did not know how to do this without hardcoding the values.
+    //all good! - noah
     const int screenWidth = 900;
     const int screenHeight = 500;
 	for (int i = 0; i < 18; i++)

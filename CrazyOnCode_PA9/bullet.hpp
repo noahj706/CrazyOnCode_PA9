@@ -5,10 +5,12 @@
 #define BULLETSPEED 4.5f
 #define BULLETSIZE 7.0f
 #define MAXBOUNCES 50
+#define OFFTIMER 5.0f
 
 class Bullet : public CircleEntity
 {
 	unsigned int bounces;//when zero, ball dont bounce off wall
+	unsigned int offTimer;// when > 0, cant collide with players
 
 public:
 	bool active;//when true, bullet is active and visible, initializes as true

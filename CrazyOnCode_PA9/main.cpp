@@ -12,13 +12,11 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 #include "raylib.h"
 #include "walltest.hpp"
 #include "wall.hpp"
+#include "gameManager.hpp"
 
 int main()
 {
-    Scoreboard scoreboard;
-    scoreboard.testUI();
-	Wall testwall;
-	testwall.drawWallDisplay();
+    GameManager gamer;
 
     return 0;
 }

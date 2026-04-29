@@ -5,12 +5,16 @@
 
 Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
 , const float& radius, unsigned int bounces)//constructor
-	: CircleEntity(position, angle, speed, radius), bounces(bounces), active(true) {};
+	: CircleEntity(position, angle, speed, radius), bounces(bounces), active(true), offTimer(OFFTIMER) {};
 
 void Bullet::update() 
 {
 	if (active)
 	{
+		if (offTimer > 0) 
+		{
+			offTimer -= GetFrameTime();
+		}
 		moveForward();
 	}
 }
@@ -25,9 +29,12 @@ void Bullet::bulletHitBulletAct()//bullet also disappears, but dif name for intu
 {
 	active = false;;
 }
-void Bullet::bulletHitPlayerAct()//bullet disappears
+void Bullet::bulletHitPlayerAct()//doesnt collide unless offTimer expires to avoid shooter collision
 {
-	active = false;
+	if (offTimer == 0)
+	{
+		active = false;
+	}
 }
 void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 {
@@ -60,6 +67,7 @@ void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
 
 using std::vector;
 
+/*
 void testBullet()
 {
 	// Define constant screen variables
@@ -119,3 +127,4 @@ void testBullet()
 
 	CloseWindow();
 }
+*/

@@ -16,7 +16,7 @@
 
 // ------- DEFINE CONSTANTS -------
 #define TANK_BASE_SPEED 2.5
-#define TANK_TURNING_RATE 0.04
+#define TANK_TURNING_RATE 3.0f
 #define TANK_FIRE_COOLDOWN 20
 #define TANK_SIZE 32
 #define BULLET_SPEED 20
@@ -38,8 +38,9 @@ public:
 	// ------- PLAYER CONSTRUCTOR AND DESTRUCTOR -------
 
 	/* Creates a player with the given ID, which is either PLAYER_ONE or PLAYER_TWO */
-	Player(const Vector2& position, const float& angle, const float& speed, const PlayerId& playerId)
-		: CircleEntity(position,angle,speed,TANK_SIZE/2)
+	Player(const Vector2& position = { 0,0 }, const PlayerId& playerId = PLAYER_ONE, const float& angle = 0, const float& speed = 0
+		, const float& radius = TANK_SIZE / 2 )
+		: CircleEntity(position, angle, speed, radius)
 	{
 		this->playerId = playerId;
 		this->cooldownTimer = 0;
@@ -89,25 +90,22 @@ public:
 	{
 		// Handle player motions
 		doMovement();
-		if (IsKeyDown(fireKey) && cooldownTimer == 0) fire();
-		else ceaseFire();
-
-		// Update the bullets
-		for (int i = 0; i < activeBullets.size(); ++i)
-		{
-			activeBullets[i]->update();
-		}
 	}
 
+	//code was originally in update(), but in order to parameters in update(), I(Noah) moved the check to a separate function
+	//shoots bullet if conditions met
+	//pass in the bullet container
+	template<typename T>
+	void checkFiring(T& list)
+	{
+		if (IsKeyPressed(fireKey) && cooldownTimer == 0) fire(list);
+		else ceaseFire();
+	}
 
 	// Draws the player and all of their bullets to the screen.
 	void draw(void) override
 	{
-		DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE}, {TANK_SIZE / 2,TANK_SIZE / 2}, (float)RAD2DEG * angle, WHITE);
-		for (int i = 0; i < activeBullets.size(); ++i)
-		{
-			activeBullets[i]->draw();
-		}
+		DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE}, {TANK_SIZE / 2,TANK_SIZE / 2}, angle, WHITE);
 	}
 
 	//// Checks collisions with the opponent and the opponent's bullets
@@ -133,7 +131,7 @@ public:
 
 
 	// ------- TEST FUNCTIONS -------
-
+	/*
 	// Player test function
 	static void testPlayer(void)
 	{
@@ -178,7 +176,7 @@ public:
 		CloseWindow();
 
 	}
-
+	*/
 private:
 
 	// ------- DATA ATTRIBUTES -------
@@ -197,8 +195,6 @@ private:
 
 	int cooldownTimer;
 
-	std::vector<Bullet*> activeBullets;
-
 	// ------- PRIVATE FUNCTIONS -------
 
 	// Handle the player's movement
@@ -210,11 +206,17 @@ private:
 	}
 
 	// Fires a bullet in the player's current direction.
-	void fire(void)
+	//[FROM NOAH] - hey gang, Noah here making this function walker designed a general function, this 
+	//will enable coders to shoot a bullet thats then saved in any container from the player- COOL!! :D
+	template <typename T>
+	void fire(T& list)
 	{
+		//creates a spawn position in front at the fron of the player
+		Vector2 spawnPosition = { getCenter().x + 15 * cosf(angle * DEG2RAD),getCenter().y + 15 * sinf(angle * DEG2RAD) };
+
 		currentFrame = fireFrame;
 		cooldownTimer = TANK_FIRE_COOLDOWN;
-		activeBullets.push_back(new Bullet({ getCenter().x + 15 * cosf(angle),getCenter().y + 15 * sinf(angle)}, (float)angle, (float)BULLET_SPEED, (float)BULLET_SIZE));
+		list.push_back(new Bullet(spawnPosition, angle));
 	}
 
 	// Handles code for when the player is not firing.
