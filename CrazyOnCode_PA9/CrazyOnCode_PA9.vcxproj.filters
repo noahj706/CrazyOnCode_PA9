@@ -86,4 +86,12 @@
       <Filter>lib</Filter>
     </Library>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="destroyed.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="smoke.wav">
+      <Filter>assets</Filter>
+    </Media>
+  </ItemGroup>
 </Project>
