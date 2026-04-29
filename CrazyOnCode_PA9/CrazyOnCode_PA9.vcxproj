@@ -161,7 +161,7 @@
     <Library Include="..\lib\raylib.lib" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mapbse.tnkm" />
+    <None Include="map1.tnkm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

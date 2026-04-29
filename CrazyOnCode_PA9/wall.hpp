@@ -14,6 +14,10 @@ class Wall : public RectangleEntity
 		void draw() override;
 		void defaultArena1();// generates the walls for the boarder
 
+		// generates the walls from a text file, 
+		// this is for future use and is not currently implemented
+		void arenaFromfile(const char* filename);
+
 
 	private:
 };

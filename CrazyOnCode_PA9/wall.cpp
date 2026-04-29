@@ -71,13 +71,22 @@ void Wall::defaultArena1()// 500 / 900
         
         Wall wall1({i * WALL_SIZE,0}); //
         Wall wall2({i * WALL_SIZE,screenHeight - WALL_SIZE}); // bottom edge of screen
+		wall1.draw();// top wall
+        wall2.draw();// bottom wall
+    }
+    for (int i = 0; i < 10; i++)
+    {   
         Wall wall3({ 0,50 + i * WALL_SIZE }); // 
         Wall wall4({ screenWidth - WALL_SIZE,50 + i * WALL_SIZE });
-        wall1.draw();
-        wall3.draw();
-        wall2.draw();
-        wall4.draw();
+        wall3.draw();// left wall
+        wall4.draw();// right wall
     }
+}
+
+void Wall::arenaFromfile(const char* filename)
+{
+    // get the "mapbse.tnkm" file.
+
 }
 
 
