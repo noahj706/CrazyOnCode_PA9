@@ -18,6 +18,7 @@
 #define TANK_BASE_SPEED 2.5
 #define TANK_TURNING_RATE 0.04
 #define TANK_FIRE_COOLDOWN 20
+#define TANK_SIZE 32
 #define BULLET_SPEED 20
 #define BULLET_SIZE 5
 
@@ -30,7 +31,7 @@ typedef enum PlayerId
 
 // ------- CLASS DEFINITION -------
 
-class Player : public Entity
+class Player : public CircleEntity
 {
 public:
 
@@ -38,7 +39,7 @@ public:
 
 	/* Creates a player with the given ID, which is either PLAYER_ONE or PLAYER_TWO */
 	Player(const Vector2& position, const float& angle, const float& speed, const PlayerId& playerId)
-		: Entity(position,angle,speed)
+		: CircleEntity(position,angle,speed,TANK_SIZE/2)
 	{
 		this->playerId = playerId;
 		this->cooldownTimer = 0;
@@ -66,8 +67,8 @@ public:
 			break;
 		}
 
-		this->stillFrame = { 0.0f, 0.0f, 32.f, 32.f };
-		this->fireFrame = { 32.f, 0.0f, 32.f, 32.f };
+		this->stillFrame = { 0.0f, 0.0f, TANK_SIZE, TANK_SIZE };
+		this->fireFrame = { 32.f, 0.0f, TANK_SIZE, TANK_SIZE };
 	}
 
 	/* Default player destructor. */
@@ -102,10 +103,10 @@ public:
 	// Draws the player and all of their bullets to the screen.
 	void draw(void) override
 	{
-		DrawTexturePro(spritesheet, currentFrame, { position.x + 16 ,position.y + 16,32.f,32.f }, {16,16}, (float)RAD2DEG*angle, WHITE);
+		DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE}, {TANK_SIZE / 2,TANK_SIZE / 2}, (float)RAD2DEG * angle, WHITE);
 		for (int i = 0; i < activeBullets.size(); ++i)
 		{
-			activeBullets[i]->drawBase();
+			activeBullets[i]->draw();
 		}
 	}
 
@@ -213,7 +214,7 @@ private:
 	{
 		currentFrame = fireFrame;
 		cooldownTimer = TANK_FIRE_COOLDOWN;
-		activeBullets.push_back(new Bullet({ position.x + 16 + 15 * cosf(angle),position.y + 16 + 15 * sinf(angle) }, (float)angle, (float)BULLET_SPEED, (float)BULLET_SIZE));
+		activeBullets.push_back(new Bullet({ getCenter().x + 15 * cosf(angle),getCenter().y + 15 * sinf(angle)}, (float)angle, (float)BULLET_SPEED, (float)BULLET_SIZE));
 	}
 
 	// Handles code for when the player is not firing.
