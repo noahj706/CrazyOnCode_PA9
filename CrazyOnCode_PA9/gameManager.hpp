@@ -32,17 +32,28 @@ class gameManager//this class will manage all of the other objects in the progra
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D
-	//NOTE: since walls dont really DO anything, they dont have any of the same functions
+	//NOTE: since walls dont really DO anything, they dont have such functions
 
-	//checks all of one object type againt every other object(including walls) in game, then calls the appropriate act functions
-	void playerHitCheck();
-	void bulletHitCheck();
+	//checks passed object againt every other object(including walls) in game, then calls the appropriate act functions inside object
+	void playerHitCheck(Player& player);
+	void bulletHitCheck(Bullet& bullet);
 	
+	//updates all changing objects, walls excluded bcs they dont change!
+	//these cycle the entire list of respective objects, so only need on call per frame
+	void frameUpdatePlayers();
+	void frameUpdateBullets();
 
-
-	
-
-	
+	//draws all of a respective object onto the screen, intended to be called AFTER all updates are made
+	//works with either a vector OR a std::list
+	template <typename T>
+	void drawAll(const T& list)
+	{
+		//draws all objects in list
+		for (auto pCur : list)
+		{
+			pCur->draw();
+		}
+	}
 
 	void gameLoop();//loops for entirety of game window being open
 

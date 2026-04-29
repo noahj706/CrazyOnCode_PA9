@@ -20,7 +20,7 @@ void Entity::moveForward()//uses updateVelocity() and then adds it to position
 void Entity::moveBackward()//subtracts vector from position as a halved rate
 {
 	updateVelocity();
-	Vector2Scale(velocity, BACKWARD_SPEED);//backward speed adjustable in the header file
+	Vector2Scale(velocity, BACKWARD_SPEED);//backward speed ad	justable in the header file
 	position = Vector2Subtract(position, velocity);
 }
 

@@ -11,16 +11,18 @@ class Bullet : public CircleEntity
 	unsigned int bounces;//when zero, ball dont bounce off wall
 
 public:
-	
+	bool active;//when true, bullet is active and visible, initializes as true
+
 	Bullet(const Vector2& position = {0,0}, const float& angle = 0, const float& speed = BULLETSPEED
-	, const float& radius = BULLETSIZE, unsigned int = MAXBOUNCES); //constructor, just passes info down to entity
+	, const float& radius = BULLETSIZE, unsigned int bounces = MAXBOUNCES); //constructor, just passes info down to entity
 	~Bullet() = default; //destructor
 
 	void update() override;
 	void draw() override;
 
-	void bulletHitPlayerAct();//bullet disappears
-	bool bulletHitHorzWallAct();//bullet will bounce or disapear, returns true if bullet disapearts
-	bool bulletHitVertWallAct();//same as above function
+	void bulletHitBulletAct();//bullet also inactive
+	void bulletHitPlayerAct();//bullet inactive under dif name for intuitive code reasons
+	void bulletHitHorzWallAct();//bullet will bounce or deactivate
+	void bulletHitVertWallAct();//same as above function
 };
 void testBullet();

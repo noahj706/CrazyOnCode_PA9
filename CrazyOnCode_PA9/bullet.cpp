@@ -5,44 +5,52 @@
 
 Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
 , const float& radius, unsigned int bounces)//constructor
-	: CircleEntity(position, angle, speed, radius), bounces(bounces) {};
+	: CircleEntity(position, angle, speed, radius), bounces(bounces), active(true) {};
 
 void Bullet::update() 
 {
-	moveForward();
+	if (active)
+	{
+		moveForward();
+	}
 }
 void Bullet::draw() 
 {
-	DrawCircleV(position, getRadius(), ORANGE);
+	if (active)
+	{
+		DrawCircleV(position, getRadius(), ORANGE);
+	}
+}
+void Bullet::bulletHitBulletAct()//bullet also disappears, but dif name for intuitive code reasons
+{
+	active = false;;
 }
 void Bullet::bulletHitPlayerAct()//bullet disappears
 {
-	delete this;
+	active = false;
 }
-bool Bullet::bulletHitHorzWallAct()//bullet will bounce or disapear, returns true if bullet disapearts
+void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 {
 	if (bounces > 0)
 	{
 		angle = 360.0f - angle;//reflects angle vertically
 		--bounces;
-		return false;
 	}
 	else
 	{
-		return true;
+		active = false;
 	}
 }
-bool Bullet::bulletHitVertWallAct()//bullet will bounce or disapear, returns true if bullet disapearts
-{
+void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
+{	
 	if (bounces > 0)
 	{
 		angle = 180.0f - angle;//reflects angle horizontally
 		--bounces;
-		return false;
 	}
 	else
 	{
-		return true;
+		active = false;
 	}
 }
 
