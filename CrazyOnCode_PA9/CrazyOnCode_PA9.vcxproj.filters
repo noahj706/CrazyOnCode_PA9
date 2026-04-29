@@ -28,6 +28,12 @@
     <Filter Include="include">
       <UniqueIdentifier>{5ac184ca-91bc-4a36-b398-68d905f29adb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\walls">
+      <UniqueIdentifier>{af250ca1-9001-4489-b400-ed0c1bdd6c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\map">
+      <UniqueIdentifier>{81883030-0114-489e-a102-a053685ab177}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\UI">
       <UniqueIdentifier>{bef76bd2-efea-4c7c-90ec-4ab72836e4f9}</UniqueIdentifier>
     </Filter>
@@ -47,6 +53,15 @@
     </ClCompile>
     <ClCompile Include="entity.cpp">
       <Filter>src\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>src\walls</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>src\map</Filter>
+    </ClCompile>
+    <ClCompile Include="wallTest.cpp">
+      <Filter>src\walls</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>src\UI</Filter>
@@ -71,6 +86,15 @@
     <ClInclude Include="..\include\raymath.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="wall.hpp">
+      <Filter>src\walls</Filter>
+    </ClInclude>
+    <ClInclude Include="map.hpp">
+      <Filter>src\map</Filter>
+    </ClInclude>
+    <ClInclude Include="walltest.hpp">
+      <Filter>src\walls</Filter>
+    </ClInclude>
     <ClInclude Include="UI.hpp">
       <Filter>src\UI</Filter>
     </ClInclude>
@@ -93,5 +117,10 @@
     <Media Include="smoke.wav">
       <Filter>assets</Filter>
     </Media>
+  </ItemGroup>
+</Project>
+    <None Include="mapbse.tnkm">
+      <Filter>assets</Filter>
+    </None>
   </ItemGroup>
 </Project>
