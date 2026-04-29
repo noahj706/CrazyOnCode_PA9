@@ -43,6 +43,8 @@ public:
 	{
 		this->playerId = playerId;
 		this->cooldownTimer = 0;
+		this->movementEnabled = true;
+		this->isAlive = true;
 
 		switch (playerId)
 		{
@@ -69,6 +71,7 @@ public:
 
 		this->stillFrame = { 0.0f, 0.0f, TANK_SIZE, TANK_SIZE };
 		this->fireFrame = { 32.f, 0.0f, TANK_SIZE, TANK_SIZE };
+		this->deathFrame = { 64.f,0.0f,TANK_SIZE,TANK_SIZE };
 	}
 
 	/* Default player destructor. */
@@ -80,6 +83,9 @@ public:
 	// Returns the player's ID to the user.
 	PlayerId getId(void) const { return playerId; }
 
+	// Enable/disable player movement
+	void enablePlayerMovement(const bool& tf) { movementEnabled = tf; }
+
 
 	// -------- PLAYER CONTROL METHODS --------
 
@@ -89,7 +95,7 @@ public:
 	{
 		// Handle player motions
 		doMovement();
-		if (IsKeyDown(fireKey) && cooldownTimer == 0) fire();
+		if (IsKeyDown(fireKey) && movementEnabled && cooldownTimer == 0) fire();
 		else ceaseFire();
 
 		// Update the bullets
@@ -110,26 +116,27 @@ public:
 		}
 	}
 
-	//// Checks collisions with the opponent and the opponent's bullets
-	//void checkCollisionsWith(const Player& opponent)
-	//{
-	//	// Opponent body collisions
-	//	if (collidingWith(opponent))
-	//	{
-	//		DrawText("OW!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
-	//	}
+	// Checks collisions with the opponent and the opponent's bullets
+	void checkCollisionsWith(const Player& opponent)
+	{
+		// Opponent body collisions
+		if (collidingWith(opponent))
+		{
+			DrawText("OW!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+		}
 
-	//	// Wall collisions
+		// Wall collisions
 
-	//	// Bullet collisions
-	//	for (int i = 0; i < opponent.activeBullets.size(); i++)
-	//	{
-	//		if (collidingWith(*(opponent.activeBullets[i])))
-	//		{
-	//			DrawText("OOF!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
-	//		}
-	//	}
-	//}
+		// Bullet collisions
+		for (int i = 0; i < opponent.activeBullets.size(); i++)
+		{
+			if (collidingWith(*(opponent.activeBullets[i])))
+			{
+				DrawText("OOF!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+				explode();
+			}
+		}
+	}
 
 
 	// ------- TEST FUNCTIONS -------
@@ -167,8 +174,8 @@ public:
 			p2.update();
 
 			// Collisions
-			//p1.checkCollisionsWith(p2);
-			//p2.checkCollisionsWith(p1);
+			p1.checkCollisionsWith(p2);
+			p2.checkCollisionsWith(p1);
 
 			// End Drawing
 			EndDrawing();
@@ -184,28 +191,32 @@ private:
 	// ------- DATA ATTRIBUTES -------
 
 	PlayerId playerId;
+	int cooldownTimer;
+	bool movementEnabled;
+	bool isAlive;
+	std::vector<Bullet*> activeBullets;
+
+	// Sprite Controllers
 	Texture2D spritesheet;
 	Rectangle stillFrame;
 	Rectangle fireFrame;
+	Rectangle deathFrame;
 	Rectangle currentFrame;
 
+	// Key controllers
 	int forwardKey;
 	int backwardKey;
 	int leftKey;
 	int rightKey;
 	int fireKey;
 
-	int cooldownTimer;
-
-	std::vector<Bullet*> activeBullets;
-
 	// ------- PRIVATE FUNCTIONS -------
 
 	// Handle the player's movement
-	void doMovement(void)
+	void doMovement()
 	{
-		speed = TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey);
-		angle += -1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey);
+		speed = movementEnabled*(TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey));
+		angle += movementEnabled*( - 1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey));
 		moveForward();
 	}
 
@@ -220,21 +231,33 @@ private:
 	// Handles code for when the player is not firing.
 	void ceaseFire()
 	{
-		currentFrame = stillFrame;
+		currentFrame = (isAlive ? stillFrame : deathFrame);
 		if (cooldownTimer > 0) cooldownTimer--;
 	}
 
-	/* Returns true if the player is colliding with the opponent's body. */
-	//bool collidingWith(const Player& opponent)
-	//{
-	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { opponent.position.x + 16, opponent.position.y + 16 }, 16);
-	//}
+	// Handles tank death
+	void explode()
+	{
+		// Stop the player from moving
+		this->movementEnabled = false;
+		this->isAlive = false;
+		
+		angle = 0;
+		currentFrame = deathFrame;
 
-	///* Returns true if the player is colliding with a bullet. */
-	//bool collidingWith(const Bullet& bullet)
-	//{
-	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { bullet.position.x + BULLET_SIZE / 2, bullet.position.y + BULLET_SIZE / 2 }, BULLET_SIZE);
-	//}
+	}
+
+	/* Returns true if the player is colliding with the opponent's body. */
+	bool collidingWith(const Player& opponent)
+	{
+		return CheckCollisionCircles(getCenter(), getRadius(), opponent.getCenter(), opponent.getRadius());
+	}
+
+	/* Returns true if the player is colliding with a bullet. */
+	bool collidingWith(const Bullet& bullet)
+	{
+		return CheckCollisionCircles(getCenter(), getRadius(), bullet.getCenter(), bullet.getRadius());
+	}
 
 
 };
