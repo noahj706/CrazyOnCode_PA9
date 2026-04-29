@@ -11,14 +11,18 @@
 
 // ------- INCLUDE LIBRARIES -------
 #include "entity.hpp"
+#include "bullet.hpp"
+#include <vector>
 
 // ------- DEFINE CONSTANTS -------
-#define TANK_BASE_SPEED 5
-#define TANK_TURNING_RATE 0.1
-#define TANK_FIRE_COOLDOWN 15
+#define TANK_BASE_SPEED 2.5
+#define TANK_TURNING_RATE 0.04
+#define TANK_FIRE_COOLDOWN 20
+#define BULLET_SPEED 20
+#define BULLET_SIZE 5
 
 // ------- DEFINE ENUMS -------
-//hfxfkgh;j;k
+
 typedef enum PlayerId
 {
 	PLAYER_ONE = 1,PLAYER_TWO
@@ -57,7 +61,7 @@ public:
 			this->backwardKey = KEY_DOWN;
 			this->leftKey = KEY_LEFT;
 			this->rightKey = KEY_RIGHT;
-			this->fireKey = KEY_LEFT_CONTROL;
+			this->fireKey = KEY_RIGHT_CONTROL;
 			this->spritesheet = LoadTexture("Sprites/p2_tank.png");
 			break;
 		}
@@ -71,49 +75,60 @@ public:
 
 	// -------- ACCESSOR METHODS -------
 
+
 	// Returns the player's ID to the user.
 	PlayerId getId(void) const { return playerId; }
 
+
 	// -------- PLAYER CONTROL METHODS --------
+
 
 	// Performs these actions every frame. Checks for player inputs.
 	void update(void) override
 	{
-		// Handle movement
-		speed = TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey);
-		angle += -1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey);
-		moveForward();
+		// Handle player motions
+		doMovement();
+		if (IsKeyDown(fireKey) && cooldownTimer == 0) fire();
+		else ceaseFire();
 
-		// Handle firing
-		if (IsKeyDown(fireKey) && cooldownTimer == 0)
+		// Update the bullets
+		for (int i = 0; i < activeBullets.size(); ++i)
 		{
-			currentFrame = fireFrame;
-			cooldownTimer = TANK_FIRE_COOLDOWN;
-			fire();
-		}
-		else
-		{
-			currentFrame = stillFrame;
-			if (cooldownTimer > 0) cooldownTimer--;
+			activeBullets[i]->update();
 		}
 	}
 
-	// Draws the player on the screen.
+
+	// Draws the player and all of their bullets to the screen.
 	void draw(void) override
 	{
-		DrawTexturePro(spritesheet, currentFrame, { position.x + 16 ,position.y + 16,32.f,32.f }, {16,16}, (float)180, WHITE);
+		DrawTexturePro(spritesheet, currentFrame, { position.x + 16 ,position.y + 16,32.f,32.f }, {16,16}, (float)RAD2DEG*angle, WHITE);
+		for (int i = 0; i < activeBullets.size(); ++i)
+		{
+			activeBullets[i]->drawBase();
+		}
 	}
 
-	// Fires a bullet in the player's current direction.
-	void fire(void)
-	{
+	//// Checks collisions with the opponent and the opponent's bullets
+	//void checkCollisionsWith(const Player& opponent)
+	//{
+	//	// Opponent body collisions
+	//	if (collidingWith(opponent))
+	//	{
+	//		DrawText("OW!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+	//	}
 
+	//	// Wall collisions
 
-
-
-
-
-	}
+	//	// Bullet collisions
+	//	for (int i = 0; i < opponent.activeBullets.size(); i++)
+	//	{
+	//		if (collidingWith(*(opponent.activeBullets[i])))
+	//		{
+	//			DrawText("OOF!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+	//		}
+	//	}
+	//}
 
 
 	// ------- TEST FUNCTIONS -------
@@ -130,11 +145,9 @@ public:
 		InitWindow(screenWidth, screenHeight, "Player Test");
 		SetTargetFPS(60);
 
-		// Create player
+		// Create player objects
 		Player p1(screenCenter, 0, 5, PLAYER_ONE);
-		//Player p2({ 100,100 }, 0, 5, 2);
-
-		// https://www.raylib.com/examples/textures/loader.html?name=textures_srcrec_dstrec
+		Player p2({ 100,100 }, 0, 5, PLAYER_TWO);
 
 		// Gameplay Loop
 		while (!WindowShouldClose())
@@ -144,18 +157,17 @@ public:
 
 			ClearBackground(RAYWHITE);
 
-			//DrawTexturePro(tankTexture, imageSource, drawLocation, origin, (float)angle, WHITE);
-
-			//EndDrawing();
-
-
 			// Perform drawing
 			p1.draw();
-			//p2.draw();
+			p2.draw();
 
 			// Player movement
 			p1.update();
-			//p2.update();
+			p2.update();
+
+			// Collisions
+			p1.checkCollisionsWith(p2);
+			p2.checkCollisionsWith(p1);
 
 			// End Drawing
 			EndDrawing();
@@ -163,14 +175,6 @@ public:
 		}
 
 		CloseWindow();
-
-
-
-
-
-
-
-
 
 	}
 
@@ -192,23 +196,44 @@ private:
 
 	int cooldownTimer;
 
-	// ------- ACCESSIBLE DATA ATTRIBUTES -------
-	//unsigned id;
-	//unsigned score;
+	std::vector<Bullet*> activeBullets;
 
-	//// ------- MOVEMENT ATTRIBUTES ------
-	//float baseSpeed;
-	//float turningRate;
-	//unsigned fireCooldownTime;
-	//unsigned fireCooldownTimer;
+	// ------- PRIVATE FUNCTIONS -------
 
-	//// ------- VISUAL ATTRIBUTES -------
-	//Rectangle body;
-	//Rectangle cannon;
-	//unsigned barrelLength;
-	//Color color;
+	// Handle the player's movement
+	void doMovement(void)
+	{
+		speed = TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey);
+		angle += -1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey);
+		moveForward();
+	}
 
-	//// ------- SPRITES -------
-	//Image playerSprites[2];
-	//Texture2D current;
+	// Fires a bullet in the player's current direction.
+	void fire(void)
+	{
+		currentFrame = fireFrame;
+		cooldownTimer = TANK_FIRE_COOLDOWN;
+		activeBullets.push_back(new Bullet({ position.x + 16 + 15 * cosf(angle),position.y + 16 + 15 * sinf(angle) }, (float)angle, (float)BULLET_SPEED, (float)BULLET_SIZE));
+	}
+
+	// Handles code for when the player is not firing.
+	void ceaseFire()
+	{
+		currentFrame = stillFrame;
+		if (cooldownTimer > 0) cooldownTimer--;
+	}
+
+	/* Returns true if the player is colliding with the opponent's body. */
+	//bool collidingWith(const Player& opponent)
+	//{
+	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { opponent.position.x + 16, opponent.position.y + 16 }, 16);
+	//}
+
+	///* Returns true if the player is colliding with a bullet. */
+	//bool collidingWith(const Bullet& bullet)
+	//{
+	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { bullet.position.x + BULLET_SIZE / 2, bullet.position.y + BULLET_SIZE / 2 }, BULLET_SIZE);
+	//}
+
+
 };
