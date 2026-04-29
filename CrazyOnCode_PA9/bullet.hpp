@@ -4,7 +4,7 @@
 #include "entity.hpp"
 #define BULLETSPEED 4.5f
 #define BULLETSIZE 7.0f
-#define MAXBOUNCES 50
+#define MAXBOUNCES 2
 #define OFFTIMER 5.0f
 
 class Bullet : public CircleEntity

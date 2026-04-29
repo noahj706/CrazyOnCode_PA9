@@ -3,7 +3,46 @@
 
 void GameManager::playerHitCheck(Player& player)
 {
+	for (Player* pCur : players)//iterates through entire player list
+	{
+		if (pCur != &player)//prevents self collision
+		{
+			if (CheckCollisionCircles(player.position, player.getRadius(), pCur->position, pCur->getRadius()))
+			{
+				player.playerHitPlayerAct();
+			}
+		}
+	}
+	for (Bullet* pCur : bullets)//iterates through entire bullet list
+	{
+			if (CheckCollisionCircles(player.position, player.getRadius(), pCur->position, pCur->getRadius()))
+			{
+				player.playerHitBulletAct();
+			}
+	}
+	for (Wall* pCur : walls)//goes through wall list
+	{
+		if (CheckCollisionCircleRec(player.position, player.getRadius(), pCur->getBounds()))
+		{
+			//determines if colliding wall is horzontal or vertical to the bullet
+			Vector2 distance = Vector2Subtract(player.position, pCur->getCenter());
 
+			//normalize to account for if width != height, i.e. a rectangle
+			//this would otherwise be an issue since mesearing from cetner of wall, not the edge
+			//thank you MATH 230 honors intro to linear algebra :D
+			float normalizedX = fabsf(distance.x) / pCur->getBounds().width;
+			float normalizedY = fabsf(distance.y) / pCur->getBounds().height;
+
+			if (normalizedX > normalizedY)
+			{
+				player.playerHitVertWallAct();
+			}
+			else
+			{
+				player.playerHitHorzWallAct();
+			}
+		}
+	}
 }
 void GameManager::bulletHitCheck(Bullet& bullet)
 {
