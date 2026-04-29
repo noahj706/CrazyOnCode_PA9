@@ -1,58 +1,49 @@
+#pragma once
 #include "entity.hpp"
 #include <string>
 
-class Scoreboard : public Entity
+#define MAX_ROUNDS 15
+constexpr const char* FIRE_SOUND_PATH = "smoke.wav";
+constexpr const char* DESTROYED_SOUND_PATH = "destroyed.wav";
+
+class Scoreboard : public RectangleEntity
 {
 private:
-	int score1;
-	int score2;
-	int fontSize;
-	Color textColor;
-
+    int score1;
+    int score2;
+    int fontSize;
+    Color textColor;
+    unsigned int numRounds;
+    Sound fire;
+    Sound destroyed;
+    const char* firePath;
+    const char* destroyedPath;
+    bool soundsLoaded;
 public:
-	Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20) :
-		Entity(pos),score1(0), score2(0), textColor(BLACK) 
-	{
-		speed = 0;
-		angle = 0;
-	}
+    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
+        unsigned int numRounds = MAX_ROUNDS, 
+        const char* fire = FIRE_SOUND_PATH, 
+        const char* destroyed = DESTROYED_SOUND_PATH);
+    ~Scoreboard();
 
-	void update() override
-	{} // should do nothing since scoreboard shouldn't be updated per frame unless animated
+    void loadSounds();
+    void draw() override;
+    void update() override; 
 
-	void draw() override
-	{
-		DrawText("Player 1:", position.x, position.y, fontSize, textColor);
-		DrawText(std::to_string(score1).c_str(), position.x + 120, position.y, fontSize, textColor);
+    // Score methods
+    void addScoreP1();
+    void addScoreP2();
+    void resetScore();
 
-		DrawText("Player 2:", position.x, position.y, fontSize, textColor);
-		DrawText(std::to_string(score2).c_str(), position.x + 120, position.y
-			+ fontSize + 5, fontSize, textColor);
-	}
+    // audio methods for playing sounds of your choice
+    void playFire(); 
+    void playDestroyed();
 
-	void addScore(bool isPlayer1)
-	{
-		if (isPlayer1)
-		{
-			score1++;
-		}
-		else
-		{
-			score2++;
-		}
-	}
-	void resetScore()
-	{
-		score1 = 0;
-		score2 = 0;
-	}
-	// getters
-	int getScore1() const { return score1; }
-	int getScore2() const { return score2; }
+    // getters
+    int getScore1() const;
+    int getScore2() const;
 
-	bool hasWinner(int winnningScore) const
-	{
-		return (score1 >= 13 || score2 >= 13); // placeholder for user to choose how many rounds
-											   // currently only 13
-	}
+    void testUI();
+    unsigned int foundWinner() const;
+
 };

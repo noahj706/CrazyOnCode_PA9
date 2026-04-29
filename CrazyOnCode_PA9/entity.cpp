@@ -2,14 +2,15 @@
 
 void Entity::updateVelocity()//basically polar to cartesian coords
 {
-	velocity = {speed * cosf(angle), speed * sinf(angle)};
+	velocity = {speed * cosf(angle * DEG2RAD), speed * sinf(angle * DEG2RAD)};
 }
 Entity::Entity(const Vector2& position, const float& angle, const float& speed)//constructor
+	: position(position), angle(fmodf(angle, 360.0f)), speed(speed), velocity({0,0})
 {
-	this->position = position;
-	this->angle = angle;
-	this->speed = speed;
-	this->velocity = { 0,0 };
+	if (this->angle < 0)//ensures no negative angles, maintains direction
+	{
+		this->angle += 360.0f;
+	}
 }
 void Entity::moveForward()//uses updateVelocity() and then adds it to position
 {
@@ -19,7 +20,7 @@ void Entity::moveForward()//uses updateVelocity() and then adds it to position
 void Entity::moveBackward()//subtracts vector from position as a halved rate
 {
 	updateVelocity();
-	Vector2Scale(velocity, BACKWARD_SPEED);//backward speed adjustable in the header file
+	Vector2Scale(velocity, BACKWARD_SPEED);//backward speed ad	justable in the header file
 	position = Vector2Subtract(position, velocity);
 }
 
@@ -52,7 +53,7 @@ Rectangle RectangleEntity::getBounds()//returns shape as raylib Rectangle type
 }
 Vector2 RectangleEntity::getCenter()//returns a point that is centered on the shape
 {
-	return { position.x + width, position.y - height };
+	return { position.x + width / 2, position.y + height / 2 };
 }
 void RectangleEntity::setPositionFromCenter(const Vector2& centerCoords)//sets position such that the rectangle is centered on passed coords
 {
