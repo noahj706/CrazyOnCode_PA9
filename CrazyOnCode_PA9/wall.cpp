@@ -1,5 +1,7 @@
 #include "wall.hpp"
 
+// ------------------------------------------------------------------------------------
+// function to test wall display, this is called in main and will run the game loop for the wall test.
 int Wall::drawWallDisplay()
 {
     // Initialization
@@ -30,7 +32,7 @@ int Wall::drawWallDisplay()
 
         //Wall Wall1;
         Wall wall1;
-        wall1.draw();
+        wall1.defaultArena();
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -58,3 +60,20 @@ void Wall::draw()
      
      DrawRectangleRec(getBounds(), BROWN);
 }
+
+void Wall::defaultArena()
+{
+	for (int i = 0; i < 16; i++)
+    {
+        Wall wall1({i*WALL_SIZE,0});
+        Wall wall2({i*WALL_SIZE,450-WALL_SIZE});
+        Wall wall3({ 0,i * WALL_SIZE });
+        Wall wall4({ 800 - WALL_SIZE,i * WALL_SIZE });
+        wall1.draw();
+        wall2.draw();
+        wall3.draw();
+        wall4.draw();
+    }
+}
+
+

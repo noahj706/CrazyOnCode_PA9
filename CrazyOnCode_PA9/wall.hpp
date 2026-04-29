@@ -12,6 +12,8 @@ class Wall : public RectangleEntity
 		~Wall();
 		void update() override;
 		void draw() override;
+		void defaultArena();// generates the walls for the boarder
+
 
 	private:
 };

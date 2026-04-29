@@ -17,7 +17,7 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 int main(void)
 {
 	Wall testwall;
-	testwall.drawWall();
+	testwall.drawWallDisplay();
 
     return 0;
 }
