@@ -7,17 +7,16 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 #include "raylib.h"
 #include "Player.hpp"
 #include "bullet.hpp"
-
+#include "raylib.h"
+#include "UI.hpp"
 #include "raylib.h"
 #include "walltest.hpp"
 #include "wall.hpp"
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-int main(void)
+#include "gameManager.hpp"
+
+int main()
 {
-	Wall testwall;
-	testwall.drawWallDisplay();
+    GameManager gamer;
 
     return 0;
 }

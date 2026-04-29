@@ -11,69 +11,232 @@
 
 // ------- INCLUDE LIBRARIES -------
 #include "entity.hpp"
+#include "bullet.hpp"
+#include <vector>
+
+// ------- DEFINE CONSTANTS -------
+#define TANK_BASE_SPEED 2.5
+#define TANK_TURNING_RATE 3.0f
+#define TANK_FIRE_COOLDOWN 20
+#define TANK_SIZE 32
+#define BULLET_SPEED 20
+#define BULLET_SIZE 5
+
+// ------- DEFINE ENUMS -------
+
+typedef enum PlayerId
+{
+	PLAYER_ONE = 1,PLAYER_TWO
+};
 
 // ------- CLASS DEFINITION -------
 
-class Player : public Entity
+class Player : public CircleEntity
 {
 public:
-	// Player constructor
-	Player(const Vector2& position = { 0,0 }, const float& angle = 0, const float& speed = 0, const unsigned& id = 0);
 
-	// Player destructor, use the default destructor
+	// ------- PLAYER CONSTRUCTOR AND DESTRUCTOR -------
+
+	/* Creates a player with the given ID, which is either PLAYER_ONE or PLAYER_TWO */
+	Player(const Vector2& position = { 0,0 }, const PlayerId& playerId = PLAYER_ONE, const float& angle = 0, const float& speed = 0
+		, const float& radius = TANK_SIZE / 2 )
+		: CircleEntity(position, angle, speed, radius)
+	{
+		this->playerId = playerId;
+		this->cooldownTimer = 0;
+
+		switch (playerId)
+		{
+		case PLAYER_ONE:
+
+			this->forwardKey = 'W';
+			this->backwardKey = 'S';
+			this->leftKey = 'A';
+			this->rightKey = 'D';
+			this->fireKey = 'F';
+			this->spritesheet = LoadTexture("Sprites/p1_tank.png");
+			break;
+
+		case PLAYER_TWO:
+
+			this->forwardKey = KEY_UP;
+			this->backwardKey = KEY_DOWN;
+			this->leftKey = KEY_LEFT;
+			this->rightKey = KEY_RIGHT;
+			this->fireKey = KEY_RIGHT_CONTROL;
+			this->spritesheet = LoadTexture("Sprites/p2_tank.png");
+			break;
+		}
+
+		this->stillFrame = { 0.0f, 0.0f, TANK_SIZE, TANK_SIZE };
+		this->fireFrame = { 32.f, 0.0f, TANK_SIZE, TANK_SIZE };
+	}
+
+	/* Default player destructor. */
 	~Player() = default;
 
-	// Updates the player's position based on key presses.
-	void update(void) override;
+	// -------- ACCESSOR METHODS -------
 
-	// Draws the player on the screen.
-	void draw(void) override;
 
-	// ------- ACCESSOR MUTATOR METHODS -------
+	// Returns the player's ID to the user.
+	PlayerId getId(void) const { return playerId; }
 
-	// Returns the ID number of the player.
-	unsigned getId(void) const;
 
-	// Returns the player's current score.
-	unsigned getScore(void) const;
+	// -------- PLAYER CONTROL METHODS --------
 
-	// ------- MUTATOR METHODS -------
 
-	// Resets the player's score to zero.
-	void resetScore(void);
+	// Performs these actions every frame. Checks for player inputs.
+	void update(void) override
+	{
+		// Handle player motions
+		doMovement();
+	}
 
-	// Scores one point for a player.
-	void scorePoint(void);
+	//code was originally in update(), but in order to parameters in update(), I(Noah) moved the check to a separate function
+	//shoots bullet if conditions met
+	//pass in the bullet container
+	template<typename T>
+	void checkFiring(T& list)
+	{
+		if (IsKeyPressed(fireKey) && cooldownTimer == 0) fire(list);
+		else ceaseFire();
+	}
 
-	// ------- CONTROLS -------
+	// Draws the player and all of their bullets to the screen.
+	void draw(void) override
+	{
+		DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE}, {TANK_SIZE / 2,TANK_SIZE / 2}, angle, WHITE);
+	}
 
-	// Fires out a bullet in the player's current direction.
-	void fire(void);
+	//// Checks collisions with the opponent and the opponent's bullets
+	//void checkCollisionsWith(const Player& opponent)
+	//{
+	//	// Opponent body collisions
+	//	if (collidingWith(opponent))
+	//	{
+	//		DrawText("OW!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+	//	}
 
-	// ------- COLLISIONS -------
+	//	// Wall collisions
 
-	// Checks for a collision with another player
-	bool collidingWith(const Player& player) const;
+	//	// Bullet collisions
+	//	for (int i = 0; i < opponent.activeBullets.size(); i++)
+	//	{
+	//		if (collidingWith(*(opponent.activeBullets[i])))
+	//		{
+	//			DrawText("OOF!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
+	//		}
+	//	}
+	//}
+
 
 	// ------- TEST FUNCTIONS -------
-
+	/*
 	// Player test function
-	static void testPlayer(void);
+	static void testPlayer(void)
+	{
+		// Define constant screen variables
+		const int screenWidth = 800;
+		const int screenHeight = 450;
+		const Vector2 screenCenter = { .x = screenWidth / 2,.y = screenHeight / 2 };
 
+		// Initialization
+		InitWindow(screenWidth, screenHeight, "Player Test");
+		SetTargetFPS(60);
+
+		// Create player objects
+		Player p1(screenCenter, 0, 5, PLAYER_ONE);
+		Player p2({ 100,100 }, 0, 5, PLAYER_TWO);
+
+		// Gameplay Loop
+		while (!WindowShouldClose())
+		{
+			// Begin Drawing
+			BeginDrawing();
+
+			ClearBackground(RAYWHITE);
+
+			// Perform drawing
+			p1.draw();
+			p2.draw();
+
+			// Player movement
+			p1.update();
+			p2.update();
+
+			// Collisions
+			//p1.checkCollisionsWith(p2);
+			//p2.checkCollisionsWith(p1);
+
+			// End Drawing
+			EndDrawing();
+
+		}
+
+		CloseWindow();
+
+	}
+	*/
 private:
-	// ------- ACCESSIBLE DATA ATTRIBUTES -------
-	unsigned id;
-	unsigned score;
 
-	// ------- MOVEMENT ATTRIBUTES ------
-	float baseSpeed;
-	float turningRate;
-	unsigned fireCooldownTime;
-	unsigned fireCooldownTimer;
+	// ------- DATA ATTRIBUTES -------
 
-	// ------- VISUAL ATTRIBUTES -------
-	Rectangle body;
-	Rectangle cannon;
-	unsigned barrelLength;
-	Color color;
+	PlayerId playerId;
+	Texture2D spritesheet;
+	Rectangle stillFrame;
+	Rectangle fireFrame;
+	Rectangle currentFrame;
+
+	int forwardKey;
+	int backwardKey;
+	int leftKey;
+	int rightKey;
+	int fireKey;
+
+	int cooldownTimer;
+
+	// ------- PRIVATE FUNCTIONS -------
+
+	// Handle the player's movement
+	void doMovement(void)
+	{
+		speed = TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey);
+		angle += -1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey);
+		moveForward();
+	}
+
+	// Fires a bullet in the player's current direction.
+	//[FROM NOAH] - hey gang, Noah here making this function walker designed a general function, this 
+	//will enable coders to shoot a bullet thats then saved in any container from the player- COOL!! :D
+	template <typename T>
+	void fire(T& list)
+	{
+		//creates a spawn position in front at the fron of the player
+		Vector2 spawnPosition = { getCenter().x + 15 * cosf(angle * DEG2RAD),getCenter().y + 15 * sinf(angle * DEG2RAD) };
+
+		currentFrame = fireFrame;
+		cooldownTimer = TANK_FIRE_COOLDOWN;
+		list.push_back(new Bullet(spawnPosition, angle));
+	}
+
+	// Handles code for when the player is not firing.
+	void ceaseFire()
+	{
+		currentFrame = stillFrame;
+		if (cooldownTimer > 0) cooldownTimer--;
+	}
+
+	/* Returns true if the player is colliding with the opponent's body. */
+	//bool collidingWith(const Player& opponent)
+	//{
+	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { opponent.position.x + 16, opponent.position.y + 16 }, 16);
+	//}
+
+	///* Returns true if the player is colliding with a bullet. */
+	//bool collidingWith(const Bullet& bullet)
+	//{
+	//	return CheckCollisionCircles({ position.x + 16,position.y + 16 }, 16, { bullet.position.x + BULLET_SIZE / 2, bullet.position.y + BULLET_SIZE / 2 }, BULLET_SIZE);
+	//}
+
+
 };
