@@ -3,7 +3,7 @@
 
 #include "entity.hpp"
 #define BULLETSPEED 6.0f
-#define BULLETSIZE 6.0f
+#define BULLETSIZE 8.0f
 #define MAXBOUNCES 3
 #define OFFTIMER 0.2f
 #define BOUNCECOOLDOWN 1.0f
@@ -14,6 +14,10 @@ class Bullet : public CircleEntity
 	unsigned int bounces;//when zero, ball dont bounce off wall
 	float offTimer;// when > 0, cant collide with players
 	float bounceImmunityTimer;//prevents double bouncing on wall seems
+
+	//sprite stuff
+	Texture2D spritesheet;
+	Rectangle spriteSourceRectangle;
 
 public:
 	bool active;//when true, bullet is active and visible, initializes as true

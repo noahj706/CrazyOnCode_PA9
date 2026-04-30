@@ -6,7 +6,12 @@
 Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
 , const float& radius, unsigned int bounces)//constructor
 	: CircleEntity(position, angle, speed, radius), 
-	bounces(bounces), active(true), offTimer(OFFTIMER), bounceImmunityTimer(0.0f) {};
+	bounces(bounces), active(true), offTimer(OFFTIMER), bounceImmunityTimer(0.0f),
+	spriteSourceRectangle({ 0.0f, 0.0f, 16.0f, 16.0f })
+{
+	//load in sprite
+	spritesheet = LoadTexture("Sprites/bullet.png");
+};
 
 bool Bullet::checkTimer()//returns true if timer is up
 {
@@ -33,7 +38,8 @@ void Bullet::draw()
 {
 	if (active)
 	{
-		DrawCircleV(position, getRadius(), BULLETCOLOR);
+		DrawTexturePro(spritesheet, spriteSourceRectangle,
+			{ getCenter().x , getCenter().y, 2 * getRadius(),2 * getRadius() }, { getRadius(),getRadius() }, angle, WHITE);
 	}
 }
 void Bullet::bulletHitBulletAct()//bullet also disappears, but dif name for intuitive code reasons

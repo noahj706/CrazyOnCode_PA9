@@ -20,7 +20,6 @@ void GameManager::playerHitCheck(Player& player)
 			if (CheckCollisionCircles(player.position, player.getRadius(), pCur->position, pCur->getRadius())
 				&& pCur->checkTimer())
 			{
-				std::cout << "PLAYER HIT BULLET!!!" << std::endl;
 				player.playerHitBulletAct();
 			}
 	}
@@ -36,11 +35,9 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 {
 	for (Player* pCur : players)//iterates through entire player list, this syntax is rly cool and I learned it just now :D
 	{
-		std::cout << "BULLET CHECKED!!!!" << std::endl;
 		if(CheckCollisionCircles(bullet.position, bullet.getRadius(), pCur->position, pCur->getRadius())
 			&& bullet.checkTimer())
 		{
-			std::cout << "BULLET HIT PLAYER!!!" << std::endl;
 			bullet.bulletHitPlayerAct();
 		}
 	}
@@ -50,7 +47,7 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 		{
 			if (CheckCollisionCircles(bullet.position, bullet.getRadius(), pCur->position, pCur->getRadius()))
 			{
-				//bullet.bulletHitBulletAct();
+				bullet.bulletHitBulletAct();
 			}
 		}
 	}
@@ -146,7 +143,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 			players.clear();
 			bullets.clear();
 
-			players.push_back(new Player(spawn1, PLAYER_ONE, 0.0f, 1));
+			players.push_back(new Player(spawn1, PLAYER_ONE, 0.0f));
 			players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
 		}
 

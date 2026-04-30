@@ -18,7 +18,7 @@
 #define TANK_BASE_SPEED 4.5f
 #define TANK_TURNING_RATE 3.3f
 #define TANK_FIRE_COOLDOWN 40
-#define TANK_SIZE 32
+#define TANK_SIZE 64
 #define FIRE_FRAME_LENGTH 6.0f
 
 
