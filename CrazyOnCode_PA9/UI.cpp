@@ -1,4 +1,5 @@
 #include "UI.hpp"
+#include "common.hpp"
 #include <iostream>
 
 Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
@@ -99,10 +100,11 @@ void Scoreboard::resetScore()
 void Scoreboard::testUI()
 {
     // Initialize window
-    const int screenWidth = 800;
-    const int screenHeight = 600;
+    const int screenWidth = 1600;
+    const int screenHeight = 900;
     InitWindow(screenWidth, screenHeight, "Scoreboard Demo");
     InitAudioDevice(); // Make sure to place this before loadSounds()
+    Texture2D woodTex = drawWood(); // Added for Custom Texture
     loadSounds();
     SetTargetFPS(60);
 
@@ -111,9 +113,10 @@ void Scoreboard::testUI()
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-
+        DrawTexture(woodTex, 0, 0, WHITE); // Texture Stuff
         // Draw the scoreboard
         draw();
+        
         if (IsKeyPressed('T'))
         {
             addScoreP1();
@@ -138,6 +141,8 @@ void Scoreboard::testUI()
 
         EndDrawing();
     }
+
+    UnloadTexture(woodTex); // Texture code fragment
     CloseAudioDevice(); // Similarly to Initwindow having a CloseWindow(), InitAudioDevice has this
     CloseWindow();
 }

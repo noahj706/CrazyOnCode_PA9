@@ -146,6 +146,7 @@
     <ClInclude Include="..\include\raylib.h" />
     <ClInclude Include="..\include\raymath.h" />
     <ClInclude Include="bullet.hpp" />
+    <ClInclude Include="common.hpp" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
     <ClInclude Include="UI.hpp" />
@@ -157,6 +158,9 @@
   <ItemGroup>
     <Media Include="destroyed.wav" />
     <Media Include="smoke.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="AtariWood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
