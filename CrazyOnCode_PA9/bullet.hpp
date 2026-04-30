@@ -2,22 +2,28 @@
 #pragma once
 
 #include "entity.hpp"
-#define BULLETSPEED 4.5f
-#define BULLETSIZE 7.0f
-#define MAXBOUNCES 2
-#define OFFTIMER 5.0f
+#define BULLETSPEED 6.0f
+#define BULLETSIZE 6.0f
+#define MAXBOUNCES 3
+#define OFFTIMER 0.2f
+#define BOUNCECOOLDOWN 1.0f
+#define BULLETCOLOR {255, 50, 0, 255}
 
 class Bullet : public CircleEntity
 {
 	unsigned int bounces;//when zero, ball dont bounce off wall
-	unsigned int offTimer;// when > 0, cant collide with players
+	float offTimer;// when > 0, cant collide with players
+	float bounceImmunityTimer;//prevents double bouncing on wall seems
 
 public:
 	bool active;//when true, bullet is active and visible, initializes as true
+	
 
 	Bullet(const Vector2& position = {0,0}, const float& angle = 0, const float& speed = BULLETSPEED
 	, const float& radius = BULLETSIZE, unsigned int bounces = MAXBOUNCES); //constructor, just passes info down to entity
 	~Bullet() = default; //destructor
+
+	bool checkTimer();//returns true if timer is up
 
 	void update() override;
 	void draw() override;
