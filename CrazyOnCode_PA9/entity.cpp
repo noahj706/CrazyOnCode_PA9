@@ -1,3 +1,4 @@
+//Primary Programmer: Noah Juius
 #include "entity.hpp"
 
 void Entity::updateVelocity()//basically polar to cartesian coords

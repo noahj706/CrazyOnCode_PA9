@@ -1,3 +1,4 @@
+//Primary Programmer: Noah Juius
 #pragma once
 
 #include "raylib.h"
@@ -7,10 +8,10 @@
 
 class Entity
 {
-	Vector2 velocity; //combines angle and speed into a single vector, this is then added to position for movement
 	void updateVelocity();//basically polar to cartesian coords
 
 public:		
+	Vector2 velocity; //combines angle and speed into a single vector, this is then added to position for movement
 	Vector2 position;
 	float angle; //will be stored as degrees, if using cosf() or singf() mult it DEG2RAD
 	float speed; //distance added to position for movement
@@ -21,7 +22,7 @@ public:
 
 	virtual void update() = 0; //pure virtual function, different for whatever inherits
 	virtual void draw() = 0; //pure virtual function, this'll be the render step for the object
-	
+
 	void moveForward();//uses updateVelocity() and then adds it to position
 	void moveBackward();//subtracts vector from position as a halved rate
 
