@@ -47,4 +47,7 @@ public:
     //void testUI();
     unsigned int foundWinner() const;
 
+    // Dyanamic map switching method
+    Texture2D chooseMap(Texture2D woodTex, Texture2D poolTex);
+
 };

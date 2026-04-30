@@ -170,3 +170,19 @@ unsigned int Scoreboard::foundWinner() const
     return 0;
 }
 
+Texture2D Scoreboard::chooseMap(Texture2D woodTex, Texture2D poolTex)
+{
+    if (IsKeyPressed('T'))
+    {
+        return woodTex;
+    }
+    if (IsKeyPressed('P'))
+    {
+        return poolTex;
+    }
+}
+
+// Dynamic Background switching
+
+
+

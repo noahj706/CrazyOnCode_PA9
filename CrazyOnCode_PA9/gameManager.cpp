@@ -1,6 +1,7 @@
 //primary programmer: Noah Julius
 #include "gameManager.hpp"
 #include "common.hpp"
+#include "UI.hpp"
 void GameManager::playerHitCheck(Player& player)
 {
 
@@ -84,7 +85,8 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
-	// Texture2D woodTex = drawWood(); texture stuff
+	// Pre-loads textures to avoid potential frame drops or flickering
+	Texture2D woodTex = drawWood();
 	Texture2D poolTex = drawPool();
 
 	// Gameplay Loop
@@ -93,8 +95,8 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//make window exist
 		BeginDrawing();
 		ClearBackground(BG_COLOR);
-		// DrawTexture(woodTex, 0, 0, WHITE); texture stuff
-		DrawTexture(poolTex, 0, 0, WHITE);
+		Texture2D choiceTex = scoreBoard.chooseMap(woodTex, poolTex); // Allows for dynamic stage switching
+		DrawTexture(choiceTex, 0, 0, WHITE);
 
 		//frame update
 		frameUpdatePlayers();
@@ -108,7 +110,8 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		
 		EndDrawing();
 	}
-	// UnloadTexture(woodTex); texture stuff
+
+	UnloadTexture(woodTex);
 	UnloadTexture(poolTex);
 	CloseWindow();
 
@@ -143,6 +146,7 @@ GameManager::GameManager()//constructor
 		walls.push_back(new Wall({ 0,50 + i * WALL_SIZE }));
 		walls.push_back(new Wall({ SCREENWIDTH - WALL_SIZE, 50 + i * WALL_SIZE }));
 	}
+
 
 	play();
 }

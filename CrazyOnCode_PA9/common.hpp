@@ -10,3 +10,4 @@ void unloadWood(Texture2D background);
 // Pool background methods
 Texture2D drawPool();
 void unloadPool(Texture2D background2);
+
