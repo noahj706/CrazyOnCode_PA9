@@ -1,6 +1,6 @@
 //primary programmer: Noah Julius
 #include "gameManager.hpp"
-
+#include "common.hpp"
 void GameManager::playerHitCheck(Player& player)
 {
 
@@ -84,12 +84,17 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
+	// Texture2D woodTex = drawWood(); texture stuff
+	Texture2D poolTex = drawPool();
+
 	// Gameplay Loop
 	while (!WindowShouldClose())
 	{
 		//make window exist
 		BeginDrawing();
 		ClearBackground(BG_COLOR);
+		// DrawTexture(woodTex, 0, 0, WHITE); texture stuff
+		DrawTexture(poolTex, 0, 0, WHITE);
 
 		//frame update
 		frameUpdatePlayers();
@@ -103,7 +108,8 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		
 		EndDrawing();
 	}
-
+	// UnloadTexture(woodTex); texture stuff
+	UnloadTexture(poolTex);
 	CloseWindow();
 
 }

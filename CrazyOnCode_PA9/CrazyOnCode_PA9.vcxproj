@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="gameManager.cpp" />

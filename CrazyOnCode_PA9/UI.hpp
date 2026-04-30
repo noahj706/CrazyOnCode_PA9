@@ -3,6 +3,7 @@
 #include <string>
 
 #define MAX_ROUNDS 15
+#define FONT_SIZE 100
 constexpr const char* FIRE_SOUND_PATH = "smoke.wav";
 constexpr const char* DESTROYED_SOUND_PATH = "destroyed.wav";
 
@@ -20,7 +21,7 @@ private:
     const char* destroyedPath;
     bool soundsLoaded;
 public:
-    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
+    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = FONT_SIZE,
         unsigned int numRounds = MAX_ROUNDS, 
         const char* fire = FIRE_SOUND_PATH, 
         const char* destroyed = DESTROYED_SOUND_PATH);
@@ -43,7 +44,7 @@ public:
     int getScore1() const;
     int getScore2() const;
 
-    void testUI();
+    //void testUI();
     unsigned int foundWinner() const;
 
 };

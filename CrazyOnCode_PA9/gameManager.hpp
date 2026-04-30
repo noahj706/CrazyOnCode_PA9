@@ -4,12 +4,13 @@
 #include "Player.hpp"
 #include "UI.hpp"
 #include "wall.hpp"
+#include "common.hpp"
 
 #include <vector>
 #include <list>
 
-#define SCREENWIDTH 900
-#define SCREENHEIGHT 500
+#define SCREENWIDTH 1600
+#define SCREENHEIGHT 900
 #define BG_COLOR {137, 195, 71, 255}
 
 using std::vector;

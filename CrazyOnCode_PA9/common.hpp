@@ -1,17 +1,12 @@
+// Hewwo, this is misc. stuff that give the game some sound and more visuals so backgrounds,
+// sound effects, background music, and maybe menu system...we'll see
+// In the process of testing all assets, and organizing if working
 #include "raylib.h"
 
-// Note: AtariWood.png must be in the working directory
-Texture2D drawWood() 
-{
-    // LoadTexture must be called AFTER InitWindow()
-    Texture2D background = LoadTexture("AtariPool.png");
-    // Draw texture at specific coordinates (x, y, tint)
-    DrawTexture(background, 1600, 900, WHITE);
-    return background;
-}
+// Wood background methods
+Texture2D drawWood();
+void unloadWood(Texture2D background);
 
-bool unloadWood(Texture2D background) 
-{
-    UnloadTexture(background); // Free GPU VRAM
-    return true;
-}
+// Pool background methods
+Texture2D drawPool();
+void unloadPool(Texture2D background2);
