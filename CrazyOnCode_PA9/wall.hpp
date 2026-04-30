@@ -10,6 +10,8 @@ using std::fstream;
 #define WALL_SIZE 50.0f
 class Wall : public RectangleEntity
 {
+	private:
+	
 	public:
 		int drawWallDisplay();
 		
@@ -19,12 +21,4 @@ class Wall : public RectangleEntity
 		void update() override;
 		void draw() override;
 		void defaultArena1();// generates the walls for the boarder
-
-		// generates the walls from a text file, 
-		// this is for future use and is not currently implemented
-		void arenaFromfile(const char* filename);
-		void infile(const char* filename);
-
-
-	private:
 };

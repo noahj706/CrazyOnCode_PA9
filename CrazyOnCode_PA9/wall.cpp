@@ -83,30 +83,3 @@ void Wall::defaultArena1()// 500 / 900
         wall4.draw();// right wall
     }
 }
-
-void Wall::arenaFromfile(const char* filename)
-{
-    // get the "mapbse.tnkm" file.
-    // walls = w
-    // empty = E
-    // playerspawn = @
-    // 18 wide 900 devided by 50 = 18
-    // 10 high 500 devided by 50 = 10
-
-    //test map: WEE@EWWEEWEEEWW
-    // getline 
-	
-
-}
-
-void Wall::infile(const char* filename)
-{
-	fstream map;
-    map.open("mapTest.tnkm");
-    if (map == nullptr)
-    {
-		cout << "Error opening file: " << filename << endl;
-    }
-}
-
-

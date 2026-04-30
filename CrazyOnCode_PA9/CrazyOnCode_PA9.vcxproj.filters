@@ -43,6 +43,9 @@
     <Filter Include="src\bullet">
       <UniqueIdentifier>{db60ffa9-eb78-4236-9a89-7fcdd44567e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\maps">
+      <UniqueIdentifier>{b86666e6-eca2-41a8-bc0f-5296000658fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example.cpp">
@@ -72,8 +75,8 @@
     <ClCompile Include="Player.cpp">
       <Filter>src\player</Filter>
     </ClCompile>
-	<ClCompile Include="gameManager.cpp">
-	  <Filter>src</Filter>
+    <ClCompile Include="gameManager.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,7 +111,7 @@
       <Filter>src\player</Filter>
     </ClInclude>
     <ClInclude Include="gameManager.hpp">
-	  <Filter>src</Filter>
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,8 +126,11 @@
     <Media Include="smoke.wav">
       <Filter>assets</Filter>
     </Media>
-	<None Include="map1.tnkm">
-	  <Filter>assets</Filter>
-	</None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mapTest.tnkm" />
+    <None Include="map1.tnkm">
+      <Filter>assets\maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
