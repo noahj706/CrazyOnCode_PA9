@@ -1,3 +1,4 @@
+//Primary Programmer: Noah Juius
 #include "entity.hpp"
 
 void Entity::updateVelocity()//basically polar to cartesian coords
@@ -29,7 +30,7 @@ CircleEntity::CircleEntity(const Vector2& position, const float& angle, const fl
 	const float& radius)//constructor
 	: Entity(position, angle, speed), radius(radius) {}
 
-Vector2 CircleEntity::getCenter()//returns a point that is centered on the circle
+Vector2 CircleEntity::getCenter() const//returns a point that is centered on the circle
 {
 	return position;
 }

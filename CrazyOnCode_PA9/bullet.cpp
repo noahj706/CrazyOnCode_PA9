@@ -5,24 +5,41 @@
 
 Bullet::Bullet(const Vector2& position, const float& angle, const float& speed
 , const float& radius, unsigned int bounces)//constructor
-	: CircleEntity(position, angle, speed, radius), bounces(bounces), active(true), offTimer(OFFTIMER) {};
+	: CircleEntity(position, angle, speed, radius), 
+	bounces(bounces), active(true), offTimer(OFFTIMER), bounceImmunityTimer(0.0f),
+	spriteSourceRectangle({ 0.0f, 0.0f, 16.0f, 16.0f })
+{
+	//load in sprite
+	spritesheet = LoadTexture("Sprites/bullet.png");
+};
+
+bool Bullet::checkTimer()//returns true if timer is up
+{
+	return offTimer <= 0.0f;
+}
 
 void Bullet::update() 
 {
 	if (active)
 	{
-		if (offTimer > 0) 
+		if (offTimer > 0.0f) 
 		{
 			offTimer -= GetFrameTime();
 		}
+		if (bounceImmunityTimer > 0)
+		{
+			bounceImmunityTimer -= GetFrameTime();
+		}
 		moveForward();
+		
 	}
 }
 void Bullet::draw() 
 {
 	if (active)
 	{
-		DrawCircleV(position, getRadius(), ORANGE);
+		DrawTexturePro(spritesheet, spriteSourceRectangle,
+			{ getCenter().x , getCenter().y, 2 * getRadius(),2 * getRadius() }, { getRadius(),getRadius() }, angle, WHITE);
 	}
 }
 void Bullet::bulletHitBulletAct()//bullet also disappears, but dif name for intuitive code reasons
@@ -31,17 +48,19 @@ void Bullet::bulletHitBulletAct()//bullet also disappears, but dif name for intu
 }
 void Bullet::bulletHitPlayerAct()//doesnt collide unless offTimer expires to avoid shooter collision
 {
-	if (offTimer == 0)
-	{
-		active = false;
-	}
+	active = false;
 }
 void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 {
+	if (bounceImmunityTimer > 0)
+	{
+		return; // ignore if recently bounced
+	}
 	if (bounces > 0)
 	{
 		angle = 360.0f - angle;//reflects angle vertically
 		--bounces;
+		bounceImmunityTimer = BOUNCECOOLDOWN;//start bounce cooldown
 	}
 	else
 	{
@@ -50,10 +69,15 @@ void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 }
 void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
 {	
+	if (bounceImmunityTimer > 0)
+	{
+		return; // ignore if recently bounced
+	}
 	if (bounces > 0)
 	{
 		angle = 180.0f - angle;//reflects angle horizontally
 		--bounces;
+		bounceImmunityTimer = BOUNCECOOLDOWN;//start bounce cooldown
 	}
 	else
 	{
