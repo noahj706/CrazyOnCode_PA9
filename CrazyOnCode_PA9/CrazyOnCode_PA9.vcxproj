@@ -191,6 +191,7 @@
     <Text Include="Readmemaps.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\ping_pong.png" />
     <Image Include="assets\pool.png" />
     <Image Include="assets\pool2.png" />
     <Image Include="assets\pool_ball.png" />

@@ -19,78 +19,115 @@
 // Recall tiles take up 64 x 64 pixels
 
 
-class Stage
-{
+class Stage {
 private:
     Texture2D currentBackground;
-    Texture2D wallTexture;
+    std::vector<Texture2D> wallTextures;  // Multi-use textures
+    Texture2D wallTexture;         // Single-use texture
     std::string currentMapName;
 
 public:
-    Stage() : currentBackground{ 0 }, wallTexture{ 0 }, currentMapName("") {}
+    Stage() : currentBackground{ 0 }, wallTexture{ 0 }, currentMapName(" ") {}
 
-    ~Stage()
+    ~Stage() 
     {
         if (currentBackground.id != 0) UnloadTexture(currentBackground);
         if (wallTexture.id != 0) UnloadTexture(wallTexture);
-    }
-
-    // Load background based on map name
-    void loadTheme(const std::string& mapName)
-    {
-        // Unload previous textures
-        if (currentBackground.id != 0) UnloadTexture(currentBackground);
-        if (wallTexture.id != 0) UnloadTexture(wallTexture);
-
-        currentMapName = mapName;
-
-        // Load appropriate theme based on map name
-        if (mapName.find("pool") != std::string::npos)
+        for (auto& texture : wallTextures) 
         {
-            currentBackground = LoadTexture("assets/pool.png");
-            wallTexture = LoadTexture("assets/pool_ball.png");  // Pool ball for obstacles
-        }
-        else if (mapName.find("wii") != std::string::npos)
-        {
-            currentBackground = LoadTexture("assets/wii3.png");
-            wallTexture = LoadTexture("assets/wii_block.png");  // Wii block for obstacles
-        }
-        else if (mapName.find("pingpong") != std::string::npos)
-        {
-            currentBackground = LoadTexture("assets/pool2.png");
-            wallTexture = LoadTexture("assets/pingpong_ball.png");  // Ping pong ball
-        }
-        else  // Default theme
-        {
-            currentBackground = LoadTexture("assets/wii.png");
-            wallTexture = LoadTexture("assets/brick.png");  // Brick texture
+            if (texture.id != 0) UnloadTexture(texture);
         }
     }
 
     Texture2D getWallTexture() const 
-    { 
-        return wallTexture; 
+    {
+        return wallTexture;
     }
 
-    void drawBackground()
+    Texture2D getRandomWallTexture() 
     {
-        if (currentBackground.id != 0)
+        if (wallTextures.empty()) 
+        {
+            return wallTexture;
+        }
+        return wallTextures[rand() % wallTextures.size()];
+    }
+
+    Texture2D getPrimaryWallTexture() const 
+    {
+        return wallTexture;
+    }
+
+    void loadTheme(const std::string& mapName) 
+    {
+        // Unload previous textures
+        if (currentBackground.id != 0) UnloadTexture(currentBackground);
+        if (wallTexture.id != 0) UnloadTexture(wallTexture);
+        for (auto& texture : wallTextures) 
+        {
+            if (texture.id != 0) UnloadTexture(texture);
+        }
+        wallTextures.clear();
+
+        // Map selection
+        // Assigns each stage their respesctive textures
+        currentMapName = mapName;
+
+        if (mapName.find("pooltwo") != std::string::npos ||
+            mapName.find("pool2") != std::string::npos) 
+        {
+            currentBackground = LoadTexture("assets/pool2.png");
+            wallTexture = LoadTexture("assets/ping_pong.png");
+        }
+        else if (mapName.find("pool") != std::string::npos) 
+        {
+            currentBackground = LoadTexture("assets/pool.png");
+            wallTextures.push_back(LoadTexture("assets/poolball2.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_ball.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball3.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball4.png"));
+        }
+        else if (mapName.find("wiitwo") != std::string::npos) 
+        {
+            currentBackground = LoadTexture("assets/Wii.png");
+            wallTexture = LoadTexture("assets/wii_block.png");
+        }
+        else if (mapName.find("wii") != std::string::npos) 
+        {
+            currentBackground = LoadTexture("assets/wii3.png");
+            wallTexture = LoadTexture("assets/wii_block.png");
+        }
+        else 
+        {
+            currentBackground = LoadTexture("assets/wii2.png");
+            wallTexture = LoadTexture("assets/seashell1.png");
+        }
+    }
+
+    void drawBackground() 
+    {
+        if (currentBackground.id != 0) 
         {
             DrawTexturePro(currentBackground,
                 { 0, 0, (float)currentBackground.width, (float)currentBackground.height },
                 { 0, 0, (float)SCREENWIDTH, (float)SCREENHEIGHT },
                 { 0, 0 }, 0, WHITE);
         }
-        else
+        else 
         {
             ClearBackground(BG_COLOR);
         }
     }
 
-    void unload()
+    void unload() 
     {
         if (currentBackground.id != 0) UnloadTexture(currentBackground);
         if (wallTexture.id != 0) UnloadTexture(wallTexture);
+        for (auto& texture : wallTextures) 
+        {
+            if (texture.id != 0) UnloadTexture(texture);
+        }
+        wallTextures.clear();
     }
 };
 
@@ -181,8 +218,14 @@ public:
         }
     }
 
-    bool isMusicEnabled() const { return musicEnabled; }
-    bool isMusicLoaded() const { return musicLoaded; }
+    bool isMusicEnabled() const 
+    { 
+        return musicEnabled; 
+    }
+    bool isMusicLoaded() const 
+    { 
+        return musicLoaded; 
+    }
 
     void unload()
     {

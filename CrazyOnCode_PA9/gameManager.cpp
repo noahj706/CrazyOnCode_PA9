@@ -138,7 +138,7 @@ void GameManager::frameUpdateButtons()
 		pCur->update();
 	}
 }
-void GameManager::readyMap()//picks random map file and loads it
+void GameManager::readyMap() //picks random map file and loads it
 {
 	using std::ifstream;
 	
@@ -155,38 +155,34 @@ void GameManager::readyMap()//picks random map file and loads it
 	mapListStream.close();
 
 	//selects random map and loads it along with a backgroud :O
-	std::string selectedMap = mapNameList[(rand() % mapNameList.size())];
+	int randomIndex = rand() % mapNameList.size();
+	std::string selectedMap = mapNameList[randomIndex];
 
-	// Load the corresponding background for this map
+	// Loads corresponding background for their respective stages
 	currentMap.loadMap(selectedMap);
 
 	stage.loadTheme(selectedMap);
 
-	// Apply the wall texture to all walls in the current map
-	Texture2D wallTex = stage.getWallTexture();
-	if (wallTex.id != 0)
+
+	for (Wall* wall : currentMap.getWalls()) 
 	{
-		Rectangle screenBounds = { 0, 68, SCREENWIDTH, SCREENHEIGHT - 68 };
+		Rectangle bounds = wall->getBounds();
+		bool isOnEdge = (bounds.x == 0 ||
+			bounds.x == SCREENWIDTH - WALL_SIZE ||
+			bounds.y == 68 ||
+			bounds.y == SCREENHEIGHT - WALL_SIZE);
 
-		for (Wall* wall : currentMap.getWalls())
-		{
-			Rectangle bounds = wall->getBounds();
-
-			// Check if wall is on the edge of the play area
-			bool isOnEdge = (bounds.x == 0 ||
-				bounds.x == SCREENWIDTH - WALL_SIZE ||
-				bounds.y == 68 ||
-				bounds.y == SCREENHEIGHT - WALL_SIZE);
-
-			if (!isOnEdge)  // Only apply texture to inner walls
+		if (!isOnEdge) {
+			// Using random textures from vector for variety
+			Texture2D randomTex = stage.getRandomWallTexture();
+			if (randomTex.id != 0) 
 			{
-				wall->setTexture(wallTex);
+				wall->setTexture(randomTex);
 				wall->setBorder(false);
 			}
-			else
-			{
-				wall->setBorder(true);  // Border walls stay standard
-			}
+		}
+		else {
+			wall->setBorder(true);
 		}
 	}
 }

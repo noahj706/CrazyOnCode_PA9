@@ -66,8 +66,7 @@ void Wall::draw()
     }
     else  // Border walls always use standard look
     {
-        DrawRectangleRec(getBounds(), DARKGRAY);
-        DrawRectangleLinesEx(getBounds(), 2, BLACK);
+        DrawRectangleRec(getBounds(), BROWN);
     }
 }
 

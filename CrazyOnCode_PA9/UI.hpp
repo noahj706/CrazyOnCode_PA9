@@ -15,7 +15,7 @@ private:
     float addScoreCooldown;
 
 public:
-    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
+    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 60,
         unsigned int numRounds = WINNING_SCORE);
     void draw() override;
     void update() override; 
@@ -31,8 +31,6 @@ public:
 
     // void testUI();
     unsigned int foundWinner() const;
-
-    // Dyanamic map switching method
 
 
 };
