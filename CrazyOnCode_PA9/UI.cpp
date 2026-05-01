@@ -9,11 +9,12 @@ Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
     , fontSize(fontSize)
     , textColor(BLACK)
     , numRounds(numRounds)
-    , fire{0}
-    , destroyed{0}
+    , fire{ 0 }
+    , destroyed{ 0 }
     , firePath(firePath)
     , destroyedPath(destroyedPath)
     , soundsLoaded(false) // allows for sound error checking
+    , addScoreCooldown(0)
 {
 }
 
@@ -68,17 +69,28 @@ void Scoreboard::draw()
 
 void Scoreboard::update() 
 {
-
+    if (addScoreCooldown > 0)
+    {
+        addScoreCooldown -= GetFrameTime();
+    }
 }
 
 void Scoreboard::addScoreP1()
 {
-    score1++;
+    if (addScoreCooldown <= 0)
+    {
+        score1++;
+        addScoreCooldown = 0.5;
+    }
 }
 
 void Scoreboard::addScoreP2()
 {
-    score2++;
+    if (addScoreCooldown <= 0)
+    {
+        score2++;
+        addScoreCooldown = 0.5;
+    }
 }
 
 int Scoreboard::getScore1() const

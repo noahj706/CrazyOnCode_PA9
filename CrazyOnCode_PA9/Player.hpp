@@ -108,6 +108,11 @@ public:
 		else ceaseFire();
 	}
 
+	bool checkAlive()
+	{
+		return isAlive;
+	}
+
 	// Draws the player and all of their bullets to the screen.
 	void draw(void) override
 	{

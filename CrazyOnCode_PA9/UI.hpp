@@ -19,6 +19,8 @@ private:
     const char* firePath;
     const char* destroyedPath;
     bool soundsLoaded;
+    float addScoreCooldown;
+
 public:
     Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
         unsigned int numRounds = MAX_ROUNDS, 

@@ -21,6 +21,16 @@ void GameManager::playerHitCheck(Player& player)
 				&& pCur->checkTimer())
 			{
 				player.playerHitBulletAct();
+
+				//checks which player got hit, then adds score accordingly
+				if (players[0]->checkAlive() && !(players[1]->checkAlive()))
+				{
+					scoreBoard.addScoreP1();
+				}
+				if (players[1]->checkAlive() && !(players[0]->checkAlive()))
+				{
+					scoreBoard.addScoreP2();
+				}
 			}
 	}
 	for (Wall* pCur : walls)//goes through wall list
@@ -150,6 +160,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//frame update
 		frameUpdatePlayers();
 		frameUpdateBullets();
+		scoreBoard.update();
 
 		//draw
 		drawAll(players);
