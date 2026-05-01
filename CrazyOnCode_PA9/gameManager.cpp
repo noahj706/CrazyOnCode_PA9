@@ -83,15 +83,18 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 			if (normalizedX > normalizedY + offset)
 			{
 				bullet.bulletHitVertWallAct();
+				soundManager.playBounce();
 			}
 			else if (normalizedY > normalizedX + offset)
 			{
 				bullet.bulletHitHorzWallAct();
+				soundManager.playBounce();
 			}
 			else //corner case, if the offset isn't enough and still ambiguous
 			{
 				bullet.bulletHitVertWallAct();
 				bullet.bulletHitHorzWallAct();
+				soundManager.playBounce();
 			}
 		}
 	}
@@ -165,6 +168,13 @@ void GameManager::readyScene()//clears currently loaded stuff and loads new ones
 	readyMap();
 	players.push_back(new Player({ currentMap.getSpawn1().x + TANK_SIZE / 2,currentMap.getSpawn1().y + TANK_SIZE / 2 }, PLAYER_ONE, 0.0f));
 	players.push_back(new Player({ currentMap.getSpawn2().x + TANK_SIZE / 2,currentMap.getSpawn2().y + TANK_SIZE / 2 }, PLAYER_TWO, 180.0f));
+
+	// Applying sfx to the tanks (player)
+	for (auto* player : players)
+	{
+		player->setSoundManager(&soundManager);
+	}
+
 }
 void GameManager::checkRoundWin()//check if a player has won a round, true if atleast one player is dead
 {
@@ -390,10 +400,6 @@ GameManager::GameManager()//constructor
 
 	SetTargetFPS(60);
 	
-	for (auto* player : players) 
-	{
-		player->setSoundManager(&soundManager);
-	}
 
 
 	play();

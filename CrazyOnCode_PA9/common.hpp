@@ -57,10 +57,13 @@ public:
     void init()
     {
         InitAudioDevice();
-        shootSound = LoadSound("assets/shoot.wav");
-        explodeSound = LoadSound("assets/explode.wav");
-        bounceSound = LoadSound("assets/bounce.wav");
-        shootv2Sound = LoadSound("assets/shootv2.wav");
+        if (IsAudioDeviceReady()) 
+        {
+            shootSound = LoadSound("assets/shoot.wav");
+            explodeSound = LoadSound("assets/explode.wav");
+            bounceSound = LoadSound("assets/bounce.wav");
+            shootv2Sound = LoadSound("assets/shootv2.wav");
+        }
     }
 
     void playFire() 
