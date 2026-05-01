@@ -25,17 +25,28 @@ void Scoreboard::draw()
 
 void Scoreboard::update() 
 {
-
+    if (addScoreCooldown > 0)
+    {
+        addScoreCooldown -= GetFrameTime();
+    }
 }
 
 void Scoreboard::addScoreP1()
 {
-    score1++;
+    if (addScoreCooldown <= 0)
+    {
+        score1++;
+        addScoreCooldown = 0.5;
+    }
 }
 
 void Scoreboard::addScoreP2()
 {
-    score2++;
+    if (addScoreCooldown <= 0)
+    {
+        score2++;
+        addScoreCooldown = 0.5;
+    }
 }
 
 int Scoreboard::getScore1() const
@@ -107,11 +118,11 @@ void Scoreboard::resetScore()
 
 unsigned int Scoreboard::foundWinner() const
 {
-    if (score1 >= numRounds)
+    if (score1 >= winningScore)
     {
         return 1;
     }
-    else if (score2 >= numRounds)
+    else if (score2 >= winningScore)
     {
         return 2;
     }

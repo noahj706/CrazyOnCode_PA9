@@ -3,6 +3,9 @@
 #include "common.hpp"
 #include "UI.hpp"
 #include <iostream>
+#include <ctime>
+#include <fstream>
+#include <string>
 
 void GameManager::playerHitCheck(Player& player)
 {
@@ -25,7 +28,7 @@ void GameManager::playerHitCheck(Player& player)
 				player.playerHitBulletAct();
 			}
 	}
-	for (Wall* pCur : walls)//goes through wall list
+	for (Wall* pCur : currentMap.getWalls())//goes through wall list
 	{
 		if (CheckCollisionCircleRec(player.position, player.getRadius(), pCur->getBounds()))
 		{
@@ -53,7 +56,7 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 			}
 		}
 	}
-	for(Wall* pCur : walls)//goes through wall list
+	for(Wall* pCur : currentMap.getWalls())//goes through wall list
 	{
 		if (CheckCollisionCircleRec(bullet.position, bullet.getRadius(), pCur->getBounds()))
 		{
@@ -95,7 +98,6 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 
 	
 }
-
 void GameManager::frameUpdatePlayers()//updates all players
 {
 	//updates all(2 for now) players
@@ -126,7 +128,173 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 		}
 	}
 }
+void GameManager::readyMap()//picks random map file and loads it
+{
+	using std::ifstream;
+	
+	//loads list of map names for random selection
+	ifstream mapListStream("listMaps.txt");
+	vector<string> mapNameList;
+	string buffer;
 
+	while (getline(mapListStream, buffer))
+	{
+		mapNameList.push_back(buffer);
+	}
+
+	mapListStream.close();
+
+	//selects random map and loads it
+	currentMap.loadMap(mapNameList[(rand() % mapNameList.size())]);
+}
+void GameManager::readyScene()//clears currently loaded stuff and loads new ones
+{
+	//clear stuff from last match(if any)
+	players.clear();
+	bullets.clear();
+	currentMap.unloadMap();
+
+	//now ready new ones
+	readyMap();
+	players.push_back(new Player({ currentMap.getSpawn1().x + TANK_SIZE / 2,currentMap.getSpawn1().y + TANK_SIZE / 2 }, PLAYER_ONE, 0.0f));
+	players.push_back(new Player({ currentMap.getSpawn2().x + TANK_SIZE / 2,currentMap.getSpawn2().y + TANK_SIZE / 2 }, PLAYER_TWO, 180.0f));
+}
+void GameManager::checkRoundWin()//check if a player has won a round, true if atleast one player is dead
+{
+	for (Player* pCur : players)
+	{
+		if (!pCur->checkAlive() && !p1RoundWin && !p2RoundWin)
+		{
+			playGame = false;
+			freeze();
+			determineWinType();
+		}
+	}
+}
+void GameManager::giveScore()//determines round-winning player and gives point
+{
+	if (players.size() >= 2)//prevents pointing outside vector
+	{
+		//checks which player got hit, then adds score accordingly
+		if (players[0]->checkAlive() && !(players[1]->checkAlive()))
+		{
+			scoreBoard.addScoreP1();
+			p1RoundWin = true;
+		}
+		if (players[1]->checkAlive() && !(players[0]->checkAlive()))
+		{
+			scoreBoard.addScoreP2();
+			p2RoundWin = true;
+		}
+	}
+}
+void GameManager::determineWinType()//determines whether to show round winning screen or game winning screen
+{
+	//give out point
+	roundWinTimer = 1.0f;
+	giveScore();
+
+	//check if point was a winning score
+	int gameWinner = scoreBoard.foundWinner();
+	if (gameWinner == 1)
+	{
+		p1GameWin = true;
+	}
+	else if (gameWinner == 2)
+	{
+		p2GameWin = true;
+	}
+}
+void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on screen
+{
+	//construct round win msg
+	string message;
+	if (winner == PLAYER_ONE)
+	{
+		message = "P1 ";
+	}
+	else
+	{
+		message = "P2 ";
+	}
+	message.append("ROUND POINT+");
+
+	//measure text for centering on screen
+	int fontSize = 50;
+	int textWidth = MeasureText(message.c_str(), fontSize);
+
+	//draw on center
+	DrawText(message.c_str(), (SCREENWIDTH / 2) - (textWidth / 2), (SCREENHEIGHT / 2) - (fontSize / 2), fontSize, BLACK);
+}
+void GameManager::showGameWinner(PlayerId winner)//show winning player text on screen
+{
+	//construct round win msg
+	string message;
+	if (winner == PLAYER_ONE)
+	{
+		message = "P1 ";
+	}
+	else
+	{
+		message = "P2 ";
+	}
+	message.append("GAME WIN!");
+
+	//measure text for centering on screen
+	int fontSize = 200;
+	int textWidth = MeasureText(message.c_str(), fontSize);
+
+	//draw on center
+	DrawText(message.c_str(), (SCREENWIDTH / 2) - (textWidth / 2), (SCREENHEIGHT / 2) - (fontSize / 2), fontSize, BLACK);
+}
+void GameManager::manageWinMenus()//does all the frame managements for displaying winner menus
+{
+	//manage timers
+	if (roundWinTimer > 0 && !p1GameWin && !p2GameWin)
+	{
+		roundWinTimer -= GetFrameTime();
+
+		//draw round win message
+		if (p1RoundWin)
+		{
+			showRoundWinner(PLAYER_ONE);
+		}
+		else if (p2RoundWin)
+		{
+			showRoundWinner(PLAYER_TWO);
+		}
+
+		//reset when timer ends
+		if (roundWinTimer <= 0)//if timer ends, then start new round
+		{
+			roundWinTimer = 0;//incase was negative
+			playGame = true;
+			p1RoundWin = false;
+			p2RoundWin = false;
+			readyScene();
+		}
+	}
+	if (p1GameWin)
+	{
+		showGameWinner(PLAYER_ONE);
+	}
+	else if (p2GameWin)
+	{
+		showGameWinner(PLAYER_TWO);
+	}
+	
+}
+void GameManager::freeze()//stops players and bullets from moving, for menu displaying
+{
+	for (Player* pCur : players)
+	{
+		pCur->freeze();
+	}
+	for (Bullet* pCur : bullets)
+	{
+		pCur->speed = 0;
+	}
+}
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
 
@@ -138,29 +306,36 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		BeginDrawing();
 		ClearBackground(BG_COLOR);
 
-		//check for reset
-		if (IsKeyPressed(' '))
-		{
-			Vector2 spawn1 = { 300, 360 };
-			Vector2 spawn2 = { 1300, 360 };
-
-			players.clear();
-			bullets.clear();
-
-			players.push_back(new Player(spawn1, PLAYER_ONE, 0.0f));
-			players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
-		}
-
 		//frame update
 		frameUpdatePlayers();
 		frameUpdateBullets();
+		scoreBoard.update();
+		checkRoundWin();
 
 		//draw
 		drawAll(players);
 		drawAll(bullets);
-		drawAll(walls);
+		drawAll(currentMap.getWalls());
 		scoreBoard.draw();
+
+		//kind of sorta both update and draw
+		manageWinMenus();
 		
+		//check to continue
+		if (!playGame)
+		{
+			if (IsKeyDown('P'))
+			{
+				playGame = true;
+				p1GameWin = false;
+				p2GameWin = false;
+				p1RoundWin = false;
+				p2RoundWin = false;
+				scoreBoard.resetScore();
+				readyScene();
+			}
+		}
+
 		EndDrawing();
 	}
 	soundManager.unload();
@@ -169,10 +344,10 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 }
 
 GameManager::GameManager()//constructor
+	: playGame(false), roundWinTimer(0)
 {
-	//code below subject to change
-	
-	const Vector2 screenCenter = { .x = SCREENWIDTH / 2,.y = SCREENHEIGHT / 2 };
+	//initial value tomfoolery
+	srand(time(NULL));
 
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
@@ -192,19 +367,6 @@ GameManager::GameManager()//constructor
 	for (auto* player : players) 
 	{
 		player->setSoundManager(&soundManager);
-	}
-	
-
-	//creates the default arena, code yoinked from Lincoln for now
-	for (int i = 0; i < 32; i++)
-	{
-		walls.push_back(new Wall({ i * WALL_SIZE, 0 }));
-		walls.push_back(new Wall({ i * WALL_SIZE, SCREENHEIGHT - WALL_SIZE }));
-	}
-	for (int i = 0; i < 13; i++)
-	{
-		walls.push_back(new Wall({ 0,50 + i * WALL_SIZE }));
-		walls.push_back(new Wall({ SCREENWIDTH - WALL_SIZE, 50 + i * WALL_SIZE }));
 	}
 
 

@@ -16,7 +16,7 @@
 #include <vector>
 
 // ------- DEFINE CONSTANTS -------
-#define TANK_BASE_SPEED 4.5f
+#define TANK_BASE_SPEED 5.5f
 #define TANK_TURNING_RATE 3.3f
 #define TANK_FIRE_COOLDOWN 40
 #define TANK_SIZE 64
@@ -111,6 +111,11 @@ public:
 		else ceaseFire();
 	}
 
+	bool checkAlive()
+	{
+		return isAlive;
+	}
+
 	// Draws the player and all of their bullets to the screen.
 	void draw(void) override
 	{
@@ -172,6 +177,10 @@ public:
 		this->position -= Vector2Scale(normalBetweenie, overlap);
 	}
 
+	void freeze()//turns off movement
+	{
+		movementEnabled = false;
+	}
 	// ------- TEST FUNCTIONS -------
 	/*
 	// Player test function

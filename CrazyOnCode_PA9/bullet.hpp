@@ -2,9 +2,9 @@
 #pragma once
 #include "common.hpp"
 #include "entity.hpp"
-#define BULLETSPEED 6.0f
+#define BULLETSPEED 7.0f
 #define BULLETSIZE 8.0f
-#define MAXBOUNCES 3
+#define MAXBOUNCES 1
 #define OFFTIMER 0.2f
 #define BOUNCECOOLDOWN 1.0f
 #define BULLETCOLOR {255, 50, 0, 255}

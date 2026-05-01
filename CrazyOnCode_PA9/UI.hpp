@@ -2,8 +2,7 @@
 #include "entity.hpp"
 #include <string>
 
-#define MAX_ROUNDS 15
-#define FONT_SIZE 100
+#define WINNING_SCORE 3
 
 class Scoreboard : public RectangleEntity
 {
@@ -12,10 +11,15 @@ private:
     int score2;
     int fontSize;
     Color textColor;
-    unsigned int numRounds;
+    unsigned int winningScore;
+    float addScoreCooldown;
+
 public:
-    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = FONT_SIZE,
-        unsigned int numRounds = MAX_ROUNDS);
+    Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
+        unsigned int numRounds = WINNING_SCORE);
+    ~Scoreboard();
+
+    void loadSounds();
     void draw() override;
     void update() override; 
 
