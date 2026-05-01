@@ -163,7 +163,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		
 		EndDrawing();
 	}
-
+	CloseAudioDevice();
 	CloseWindow();
 
 }
@@ -176,6 +176,7 @@ GameManager::GameManager()//constructor
 
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
+	InitAudioDevice();
 	// loadSounds(); // Used to allow sfx
 	SetTargetFPS(60);
 

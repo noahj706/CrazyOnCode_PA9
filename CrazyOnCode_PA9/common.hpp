@@ -1,10 +1,9 @@
 // Hewwo, this is misc. stuff that give the game some sound and more visuals so backgrounds,
 // sound effects, background music, and maybe menu system...we'll see
 // In the process of testing all assets, and organizing if working
-//const char* fire = FIRE_SOUND_PATH,
-//const char* destroyed = DESTROYED_SOUND_PATH);
-//, firePath(firePath)
-//, destroyedPath(destroyedPath)
+
+#ifndef COMMON_HPP
+#define COMMON_HPP
 
 //constexpr const char* FIRE_SOUND_PATH = "assets/shoot.wav";
 //constexpr const char* DESTROYED_SOUND_PATH = "assets/explode.wav";
@@ -46,11 +45,10 @@ public:
     // void unloadATARI(Texture background6);
 
 };
-
-// Sound effect function declarations
-// void playFire();
-// void playDestroyed();
-
-
-
 */
+// Sound effect function declarations
+
+void playFire();
+void playDestroyed();
+
+#endif

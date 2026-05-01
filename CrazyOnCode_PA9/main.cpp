@@ -17,8 +17,8 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 
 int main()
 {
-    //GameManager gamer;
-	mapLayoutTest();
+    GameManager gamer;
+	//mapLayoutTest();
 
     return 0;
 }

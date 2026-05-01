@@ -11,6 +11,7 @@
 
 // ------- INCLUDE LIBRARIES -------
 #include "entity.hpp"
+#include "common.hpp"
 #include "bullet.hpp"
 #include <vector>
 
@@ -265,6 +266,8 @@ private:
 	{
 		if (isAlive)
 		{
+			playFire(); // Sound effects (Gello implmented)
+
 			//creates a spawn position in front at the fron of the player
 			Vector2 spawnPosition = { getCenter().x + (TANK_SIZE / 2) * cosf(angle * DEG2RAD),getCenter().y + (TANK_SIZE / 2) * sinf(angle * DEG2RAD) };
 
@@ -289,14 +292,14 @@ private:
 
 	// Handles tank death
 	void explode()
-	{
+	{ 
+		playDestroyed();
 		// Stop the player from moving
 		this->movementEnabled = false;
 		this->isAlive = false;
 		
 		angle = 0;
 		currentFrame = deathFrame;
-
 	}
 
 

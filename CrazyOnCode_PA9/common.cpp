@@ -7,7 +7,6 @@ Stage::Stage()
 
 void Stage::drawWii()
 {
-    // Unload previous texture if it exists
     if (currentBackground.id != 0) 
     {
         UnloadTexture(currentBackground);
@@ -18,7 +17,8 @@ void Stage::drawWii()
 
 void Stage::drawPool()
 {
-    if (currentBackground.id != 0) {
+    if (currentBackground.id != 0) 
+    {
         UnloadTexture(currentBackground);
     }
     currentBackground = LoadTexture("AtariPool.png");
@@ -27,7 +27,8 @@ void Stage::drawPool()
 
 void Stage::unloadWii()
 {
-    if (currentBackground.id != 0) {
+    if (currentBackground.id != 0) 
+    {
         UnloadTexture(currentBackground);
         currentBackground = { 0 };
     }
@@ -35,9 +36,22 @@ void Stage::unloadWii()
 
 void Stage::unloadPool()
 {
-    if (currentBackground.id != 0) {
+    if (currentBackground.id != 0) 
+    {
         UnloadTexture(currentBackground);
         currentBackground = { 0 };
     }
 }
 */
+
+void playFire() 
+{
+    static Sound sound = LoadSound("assets/shoot.wav");
+    PlaySound(sound);
+}
+
+void playDestroyed() 
+{
+    static Sound sound =  LoadSound("assets/explode.wav");
+    PlaySound(sound);
+}
