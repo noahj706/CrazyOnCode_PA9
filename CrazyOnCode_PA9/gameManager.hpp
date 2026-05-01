@@ -61,7 +61,7 @@ class GameManager//this class will manage all of the other objects in the progra
 	void readyMap();//picks random map file and loads it
 	void readyScene();//clears currently loaded stuff
 
-	bool checkRoundWin();//check if a player has won a round, calls round win stuff if atleast one player is dead
+	void checkRoundWin();//check if a player has won a round, calls round win stuff if atleast one player is dead
 	void giveScore();//determines winning player and gives point
 	void determineWinType();//determines whether to show round winning screen or game winning screen
 

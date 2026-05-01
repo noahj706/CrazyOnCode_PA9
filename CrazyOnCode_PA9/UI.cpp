@@ -8,7 +8,7 @@ Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
     , score2(0)
     , fontSize(fontSize)
     , textColor(BLACK)
-    , numRounds(numRounds)
+    , winningScore(numRounds)
     , fire{ 0 }
     , destroyed{ 0 }
     , firePath(firePath)
@@ -167,11 +167,11 @@ void Scoreboard::playDestroyed()
 
 unsigned int Scoreboard::foundWinner() const
 {
-    if (score1 >= numRounds)
+    if (score1 >= winningScore)
     {
         return 1;
     }
-    else if (score2 >= numRounds)
+    else if (score2 >= winningScore)
     {
         return 2;
     }

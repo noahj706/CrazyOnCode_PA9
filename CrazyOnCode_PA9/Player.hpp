@@ -15,7 +15,7 @@
 #include <vector>
 
 // ------- DEFINE CONSTANTS -------
-#define TANK_BASE_SPEED 4.5f
+#define TANK_BASE_SPEED 5.5f
 #define TANK_TURNING_RATE 3.3f
 #define TANK_FIRE_COOLDOWN 40
 #define TANK_SIZE 64

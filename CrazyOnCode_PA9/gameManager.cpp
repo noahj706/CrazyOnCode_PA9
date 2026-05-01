@@ -158,7 +158,7 @@ void GameManager::readyScene()//clears currently loaded stuff and loads new ones
 	players.push_back(new Player({ currentMap.getSpawn1().x + TANK_SIZE / 2,currentMap.getSpawn1().y + TANK_SIZE / 2 }, PLAYER_ONE, 0.0f));
 	players.push_back(new Player({ currentMap.getSpawn2().x + TANK_SIZE / 2,currentMap.getSpawn2().y + TANK_SIZE / 2 }, PLAYER_TWO, 180.0f));
 }
-bool GameManager::checkRoundWin()//check if a player has won a round, true if atleast one player is dead
+void GameManager::checkRoundWin()//check if a player has won a round, true if atleast one player is dead
 {
 	for (Player* pCur : players)
 	{
@@ -189,22 +189,19 @@ void GameManager::giveScore()//determines round-winning player and gives point
 }
 void GameManager::determineWinType()//determines whether to show round winning screen or game winning screen
 {
+	//give out point
+	roundWinTimer = 1.0f;
+	giveScore();
+
+	//check if point was a winning score
 	int gameWinner = scoreBoard.foundWinner();
-	if (gameWinner)
+	if (gameWinner == 1)
 	{
-		if (gameWinner == 1)
-		{
-			p1GameWin = true;
-		}
-		else if (gameWinner == 2)
-		{
-			p2GameWin = true;
-		}
-		else//just a round win
-		{
-			roundWinTimer = 3.0f;
-			giveScore();
-		}
+		p1GameWin = true;
+	}
+	else if (gameWinner == 2)
+	{
+		p2GameWin = true;
 	}
 }
 void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on screen
@@ -222,7 +219,7 @@ void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on s
 	message.append("ROUND POINT+");
 
 	//measure text for centering on screen
-	int fontSize = 250;
+	int fontSize = 50;
 	int textWidth = MeasureText(message.c_str(), fontSize);
 
 	//draw on center
@@ -243,7 +240,7 @@ void GameManager::showGameWinner(PlayerId winner)//show winning player text on s
 	message.append("GAME WIN!");
 
 	//measure text for centering on screen
-	int fontSize = 300;
+	int fontSize = 200;
 	int textWidth = MeasureText(message.c_str(), fontSize);
 
 	//draw on center
@@ -252,7 +249,7 @@ void GameManager::showGameWinner(PlayerId winner)//show winning player text on s
 void GameManager::manageWinMenus()//does all the frame managements for displaying winner menus
 {
 	//manage timers
-	if (roundWinTimer > 0)
+	if (roundWinTimer > 0 && !p1GameWin && !p2GameWin)
 	{
 		roundWinTimer -= GetFrameTime();
 
@@ -270,6 +267,7 @@ void GameManager::manageWinMenus()//does all the frame managements for displayin
 		if (roundWinTimer <= 0)//if timer ends, then start new round
 		{
 			roundWinTimer = 0;//incase was negative
+			playGame = true;
 			p1RoundWin = false;
 			p2RoundWin = false;
 			readyScene();
@@ -305,24 +303,36 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		BeginDrawing();
 		ClearBackground(BG_COLOR);
 
-		//check for reset
-		if (IsKeyPressed(' '))//if timer ends, then start new round
-		{
-			readyScene();
-		}
-
 		//frame update
 		frameUpdatePlayers();
 		frameUpdateBullets();
 		scoreBoard.update();
-		manageWinMenus();
+		checkRoundWin();
 
 		//draw
 		drawAll(players);
 		drawAll(bullets);
 		drawAll(currentMap.getWalls());
 		scoreBoard.draw();
+
+		//kind of sorta both update and draw
+		manageWinMenus();
 		
+		//check to continue
+		if (!playGame)
+		{
+			if (IsKeyDown('P'))
+			{
+				playGame = true;
+				p1GameWin = false;
+				p2GameWin = false;
+				p1RoundWin = false;
+				p2RoundWin = false;
+				scoreBoard.resetScore();
+				readyScene();
+			}
+		}
+
 		EndDrawing();
 	}
 

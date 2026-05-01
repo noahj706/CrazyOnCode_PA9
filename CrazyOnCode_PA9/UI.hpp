@@ -2,7 +2,7 @@
 #include "entity.hpp"
 #include <string>
 
-#define MAX_ROUNDS 15
+#define WINNING_SCORE 3
 constexpr const char* FIRE_SOUND_PATH = "smoke.wav";
 constexpr const char* DESTROYED_SOUND_PATH = "destroyed.wav";
 
@@ -13,7 +13,7 @@ private:
     int score2;
     int fontSize;
     Color textColor;
-    unsigned int numRounds;
+    unsigned int winningScore;
     Sound fire;
     Sound destroyed;
     const char* firePath;
@@ -23,7 +23,7 @@ private:
 
 public:
     Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
-        unsigned int numRounds = MAX_ROUNDS, 
+        unsigned int numRounds = WINNING_SCORE, 
         const char* fire = FIRE_SOUND_PATH, 
         const char* destroyed = DESTROYED_SOUND_PATH);
     ~Scoreboard();
