@@ -1,6 +1,6 @@
 //primary programmer: Noah Julius
 #pragma once
-
+#include "common.hpp"
 #include "entity.hpp"
 #define BULLETSPEED 6.0f
 #define BULLETSIZE 8.0f
@@ -11,6 +11,7 @@
 
 class Bullet : public CircleEntity
 {
+	SoundManager* sounds = nullptr;
 	unsigned int bounces;//when zero, ball dont bounce off wall
 	float offTimer;// when > 0, cant collide with players
 	float bounceImmunityTimer;//prevents double bouncing on wall seems
@@ -20,6 +21,7 @@ class Bullet : public CircleEntity
 	Rectangle spriteSourceRectangle;
 
 public:
+	void setSoundManager(SoundManager* soundMgr) { sounds = soundMgr; }
 	bool active;//when true, bullet is active and visible, initializes as true
 	
 

@@ -68,7 +68,7 @@ void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 	}
 }
 void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
-{	
+{
 	if (bounceImmunityTimer > 0)
 	{
 		return; // ignore if recently bounced

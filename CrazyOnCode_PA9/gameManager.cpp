@@ -129,7 +129,7 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
-	// Pre-loads textures to avoid potential frame drops or flickering
+
 
 	// Gameplay Loop
 	while (!WindowShouldClose())
@@ -163,7 +163,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		
 		EndDrawing();
 	}
-	CloseAudioDevice();
+	soundManager.unload();
 	CloseWindow();
 
 }
@@ -176,8 +176,8 @@ GameManager::GameManager()//constructor
 
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
-	InitAudioDevice();
-	// loadSounds(); // Used to allow sfx
+	soundManager.init();
+
 	SetTargetFPS(60);
 
 	//player setup
@@ -186,6 +186,13 @@ GameManager::GameManager()//constructor
 
 	players.push_back(new Player(spawn1, PLAYER_ONE));
 	players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
+
+	// Sound setup
+
+	for (auto* player : players) 
+	{
+		player->setSoundManager(&soundManager);
+	}
 	
 
 	//creates the default arena, code yoinked from Lincoln for now

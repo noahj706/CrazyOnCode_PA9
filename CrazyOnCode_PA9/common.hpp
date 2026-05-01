@@ -19,9 +19,6 @@
 
 /*
 
-
-#include "raylib.h"
-
 class Stage 
 {
 private:
@@ -46,9 +43,54 @@ public:
 
 };
 */
-// Sound effect function declarations
+// Sound Manager class
 
-void playFire();
-void playDestroyed();
+class SoundManager
+{
+private:
+    Sound shootSound;
+    Sound explodeSound;
+    Sound bounceSound;
+    Sound shootv2Sound;
+
+public:
+    void init()
+    {
+        InitAudioDevice();
+        shootSound = LoadSound("assets/shoot.wav");
+        explodeSound = LoadSound("assets/explode.wav");
+        bounceSound = LoadSound("assets/bounce.wav");
+        shootv2Sound = LoadSound("assets/shootv2.wav");
+    }
+
+    void playFire() 
+    { 
+        PlaySound(shootSound); 
+    }
+    void playExplosion() 
+    { 
+        PlaySound(explodeSound); 
+    }
+    void playBounce() 
+    { 
+        PlaySound(bounceSound); 
+    }
+    void playBulletHit() 
+    { 
+        PlaySound(shootv2Sound); 
+    }
+
+    void unload()
+    {
+        UnloadSound(shootSound);
+        UnloadSound(explodeSound);
+        UnloadSound(bounceSound);
+        UnloadSound(shootv2Sound);
+        CloseAudioDevice();
+    }
+
+
+};
+
 
 #endif

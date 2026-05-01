@@ -6,7 +6,6 @@
 #include "UI.hpp"
 #include "wall.hpp"
 #include "common.hpp"
-
 #include <vector>
 #include <list>
 
@@ -24,6 +23,7 @@ class GameManager//this class will manage all of the other objects in the progra
 	vector<Player*> players;//vector for random access efficiency (doesnt matter for 2 player but nice if expanded)
 	vector<Wall*> walls;
 	Scoreboard scoreBoard;
+	SoundManager soundManager; // added to handle sfx seamlessly for other classes
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D
@@ -57,4 +57,9 @@ public:
 
 	GameManager();//constructor
 	~GameManager() = default;//destrctor
+
+	SoundManager& getSoundManager() 
+	{ 
+		return soundManager; 
+	}
 };

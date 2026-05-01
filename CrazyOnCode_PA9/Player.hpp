@@ -40,7 +40,7 @@ public:
 
 	/* Creates a player with the given ID, which is either PLAYER_ONE or PLAYER_TWO */
 	Player(const Vector2& position = { 0,0 }, const PlayerId& playerId = PLAYER_ONE, const float& angle = 0, int cooldownLength = TANK_FIRE_COOLDOWN, const float& speed = 0
-		, const float& radius = TANK_SIZE / 2 )
+		, const float& radius = TANK_SIZE / 2)
 		: CircleEntity(position, angle, speed, radius), cooldownLength(cooldownLength)
 	{
 		this->playerId = playerId;
@@ -75,6 +75,8 @@ public:
 		this->fireFrame = { 32.f, 0.0f, 32, 32 };
 		this->deathFrame = { 64.f,0.0f,32, 32 };
 	}
+	
+	void setSoundManager(SoundManager* soundMgr) { sounds = soundMgr; }
 
 	/* Default player destructor. */
 	~Player() = default;
@@ -221,6 +223,7 @@ public:
 private:
 
 	// ------- DATA ATTRIBUTES -------
+	SoundManager* sounds = nullptr;
 
 	int cooldownLength;
 
@@ -266,7 +269,7 @@ private:
 	{
 		if (isAlive)
 		{
-			playFire(); // Sound effects (Gello implmented)
+			if (sounds) sounds->playFire(); // Sound effects (Gello implmented)
 
 			//creates a spawn position in front at the fron of the player
 			Vector2 spawnPosition = { getCenter().x + (TANK_SIZE / 2) * cosf(angle * DEG2RAD),getCenter().y + (TANK_SIZE / 2) * sinf(angle * DEG2RAD) };
@@ -293,7 +296,7 @@ private:
 	// Handles tank death
 	void explode()
 	{ 
-		playDestroyed();
+		if (sounds) sounds->playExplosion();
 		// Stop the player from moving
 		this->movementEnabled = false;
 		this->isAlive = false;

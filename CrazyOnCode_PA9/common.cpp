@@ -43,15 +43,3 @@ void Stage::unloadPool()
     }
 }
 */
-
-void playFire() 
-{
-    static Sound sound = LoadSound("assets/shoot.wav");
-    PlaySound(sound);
-}
-
-void playDestroyed() 
-{
-    static Sound sound =  LoadSound("assets/explode.wav");
-    PlaySound(sound);
-}

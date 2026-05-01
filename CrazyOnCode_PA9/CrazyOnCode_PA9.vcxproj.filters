@@ -78,6 +78,9 @@
     <ClCompile Include="gameManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>src\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="example.hpp">
@@ -113,6 +116,9 @@
     <ClInclude Include="gameManager.hpp">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="common.hpp">
+      <Filter>src\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
@@ -126,11 +132,33 @@
     <Media Include="smoke.wav">
       <Filter>assets</Filter>
     </Media>
+    <Media Include="assets\explodev2.wav" />
+    <Media Include="assets\Jazz - Picross DS.mp3" />
+    <Media Include="assets\other.wav" />
+    <Media Include="assets\sound.wav" />
+    <Media Include="assets\shoot.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="assets\shootv2.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="assets\explode.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="assets\bounce.wav">
+      <Filter>assets</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <None Include="mapTest.tnkm" />
     <None Include="map1.tnkm">
       <Filter>assets\maps</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="AtariWood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="listMaps.txt" />
   </ItemGroup>
 </Project>
