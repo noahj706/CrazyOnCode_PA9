@@ -1,1 +1,7 @@
-map1.tnkm
+pool1.tnkm
+pool2.tnkm
+atari1.tnkm
+atari2.tnkm
+wii1.tnkm
+wii2.tnkm
+wii3.tnkm
