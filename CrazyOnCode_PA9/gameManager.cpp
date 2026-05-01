@@ -157,10 +157,38 @@ void GameManager::readyMap()//picks random map file and loads it
 	//selects random map and loads it along with a backgroud :O
 	std::string selectedMap = mapNameList[(rand() % mapNameList.size())];
 
+	// Load the corresponding background for this map
 	currentMap.loadMap(selectedMap);
 
-	// Load the corresponding background for this map
-	stage.loadBackgroundForMap(selectedMap);
+	stage.loadTheme(selectedMap);
+
+	// Apply the wall texture to all walls in the current map
+	Texture2D wallTex = stage.getWallTexture();
+	if (wallTex.id != 0)
+	{
+		Rectangle screenBounds = { 0, 68, SCREENWIDTH, SCREENHEIGHT - 68 };
+
+		for (Wall* wall : currentMap.getWalls())
+		{
+			Rectangle bounds = wall->getBounds();
+
+			// Check if wall is on the edge of the play area
+			bool isOnEdge = (bounds.x == 0 ||
+				bounds.x == SCREENWIDTH - WALL_SIZE ||
+				bounds.y == 68 ||
+				bounds.y == SCREENHEIGHT - WALL_SIZE);
+
+			if (!isOnEdge)  // Only apply texture to inner walls
+			{
+				wall->setTexture(wallTex);
+				wall->setBorder(false);
+			}
+			else
+			{
+				wall->setBorder(true);  // Border walls stay standard
+			}
+		}
+	}
 }
 void GameManager::readyScene()//clears currently loaded stuff and loads new ones
 {
@@ -343,7 +371,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		soundManager.updateMusic();
 		//make window exist
 		BeginDrawing();
-		stage.draw();
+		stage.drawBackground();
 
 
 		//frame update

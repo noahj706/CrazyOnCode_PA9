@@ -11,6 +11,8 @@ using std::fstream;
 class Wall : public RectangleEntity
 {
 	private:
+		Texture2D texture; // NEW texture member for stage themed wall
+		bool isBorder;
 	
 	public:
 		int drawWallDisplay();
@@ -21,4 +23,14 @@ class Wall : public RectangleEntity
 		void update() override;
 		void draw() override;
 		void defaultArena1();// generates the walls for the boarder
+
+		void setBorder(bool border) 
+		{ 
+			isBorder = border; 
+		}
+		bool getBorder() const { return isBorder; }
+		void setTexture(Texture2D newTexture) 
+		{ 
+			texture = newTexture;
+		}
 };

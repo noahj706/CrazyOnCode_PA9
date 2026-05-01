@@ -23,82 +23,76 @@ class Stage
 {
 private:
     Texture2D currentBackground;
+    Texture2D wallTexture;
     std::string currentMapName;
 
 public:
-    Stage() : currentBackground{ 0 }, currentMapName("") {}
+    Stage() : currentBackground{ 0 }, wallTexture{ 0 }, currentMapName("") {}
 
     ~Stage()
     {
-        if (currentBackground.id != 0)
-            UnloadTexture(currentBackground);
+        if (currentBackground.id != 0) UnloadTexture(currentBackground);
+        if (wallTexture.id != 0) UnloadTexture(wallTexture);
     }
 
     // Load background based on map name
-    void loadBackgroundForMap(const std::string& mapName)
+    void loadTheme(const std::string& mapName)
     {
-        // Unload previous background
-        if (currentBackground.id != 0)
-        {
-            UnloadTexture(currentBackground);
-            currentBackground.id = 0; // Resets texture ID
-        }
+        // Unload previous textures
+        if (currentBackground.id != 0) UnloadTexture(currentBackground);
+        if (wallTexture.id != 0) UnloadTexture(wallTexture);
 
         currentMapName = mapName;
 
-        // Load appropriate background based on map filename
-        if (mapName.find("wii") != std::string::npos ||
-            mapName.find("Wii") != std::string::npos)
-        {
-            currentBackground = LoadTexture("assets/Wii3.png");
-        }
-        else if (mapName.find("pool") != std::string::npos ||
-            mapName.find("Pool") != std::string::npos)
+        // Load appropriate theme based on map name
+        if (mapName.find("pool") != std::string::npos)
         {
             currentBackground = LoadTexture("assets/pool.png");
+            wallTexture = LoadTexture("assets/pool_ball.png");  // Pool ball for obstacles
         }
-        else if (mapName.find("atari") != std::string::npos ||
-            mapName.find("Atari") != std::string::npos)
+        else if (mapName.find("wii") != std::string::npos)
+        {
+            currentBackground = LoadTexture("assets/wii3.png");
+            wallTexture = LoadTexture("assets/wii_block.png");  // Wii block for obstacles
+        }
+        else if (mapName.find("pingpong") != std::string::npos)
         {
             currentBackground = LoadTexture("assets/pool2.png");
+            wallTexture = LoadTexture("assets/pingpong_ball.png");  // Ping pong ball
         }
-        else
+        else  // Default theme
         {
-            // Default background
-            currentBackground.id = 0;
+            currentBackground = LoadTexture("assets/wii.png");
+            wallTexture = LoadTexture("assets/brick.png");  // Brick texture
         }
     }
 
-    void draw()
+    Texture2D getWallTexture() const 
+    { 
+        return wallTexture; 
+    }
+
+    void drawBackground()
     {
         if (currentBackground.id != 0)
         {
-            DrawTexturePro(
-                currentBackground,
-                Rectangle{ 0, 0, (float)currentBackground.width, (float)currentBackground.height },
-                Rectangle{ 0, 0, (float)SCREENWIDTH, (float)SCREENHEIGHT},
-                Vector2{ 0, 0 },
-                0,
-                WHITE
-            );
+            DrawTexturePro(currentBackground,
+                { 0, 0, (float)currentBackground.width, (float)currentBackground.height },
+                { 0, 0, (float)SCREENWIDTH, (float)SCREENHEIGHT },
+                { 0, 0 }, 0, WHITE);
         }
         else
         {
-           // clear with background color if there is no texture
             ClearBackground(BG_COLOR);
         }
     }
 
     void unload()
     {
-        if (currentBackground.id != 0)
-        {
-            UnloadTexture(currentBackground);
-            currentBackground.id = 0;
-        }
+        if (currentBackground.id != 0) UnloadTexture(currentBackground);
+        if (wallTexture.id != 0) UnloadTexture(wallTexture);
     }
 };
-
 
 // Sound Manager class
 

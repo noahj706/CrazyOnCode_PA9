@@ -57,7 +57,18 @@ void Wall::update()
 }
 void Wall::draw()
 {
-     DrawRectangleRec(getBounds(), BROWN);
+    // Only apply themed texture to NON-border walls
+    if (texture.id != 0 && !isBorder)
+    {
+        DrawTexturePro(texture,
+            { 0, 0, (float)texture.width, (float)texture.height },
+            getBounds(), { 0, 0 }, angle, WHITE);
+    }
+    else  // Border walls always use standard look
+    {
+        DrawRectangleRec(getBounds(), DARKGRAY);
+        DrawRectangleLinesEx(getBounds(), 2, BLACK);
+    }
 }
 
 void Wall::defaultArena1()// 500 / 900
@@ -73,6 +84,8 @@ void Wall::defaultArena1()// 500 / 900
         Wall wall2({i * WALL_SIZE,screenHeight - WALL_SIZE}); // bottom edge of screen
 		wall1.draw();// top wall
         wall2.draw();// bottom wall
+        wall1.setBorder(true);
+        wall2.setBorder(true);
     }
     for (int i = 0; i < 10; i++)
     {   
@@ -80,5 +93,7 @@ void Wall::defaultArena1()// 500 / 900
         Wall wall4({ screenWidth - WALL_SIZE,50 + i * WALL_SIZE });
         wall3.draw();// left wall
         wall4.draw();// right wall
+        wall3.setBorder(true);
+        wall4.setBorder(true);
     }
 }
