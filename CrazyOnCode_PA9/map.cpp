@@ -48,7 +48,7 @@ void Map::loadMap(string mapFile)
 		currentPos.y += WALL_SIZE;
 	}
 }
-void Map::unLoadMap()//clears currently loaded map stuff
+void Map::unloadMap()//clears currently loaded map stuff
 {
 	walls.clear();
 }

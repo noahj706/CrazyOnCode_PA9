@@ -25,19 +25,6 @@ void GameManager::playerHitCheck(Player& player)
 				&& pCur->checkTimer())
 			{
 				player.playerHitBulletAct();
-
-				if (players.size() >= 2)//prevents pointing outside vector
-				{
-					//checks which player got hit, then adds score accordingly
-					if (players[0]->checkAlive() && !(players[1]->checkAlive()))
-					{
-						scoreBoard.addScoreP1();
-					}
-					if (players[1]->checkAlive() && !(players[0]->checkAlive()))
-					{
-						scoreBoard.addScoreP2();
-					}
-				}
 			}
 	}
 	for (Wall* pCur : currentMap.getWalls())//goes through wall list
@@ -164,13 +151,124 @@ void GameManager::readyScene()//clears currently loaded stuff and loads new ones
 	//clear stuff from last match(if any)
 	players.clear();
 	bullets.clear();
-	scoreBoard.resetScore();
-	currentMap.unLoadMap();
+	currentMap.unloadMap();
 
 	//now ready new ones
 	readyMap();
 	players.push_back(new Player({ currentMap.getSpawn1().x + TANK_SIZE / 2,currentMap.getSpawn1().y + TANK_SIZE / 2 }, PLAYER_ONE, 0.0f));
 	players.push_back(new Player({ currentMap.getSpawn2().x + TANK_SIZE / 2,currentMap.getSpawn2().y + TANK_SIZE / 2 }, PLAYER_TWO, 180.0f));
+}
+bool GameManager::checkRoundWin()//check if a player has won a round, true if atleast one player is dead
+{
+	for (Player* pCur : players)
+	{
+		if (!pCur->checkAlive())
+		{
+			determineWinType();
+		}
+	}
+}
+void GameManager::giveScore()//determines round-winning player and gives point
+{
+	if (players.size() >= 2)//prevents pointing outside vector
+	{
+		//checks which player got hit, then adds score accordingly
+		if (players[0]->checkAlive() && !(players[1]->checkAlive()))
+		{
+			scoreBoard.addScoreP1();
+			p1RoundWin = true;
+		}
+		if (players[1]->checkAlive() && !(players[0]->checkAlive()))
+		{
+			scoreBoard.addScoreP2();
+			p2RoundWin = true;
+		}
+	}
+}
+void GameManager::determineWinType()//determines whether to show round winning screen or game winning screen
+{
+	int gameWinner = scoreBoard.foundWinner();
+	if (gameWinner)
+	{
+		if (gameWinner == 1)
+		{
+			showGameWinner(PLAYER_ONE);
+			p1RoundWin = true;
+		}
+		else if (gameWinner == 2)
+		{
+			showGameWinner(PLAYER_ONE);
+			p2RoundWin = true;
+		}
+		else//just a round win
+		{
+			roundWinTimer = 3.0f;
+			giveScore();
+		}
+	}
+}
+void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on screen
+{
+	//construct round win msg
+	string message;
+	if (winner == PLAYER_ONE)
+	{
+		message = "P1 ";
+	}
+	else
+	{
+		message = "P2 ";
+	}
+	message.append("ROUND WIN");
+
+	//measure text for centering on screen
+	int fontSize = 250;
+	int textWidth = MeasureText(message.c_str(), fontSize);
+
+	//draw on center
+	DrawText(message.c_str(), (SCREENWIDTH / 2) - (textWidth / 2), (SCREENHEIGHT / 2) - (fontSize / 2), fontSize, BLACK);
+}
+void GameManager::showGameWinner(PlayerId winner)//show winning player text on screen
+{
+
+}
+void GameManager::manageWinMenus()//does all the frame managements for displaying winner menus
+{
+	//manage timers
+	if (roundWinTimer >= 0)
+	{
+		roundWinTimer -= GetFrameTime();
+
+		//draw round win message
+		if (p1RoundWin)
+		{
+			showRoundWinner(PLAYER_ONE);
+		}
+		else if (p2RoundWin)
+		{
+			showRoundWinner(PLAYER_TWO);
+		}
+
+		//reset when timer ends
+		if (roundWinTimer <= 0)//if timer ends, then start new round
+		{
+			p1RoundWin = false;
+			p2RoundWin = false;
+			readyScene();
+		}
+	}
+	
+}
+void GameManager::freeze()//stops players and bullets from moving, for menu displaying
+{
+	for (Player* pCur : players)
+	{
+		pCur->freeze();
+	}
+	for (Bullet* pCur : bullets)
+	{
+		pCur->speed = 0;
+	}
 }
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
@@ -182,7 +280,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		ClearBackground(BG_COLOR);
 
 		//check for reset
-		if (IsKeyPressed(' '))
+		if (IsKeyPressed(' '))//if timer ends, then start new round
 		{
 			readyScene();
 		}
@@ -191,6 +289,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		frameUpdatePlayers();
 		frameUpdateBullets();
 		scoreBoard.update();
+		manageWinMenus();
 
 		//draw
 		drawAll(players);
@@ -206,6 +305,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 }
 
 GameManager::GameManager()//constructor
+	: playGame(false), roundWinTimer(0)
 {
 	//initial value tomfoolery
 	srand(time(NULL));

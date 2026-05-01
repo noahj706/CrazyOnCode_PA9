@@ -174,6 +174,10 @@ public:
 		this->position -= Vector2Scale(normalBetweenie, overlap);
 	}
 
+	void freeze()//turns off movement
+	{
+		movementEnabled = false;
+	}
 	// ------- TEST FUNCTIONS -------
 	/*
 	// Player test function

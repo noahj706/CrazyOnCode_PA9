@@ -27,7 +27,7 @@ class Map
 		~Map() = default;// destructor.
 
 		void loadMap(string mapFile);//reads map info from file
-		void unLoadMap();//clears currently loaded map stuff
+		void unloadMap();//clears currently loaded map stuff
 
 		void draw();//draws all walls
 

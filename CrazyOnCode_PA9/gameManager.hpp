@@ -24,6 +24,10 @@ class GameManager//this class will manage all of the other objects in the progra
 	vector<Player*> players;//vector for random access efficiency (doesnt matter for 2 player but nice if expanded)
 	Map currentMap;//generates all wall info for map
 	Scoreboard scoreBoard;
+	bool playGame;//will freeze all other game operations if false, good for menu display
+	float roundWinTimer;
+	bool p1RoundWin;
+	bool p2RoundWin;
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D
@@ -55,6 +59,16 @@ class GameManager//this class will manage all of the other objects in the progra
 	void readyMap();//picks random map file and loads it
 	void readyScene();//clears currently loaded stuff
 
+	bool checkRoundWin();//check if a player has won a round, calls round win stuff if atleast one player is dead
+	void giveScore();//determines winning player and gives point
+	void determineWinType();//determines whether to show round winning screen or game winning screen
+
+	void showRoundWinner(PlayerId winner);//shows round winner text on screen
+	void showGameWinner(PlayerId winner);//show winning player text on screen
+
+	void manageWinMenus();//does all the frame managements for displaying winner menus
+
+	void freeze();//stops players and bullets from moving, for menu displaying
 	void play();//loops for entirety of game window being open
 
 public:
