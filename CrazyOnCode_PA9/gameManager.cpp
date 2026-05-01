@@ -154,8 +154,13 @@ void GameManager::readyMap()//picks random map file and loads it
 
 	mapListStream.close();
 
-	//selects random map and loads it
-	currentMap.loadMap(mapNameList[(rand() % mapNameList.size())]);
+	//selects random map and loads it along with a backgroud :O
+	std::string selectedMap = mapNameList[(rand() % mapNameList.size())];
+
+	currentMap.loadMap(selectedMap);
+
+	// Load the corresponding background for this map
+	stage.loadBackgroundForMap(selectedMap);
 }
 void GameManager::readyScene()//clears currently loaded stuff and loads new ones
 {
@@ -335,9 +340,11 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 	// Gameplay Loop
 	while (!WindowShouldClose() && !closeGame)
 	{
+		soundManager.updateMusic();
 		//make window exist
 		BeginDrawing();
-		ClearBackground(BG_COLOR);
+		stage.draw();
+
 
 		//frame update
 		frameUpdatePlayers();
@@ -346,6 +353,12 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		scoreBoard.update();
 		checkRoundWin();
 
+		if (IsKeyPressed(KEY_M))
+		{
+			soundManager.toggleMusic();
+		}
+
+		soundManager.updateMusic();
 		//draw
 		drawAll(players);
 		drawAll(bullets);
@@ -383,6 +396,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 
 		EndDrawing();
 	}
+	stage.unload();
 	soundManager.unload();
 	CloseWindow();
 
@@ -397,6 +411,8 @@ GameManager::GameManager()//constructor
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
 	soundManager.init();
+
+	soundManager.loadMusic("assets/backgroundmusic.wav");
 
 	SetTargetFPS(60);
 	

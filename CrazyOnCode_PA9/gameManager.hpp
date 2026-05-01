@@ -12,9 +12,7 @@
 #include <vector>
 #include <list>
 
-#define SCREENWIDTH 1600
-#define SCREENHEIGHT 900
-#define BG_COLOR {137, 195, 71, 255}
+
 
 using std::vector;
 using std::list;
@@ -27,6 +25,7 @@ class GameManager//this class will manage all of the other objects in the progra
 	Map currentMap;//generates all wall info for map
 	Scoreboard scoreBoard;
 	SoundManager soundManager; // added to handle sfx seamlessly for other classes
+	Stage stage; // background manager
 	bool playGame;//will freeze all other game operations if false, good for menu display
 	bool gameActive;//will freeze all other game operations if false, good for menu display
 	float roundWinTimer;

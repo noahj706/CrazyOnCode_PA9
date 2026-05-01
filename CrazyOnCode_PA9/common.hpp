@@ -4,11 +4,12 @@
 
 #ifndef COMMON_HPP
 #define COMMON_HPP
-
-//constexpr const char* FIRE_SOUND_PATH = "assets/shoot.wav";
-//constexpr const char* DESTROYED_SOUND_PATH = "assets/explode.wav";
-
 #include "raylib.h"
+#include <string>
+#include <vector>
+#define SCREENWIDTH 1600
+#define SCREENHEIGHT 900
+#define BG_COLOR {137, 195, 71, 255}
 // UI Bar in pixels
 #define UI_BAR_HEIGHT 68;
 // Arena height in tiles
@@ -17,32 +18,88 @@
 #define PLAY_TILE_WIDTH 25;
 // Recall tiles take up 64 x 64 pixels
 
-/*
 
-class Stage 
+class Stage
 {
 private:
     Texture2D currentBackground;
+    std::string currentMapName;
 
 public:
-    Stage();
+    Stage() : currentBackground{ 0 }, currentMapName("") {}
 
-    Texture2D drawWii();
-    // Texture2D drawWII();
-    Texture2D drawPool();
-    // Texture2D drawPOOL();
-    // Texture2D drawAtari();
-    // Texture2D drawATARI();
+    ~Stage()
+    {
+        if (currentBackground.id != 0)
+            UnloadTexture(currentBackground);
+    }
 
-    void unloadWii(Texture2D background);
-    // void unloadWII(Texture2D background3);
-    void unloadPool(Texture2D background2);
-    // void unloadPOOL(Texture2D background4);
-    // void unloadAtari(Texture background5);
-    // void unloadATARI(Texture background6);
+    // Load background based on map name
+    void loadBackgroundForMap(const std::string& mapName)
+    {
+        // Unload previous background
+        if (currentBackground.id != 0)
+        {
+            UnloadTexture(currentBackground);
+            currentBackground.id = 0; // Resets texture ID
+        }
 
+        currentMapName = mapName;
+
+        // Load appropriate background based on map filename
+        if (mapName.find("wii") != std::string::npos ||
+            mapName.find("Wii") != std::string::npos)
+        {
+            currentBackground = LoadTexture("assets/Wii3.png");
+        }
+        else if (mapName.find("pool") != std::string::npos ||
+            mapName.find("Pool") != std::string::npos)
+        {
+            currentBackground = LoadTexture("assets/pool.png");
+        }
+        else if (mapName.find("atari") != std::string::npos ||
+            mapName.find("Atari") != std::string::npos)
+        {
+            currentBackground = LoadTexture("assets/pool2.png");
+        }
+        else
+        {
+            // Default background
+            currentBackground.id = 0;
+        }
+    }
+
+    void draw()
+    {
+        if (currentBackground.id != 0)
+        {
+            DrawTexturePro(
+                currentBackground,
+                Rectangle{ 0, 0, (float)currentBackground.width, (float)currentBackground.height },
+                Rectangle{ 0, 0, (float)SCREENWIDTH, (float)SCREENHEIGHT},
+                Vector2{ 0, 0 },
+                0,
+                WHITE
+            );
+        }
+        else
+        {
+           // clear with background color if there is no texture
+            ClearBackground(BG_COLOR);
+        }
+    }
+
+    void unload()
+    {
+        if (currentBackground.id != 0)
+        {
+            UnloadTexture(currentBackground);
+            currentBackground.id = 0;
+        }
+    }
 };
-*/
+
+
 // Sound Manager class
 
 class SoundManager
@@ -52,12 +109,17 @@ private:
     Sound explodeSound;
     Sound bounceSound;
     Sound shootv2Sound;
+    Music backgroundMusic;
+    bool musicEnabled;
+    bool musicLoaded;  // Track if music is loaded
 
 public:
+    SoundManager() : musicEnabled(true), musicLoaded(false) {}
+
     void init()
     {
         InitAudioDevice();
-        if (IsAudioDeviceReady()) 
+        if (IsAudioDeviceReady())
         {
             shootSound = LoadSound("assets/shoot.wav");
             explodeSound = LoadSound("assets/explode.wav");
@@ -66,22 +128,67 @@ public:
         }
     }
 
-    void playFire() 
-    { 
-        PlaySound(shootSound); 
+    // Load music separately (call this when ready)
+    void loadMusic(const char* musicPath)
+    {
+        if (musicLoaded)
+        {
+            UnloadMusicStream(backgroundMusic);
+        }
+        backgroundMusic = LoadMusicStream(musicPath);
+        musicLoaded = true;
+
+        if (musicEnabled)
+        {
+            PlayMusicStream(backgroundMusic);
+        }
     }
-    void playExplosion() 
-    { 
-        PlaySound(explodeSound); 
+
+    void playFire() { PlaySound(shootSound); }
+    void playExplosion() { PlaySound(explodeSound); }
+    void playBounce() { PlaySound(bounceSound); }
+    void playBulletHit() { PlaySound(shootv2Sound); }
+
+    void updateMusic()
+    {
+        if (musicLoaded && musicEnabled)
+        {
+            UpdateMusicStream(backgroundMusic);
+        }
     }
-    void playBounce() 
-    { 
-        PlaySound(bounceSound); 
+
+    void toggleMusic()
+    {
+        if (!musicLoaded) return;
+
+        musicEnabled = !musicEnabled;
+        if (musicEnabled)
+        {
+            ResumeMusicStream(backgroundMusic);
+        }
+        else
+        {
+            PauseMusicStream(backgroundMusic);
+        }
     }
-    void playBulletHit() 
-    { 
-        PlaySound(shootv2Sound); 
+
+    void setMusicEnabled(bool enabled)
+    {
+        if (!musicLoaded) return;
+
+        musicEnabled = enabled;
+        if (musicEnabled)
+        {
+            ResumeMusicStream(backgroundMusic);
+        }
+        else
+        {
+            PauseMusicStream(backgroundMusic);
+        }
     }
+
+    bool isMusicEnabled() const { return musicEnabled; }
+    bool isMusicLoaded() const { return musicLoaded; }
 
     void unload()
     {
@@ -89,11 +196,12 @@ public:
         UnloadSound(explodeSound);
         UnloadSound(bounceSound);
         UnloadSound(shootv2Sound);
+        if (musicLoaded)
+        {
+            UnloadMusicStream(backgroundMusic);
+        }
         CloseAudioDevice();
     }
-
-
 };
-
 
 #endif
