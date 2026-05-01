@@ -8,7 +8,8 @@ void mapLayoutTest()
 	SetTargetFPS(60);
 
 
-	Map map("map1.tnkm");
+	Map map;
+	map.loadMap("map1.tnkm");
 
 	while (!WindowShouldClose())
 	{

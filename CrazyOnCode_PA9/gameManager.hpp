@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "UI.hpp"
 #include "wall.hpp"
+#include "map.hpp"
 
 #include <vector>
 #include <list>
@@ -21,12 +22,12 @@ class GameManager//this class will manage all of the other objects in the progra
 {
 	list<Bullet*> bullets;//linked list instead of vector for frequent deletion efficiency
 	vector<Player*> players;//vector for random access efficiency (doesnt matter for 2 player but nice if expanded)
-	vector<Wall*> walls;
+	Map currentMap;//generates all wall info for map
 	Scoreboard scoreBoard;
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D
-	//NOTE: since walls dont really DO anything, they dont have such functions
+	//NOTE: since walls dont really DO anything, they dont get such functions
 
 	//checks passed object againt every other object(including walls) in game, then calls the appropriate act functions inside object
 	void playerHitCheck(Player& player);
@@ -49,6 +50,10 @@ class GameManager//this class will manage all of the other objects in the progra
 			//pCur->drawBase();
 		}
 	}
+
+	
+	void readyMap();//picks random map file and loads it
+	void readyScene();//clears currently loaded stuff
 
 	void play();//loops for entirety of game window being open
 

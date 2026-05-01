@@ -1,6 +1,10 @@
 //primary programmer: Noah Julius
 #include "gameManager.hpp"
+
 #include <iostream>
+#include <ctime>
+#include <fstream>
+#include <string>
 
 void GameManager::playerHitCheck(Player& player)
 {
@@ -22,18 +26,21 @@ void GameManager::playerHitCheck(Player& player)
 			{
 				player.playerHitBulletAct();
 
-				//checks which player got hit, then adds score accordingly
-				if (players[0]->checkAlive() && !(players[1]->checkAlive()))
+				if (players.size() >= 2)//prevents pointing outside vector
 				{
-					scoreBoard.addScoreP1();
-				}
-				if (players[1]->checkAlive() && !(players[0]->checkAlive()))
-				{
-					scoreBoard.addScoreP2();
+					//checks which player got hit, then adds score accordingly
+					if (players[0]->checkAlive() && !(players[1]->checkAlive()))
+					{
+						scoreBoard.addScoreP1();
+					}
+					if (players[1]->checkAlive() && !(players[0]->checkAlive()))
+					{
+						scoreBoard.addScoreP2();
+					}
 				}
 			}
 	}
-	for (Wall* pCur : walls)//goes through wall list
+	for (Wall* pCur : currentMap.getWalls())//goes through wall list
 	{
 		if (CheckCollisionCircleRec(player.position, player.getRadius(), pCur->getBounds()))
 		{
@@ -61,7 +68,7 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 			}
 		}
 	}
-	for(Wall* pCur : walls)//goes through wall list
+	for(Wall* pCur : currentMap.getWalls())//goes through wall list
 	{
 		if (CheckCollisionCircleRec(bullet.position, bullet.getRadius(), pCur->getBounds()))
 		{
@@ -103,7 +110,6 @@ void GameManager::bulletHitCheck(Bullet& bullet)
 
 	
 }
-
 void GameManager::frameUpdatePlayers()//updates all players
 {
 	//updates all(2 for now) players
@@ -134,7 +140,38 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 		}
 	}
 }
+void GameManager::readyMap()//picks random map file and loads it
+{
+	using std::ifstream;
+	
+	//loads list of map names for random selection
+	ifstream mapListStream("listMaps.txt");
+	vector<string> mapNameList;
+	string buffer;
 
+	while (getline(mapListStream, buffer))
+	{
+		mapNameList.push_back(buffer);
+	}
+
+	mapListStream.close();
+
+	//selects random map and loads it
+	currentMap.loadMap(mapNameList[(rand() % mapNameList.size())]);
+}
+void GameManager::readyScene()//clears currently loaded stuff and loads new ones
+{
+	//clear stuff from last match(if any)
+	players.clear();
+	bullets.clear();
+	scoreBoard.resetScore();
+	currentMap.unLoadMap();
+
+	//now ready new ones
+	readyMap();
+	players.push_back(new Player({ currentMap.getSpawn1().x + TANK_SIZE / 2,currentMap.getSpawn1().y + TANK_SIZE / 2 }, PLAYER_ONE, 0.0f));
+	players.push_back(new Player({ currentMap.getSpawn2().x + TANK_SIZE / 2,currentMap.getSpawn2().y + TANK_SIZE / 2 }, PLAYER_TWO, 180.0f));
+}
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
 	// Gameplay Loop
@@ -147,14 +184,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//check for reset
 		if (IsKeyPressed(' '))
 		{
-			Vector2 spawn1 = { 300, 360 };
-			Vector2 spawn2 = { 1300, 360 };
-
-			players.clear();
-			bullets.clear();
-
-			players.push_back(new Player(spawn1, PLAYER_ONE, 0.0f));
-			players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
+			readyScene();
 		}
 
 		//frame update
@@ -165,7 +195,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//draw
 		drawAll(players);
 		drawAll(bullets);
-		drawAll(walls);
+		drawAll(currentMap.getWalls());
 		scoreBoard.draw();
 		
 		EndDrawing();
@@ -177,9 +207,8 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 
 GameManager::GameManager()//constructor
 {
-	//code below subject to change
-	
-	const Vector2 screenCenter = { .x = SCREENWIDTH / 2,.y = SCREENHEIGHT / 2 };
+	//initial value tomfoolery
+	srand(time(NULL));
 
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
@@ -191,19 +220,6 @@ GameManager::GameManager()//constructor
 
 	players.push_back(new Player(spawn1, PLAYER_ONE));
 	players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
-	
-
-	//creates the default arena, code yoinked from Lincoln for now
-	for (int i = 0; i < 32; i++)
-	{
-		walls.push_back(new Wall({ i * WALL_SIZE, 0 }));
-		walls.push_back(new Wall({ i * WALL_SIZE, SCREENHEIGHT - WALL_SIZE }));
-	}
-	for (int i = 0; i < 13; i++)
-	{
-		walls.push_back(new Wall({ 0,50 + i * WALL_SIZE }));
-		walls.push_back(new Wall({ SCREENWIDTH - WALL_SIZE, 50 + i * WALL_SIZE }));
-	}
 
 	play();
 }
