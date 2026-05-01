@@ -28,6 +28,8 @@ class GameManager//this class will manage all of the other objects in the progra
 	float roundWinTimer;
 	bool p1RoundWin;
 	bool p2RoundWin;
+	bool p1GameWin;
+	bool p2GameWin;
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D

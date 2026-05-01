@@ -162,8 +162,10 @@ bool GameManager::checkRoundWin()//check if a player has won a round, true if at
 {
 	for (Player* pCur : players)
 	{
-		if (!pCur->checkAlive())
+		if (!pCur->checkAlive() && !p1RoundWin && !p2RoundWin)
 		{
+			playGame = false;
+			freeze();
 			determineWinType();
 		}
 	}
@@ -192,13 +194,11 @@ void GameManager::determineWinType()//determines whether to show round winning s
 	{
 		if (gameWinner == 1)
 		{
-			showGameWinner(PLAYER_ONE);
-			p1RoundWin = true;
+			p1GameWin = true;
 		}
 		else if (gameWinner == 2)
 		{
-			showGameWinner(PLAYER_ONE);
-			p2RoundWin = true;
+			p2GameWin = true;
 		}
 		else//just a round win
 		{
@@ -219,7 +219,7 @@ void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on s
 	{
 		message = "P2 ";
 	}
-	message.append("ROUND WIN");
+	message.append("ROUND POINT+");
 
 	//measure text for centering on screen
 	int fontSize = 250;
@@ -230,12 +230,29 @@ void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on s
 }
 void GameManager::showGameWinner(PlayerId winner)//show winning player text on screen
 {
+	//construct round win msg
+	string message;
+	if (winner == PLAYER_ONE)
+	{
+		message = "P1 ";
+	}
+	else
+	{
+		message = "P2 ";
+	}
+	message.append("GAME WIN!");
 
+	//measure text for centering on screen
+	int fontSize = 300;
+	int textWidth = MeasureText(message.c_str(), fontSize);
+
+	//draw on center
+	DrawText(message.c_str(), (SCREENWIDTH / 2) - (textWidth / 2), (SCREENHEIGHT / 2) - (fontSize / 2), fontSize, BLACK);
 }
 void GameManager::manageWinMenus()//does all the frame managements for displaying winner menus
 {
 	//manage timers
-	if (roundWinTimer >= 0)
+	if (roundWinTimer > 0)
 	{
 		roundWinTimer -= GetFrameTime();
 
@@ -252,10 +269,19 @@ void GameManager::manageWinMenus()//does all the frame managements for displayin
 		//reset when timer ends
 		if (roundWinTimer <= 0)//if timer ends, then start new round
 		{
+			roundWinTimer = 0;//incase was negative
 			p1RoundWin = false;
 			p2RoundWin = false;
 			readyScene();
 		}
+	}
+	if (p1GameWin)
+	{
+		showGameWinner(PLAYER_ONE);
+	}
+	else if (p2GameWin)
+	{
+		showGameWinner(PLAYER_TWO);
 	}
 	
 }
