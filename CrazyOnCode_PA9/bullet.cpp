@@ -52,12 +52,12 @@ void Bullet::bulletHitPlayerAct()//doesnt collide unless offTimer expires to avo
 }
 void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 {
-	if (bounceImmunityTimer > 0)
-	{
-		return; // ignore if recently bounced
-	}
 	if (bounces > 0)
 	{
+		if (bounceImmunityTimer > 0)
+		{
+			return; // ignore if recently bounced
+		}
 		angle = 360.0f - angle;//reflects angle vertically
 		--bounces;
 		bounceImmunityTimer = BOUNCECOOLDOWN;//start bounce cooldown
@@ -69,12 +69,12 @@ void Bullet::bulletHitHorzWallAct()//bullet will bounce or deactivate
 }
 void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
 {	
-	if (bounceImmunityTimer > 0)
-	{
-		return; // ignore if recently bounced
-	}
 	if (bounces > 0)
 	{
+		if (bounceImmunityTimer > 0)
+		{
+			return; // ignore if recently bounced
+		}
 		angle = 180.0f - angle;//reflects angle horizontally
 		--bounces;
 		bounceImmunityTimer = BOUNCECOOLDOWN;//start bounce cooldown

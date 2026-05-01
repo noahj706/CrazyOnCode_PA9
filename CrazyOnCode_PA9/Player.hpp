@@ -272,7 +272,7 @@ private:
 	template <typename T>
 	void fire(T& list)
 	{
-		if (isAlive)
+		if (isAlive && movementEnabled)
 		{
 			//creates a spawn position in front at the fron of the player
 			Vector2 spawnPosition = { getCenter().x + (TANK_SIZE / 2) * cosf(angle * DEG2RAD),getCenter().y + (TANK_SIZE / 2) * sinf(angle * DEG2RAD) };

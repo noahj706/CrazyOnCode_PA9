@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="gameManager.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="..\include\raylib.h" />
     <ClInclude Include="..\include\raymath.h" />
     <ClInclude Include="bullet.hpp" />
+    <ClInclude Include="button.hpp" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
     <ClInclude Include="gameManager.hpp" />

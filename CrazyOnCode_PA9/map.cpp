@@ -40,6 +40,8 @@ void Map::loadMap(string mapFile)
 	ifstream mapStream(mapFile);
 	string mapLine;
 	string buffer;
+	getline(mapStream, buffer);
+	getline(mapStream, buffer);
 	while (getline(mapStream, buffer)) 
 	{
 		mapLine = buffer;

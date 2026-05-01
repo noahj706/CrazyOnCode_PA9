@@ -6,6 +6,7 @@
 #include "UI.hpp"
 #include "wall.hpp"
 #include "map.hpp"
+#include "button.hpp"
 
 #include <vector>
 #include <list>
@@ -24,12 +25,14 @@ class GameManager//this class will manage all of the other objects in the progra
 	vector<Player*> players;//vector for random access efficiency (doesnt matter for 2 player but nice if expanded)
 	Map currentMap;//generates all wall info for map
 	Scoreboard scoreBoard;
-	bool playGame;//will freeze all other game operations if false, good for menu display
+	bool gameActive;//will freeze all other game operations if false, good for menu display
 	float roundWinTimer;
 	bool p1RoundWin;
 	bool p2RoundWin;
 	bool p1GameWin;
 	bool p2GameWin;
+	vector<Button*> buttons;//will contain play and exit buttons
+	bool closeGame; //exists to break game loop if needed
 	
 	//so since gameManager has oversight over all objects, it can check for collisions between objects
 	//does so via a check then act process that I (Noah) came up with on my own :D
@@ -43,6 +46,7 @@ class GameManager//this class will manage all of the other objects in the progra
 	//these cycle the entire list of respective objects, so only need on call per frame
 	void frameUpdatePlayers();
 	void frameUpdateBullets();
+	void frameUpdateButtons();
 
 	//draws all of a respective object onto the screen, intended to be called AFTER all updates are made
 	//works with either a vector OR a std::list

@@ -4,9 +4,9 @@
 #include "entity.hpp"
 #define BULLETSPEED 7.0f
 #define BULLETSIZE 8.0f
-#define MAXBOUNCES 1
+#define MAXBOUNCES 5
 #define OFFTIMER 0.2f
-#define BOUNCECOOLDOWN 1.0f
+#define BOUNCECOOLDOWN 0.04f
 #define BULLETCOLOR {255, 50, 0, 255}
 
 class Bullet : public CircleEntity
