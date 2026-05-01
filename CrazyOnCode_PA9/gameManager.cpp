@@ -128,6 +128,13 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 		}
 	}
 }
+void GameManager::frameUpdateButtons()
+{
+	for (auto* pCur : buttons)
+	{
+		pCur->update();
+	}
+}
 void GameManager::readyMap()//picks random map file and loads it
 {
 	using std::ifstream;
@@ -163,9 +170,8 @@ void GameManager::checkRoundWin()//check if a player has won a round, true if at
 {
 	for (Player* pCur : players)
 	{
-		if (!pCur->checkAlive() && !p1RoundWin && !p2RoundWin)
+		if (!pCur->checkAlive() && !p1RoundWin && !p2RoundWin && !p1GameWin && !p2GameWin)
 		{
-			playGame = false;
 			freeze();
 			determineWinType();
 		}
@@ -198,11 +204,15 @@ void GameManager::determineWinType()//determines whether to show round winning s
 	int gameWinner = scoreBoard.foundWinner();
 	if (gameWinner == 1)
 	{
+		roundWinTimer = 2.0f;
 		p1GameWin = true;
+		gameActive = false;
 	}
 	else if (gameWinner == 2)
 	{
+		roundWinTimer = 2.0f;
 		p2GameWin = true;
+		gameActive = false;
 	}
 }
 void GameManager::showRoundWinner(PlayerId winner)//shows round winner text on screen
@@ -250,37 +260,50 @@ void GameManager::showGameWinner(PlayerId winner)//show winning player text on s
 void GameManager::manageWinMenus()//does all the frame managements for displaying winner menus
 {
 	//manage timers
-	if (roundWinTimer > 0 && !p1GameWin && !p2GameWin)
+	if (roundWinTimer > 0)
 	{
 		roundWinTimer -= GetFrameTime();
 
-		//draw round win message
-		if (p1RoundWin)
+		if (!p1GameWin && !p2GameWin)
 		{
-			showRoundWinner(PLAYER_ONE);
-		}
-		else if (p2RoundWin)
-		{
-			showRoundWinner(PLAYER_TWO);
+			//draw round win message
+			if (p1RoundWin)
+			{
+				showRoundWinner(PLAYER_ONE);
+			}
+			else if (p2RoundWin)
+			{
+				showRoundWinner(PLAYER_TWO);
+			}
+
+			//reset when timer ends
+			if (roundWinTimer <= 0)//if timer ends, then start new round
+			{
+				roundWinTimer = 0;//incase was negative
+				gameActive = true;
+				p1RoundWin = false;
+				p2RoundWin = false;
+				readyScene();
+			}
 		}
 
-		//reset when timer ends
-		if (roundWinTimer <= 0)//if timer ends, then start new round
+		if (roundWinTimer <= 0)//if timer ends, then rest to main menu
 		{
-			roundWinTimer = 0;//incase was negative
-			playGame = true;
+			roundWinTimer = 0;
 			p1RoundWin = false;
 			p2RoundWin = false;
-			readyScene();
+
 		}
-	}
-	if (p1GameWin)
-	{
-		showGameWinner(PLAYER_ONE);
-	}
-	else if (p2GameWin)
-	{
-		showGameWinner(PLAYER_TWO);
+		if (p1GameWin)
+		{
+			showGameWinner(PLAYER_ONE);
+		}
+		else if (p2GameWin)
+		{
+			showGameWinner(PLAYER_TWO);
+		}
+		
+
 	}
 	
 }
@@ -300,7 +323,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 
 
 	// Gameplay Loop
-	while (!WindowShouldClose())
+	while (!WindowShouldClose() && !closeGame)
 	{
 		//make window exist
 		BeginDrawing();
@@ -309,6 +332,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//frame update
 		frameUpdatePlayers();
 		frameUpdateBullets();
+		frameUpdateButtons();
 		scoreBoard.update();
 		checkRoundWin();
 
@@ -317,16 +341,27 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		drawAll(bullets);
 		drawAll(currentMap.getWalls());
 		scoreBoard.draw();
+		drawAll(buttons);
 
 		//kind of sorta both update and draw
 		manageWinMenus();
 		
 		//check to continue
-		if (!playGame)
+		if (!gameActive && !roundWinTimer)
 		{
-			if (IsKeyDown('P'))
+			if (buttons.empty())
 			{
-				playGame = true;
+				buttons.push_back(new Button("PLAY", { SCREENWIDTH / 2 - BUTTONWIDTH / 2 , 300 }));
+				buttons.push_back(new Button("EXIT", { SCREENWIDTH / 2 - BUTTONWIDTH / 2, 500 }));
+			}
+			if (buttons[1]->checkPress())//check if close game
+			{
+				closeGame = true;
+			}
+			if (buttons[0]->checkPress())//check if play button is pressed
+			{
+				buttons.clear();
+				gameActive = true;
 				p1GameWin = false;
 				p2GameWin = false;
 				p1RoundWin = false;
@@ -344,7 +379,7 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 }
 
 GameManager::GameManager()//constructor
-	: playGame(false), roundWinTimer(0)
+	: gameActive(false), roundWinTimer(0), closeGame(false)
 {
 	//initial value tomfoolery
 	srand(time(NULL));
@@ -354,16 +389,7 @@ GameManager::GameManager()//constructor
 	soundManager.init();
 
 	SetTargetFPS(60);
-
-	//player setup
-	Vector2 spawn1 = { 300, 360 };
-	Vector2 spawn2 = { 1300, 360 };
-
-	players.push_back(new Player(spawn1, PLAYER_ONE));
-	players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
-
-	// Sound setup
-
+	
 	for (auto* player : players) 
 	{
 		player->setSoundManager(&soundManager);

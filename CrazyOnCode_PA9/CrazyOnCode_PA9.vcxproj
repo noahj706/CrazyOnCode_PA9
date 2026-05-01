@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
     <ClCompile Include="gameManager.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="..\include\raymath.h" />
     <ClInclude Include="bullet.hpp" />
     <ClInclude Include="common.hpp" />
+    <ClInclude Include="button.hpp" />
     <ClInclude Include="entity.hpp" />
     <ClInclude Include="example.hpp" />
     <ClInclude Include="gameManager.hpp" />
@@ -175,11 +177,17 @@
     <Media Include="assets\sound.wav" />
     <Media Include="destroyed.wav" />
     <Media Include="smoke.wav" />
-    <None Include="map1.tnkm" />
-    <None Include="mapTest.tnkm" />
+    <None Include="pool1.tnkm" />
+    <None Include="pool2.tnkm" />
+    <None Include="atari1.tnkm" />
+    <None Include="atari2.tnkm" />
+    <None Include="wii1.tnkm" />
+    <None Include="wii2.tnkm" />
+    <None Include="wii3.tnkm" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="listMaps.txt" />
+    <Text Include="Readmemaps.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="AtariWood.png" />

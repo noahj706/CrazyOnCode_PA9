@@ -276,7 +276,7 @@ private:
 	template <typename T>
 	void fire(T& list)
 	{
-		if (isAlive)
+		if (isAlive && movementEnabled)
 		{
 			if (sounds) sounds->playFire(); // Sound effects (Gello implmented)
 
