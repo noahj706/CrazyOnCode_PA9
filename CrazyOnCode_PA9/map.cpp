@@ -21,7 +21,6 @@ void Map::translateLine(string mapRow)
 		place(c);
 	}
 }
-
 Map::Map(string mapFile)
 	: currentpos({ 0,68 })
 {
@@ -34,7 +33,6 @@ Map::Map(string mapFile)
 		currentpos.x = 0;
 		currentpos.y += WALL_SIZE;
 	}
-	
 }
 void Map::draw()
 {
