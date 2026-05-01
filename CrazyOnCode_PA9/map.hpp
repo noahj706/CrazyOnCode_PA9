@@ -7,7 +7,7 @@
 
 using std::ifstream;
 using std::vector;
-//using std::getline;
+using std::getline;
 
 class Map
 {
@@ -20,16 +20,16 @@ class Map
 		void translateLine(string mapRow);
 		
 	public:
-		Map(ifstream mapfile)
-		{
-			int i = 0;
-				string lineofMap;
-				while (mapfile) {
-					//translateLine(getline(mapfile,));
-					//getline("map1.tnkm", lineofMap[10]);
-				}
-				currentpos.y + WALL_SIZE;
-		};// makes the map and initializes the 
+		Map(FILE* mapfile);
+		//{
+		//	int i = 0;
+		//		string lineofMap;
+		//		while (mapfile) {
+		//			//translateLine(getline(mapfile,));
+		//			//getline("map1.tnkm", lineofMap[10]);
+		//		}
+		//		currentpos.y + WALL_SIZE;
+		//};// makes the map and initializes the 
 		~Map() = default;// destructor.
 		
 };

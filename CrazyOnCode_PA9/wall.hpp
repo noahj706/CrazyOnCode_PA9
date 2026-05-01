@@ -7,7 +7,7 @@ using std::fstream;
 #include "entity.hpp"
 
 
-#define WALL_SIZE 50.0f
+#define WALL_SIZE 64.0f
 class Wall : public RectangleEntity
 {
 	private:

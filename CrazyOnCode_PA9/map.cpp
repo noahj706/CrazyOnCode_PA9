@@ -1,12 +1,16 @@
 #include "map.hpp"
+
+using std::getline;
+
 void Map::cycleTile()
 {
 	currentpos.x + WALL_SIZE;
 }
-void Map::place(char wallChar=' ')
+void Map::place(char wallChar)
 {
 	if (wallChar == 'X') {
-		//new Wall->position(currentpos.x + WALL_SIZE);
+		new Wall(currentpos);
+		walls.push_back(new Wall(currentpos));
 	}
 	cycleTile();
 }
@@ -20,13 +24,15 @@ void Map::translateLine(string mapRow)
 	}
 }
 
-//Map::Map(ifstream mapfile)
-//{
-//	int i = 0;
-//	string lineofMap;
-//	while (mapfile) {
-//		//translateLine(getline(mapfile,));
-//		getline( "map1.tnkm", lineofMap);
-//	}
-//	currentpos.y + WALL_SIZE;
-//}
+Map::Map(FILE* mapfile)
+{
+
+	ifstream mapStream(mapfile);
+	int i = 0;
+	string mapLine;
+	while (getline(mapStream, mapLine)) {
+		
+		translateLine(mapLine);
+	}
+	currentpos.y + WALL_SIZE;
+}
