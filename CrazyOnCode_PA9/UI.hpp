@@ -2,7 +2,7 @@
 #include "entity.hpp"
 #include <string>
 
-#define WINNING_SCORE 1
+#define WINNING_SCORE 3
 constexpr const char* FIRE_SOUND_PATH = "smoke.wav";
 constexpr const char* DESTROYED_SOUND_PATH = "destroyed.wav";
 
