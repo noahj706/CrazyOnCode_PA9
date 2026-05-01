@@ -350,13 +350,6 @@ GameManager::GameManager()//constructor
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
 	SetTargetFPS(60);
 
-	//player setup
-	Vector2 spawn1 = { 300, 360 };
-	Vector2 spawn2 = { 1300, 360 };
-
-	players.push_back(new Player(spawn1, PLAYER_ONE));
-	players.push_back(new Player(spawn2, PLAYER_TWO, 180.0f));
-
 	play();
 }
 
