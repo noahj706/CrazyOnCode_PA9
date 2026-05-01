@@ -19,8 +19,6 @@ class Map
 		void place(char tileType);
 		void translateLine(string mapRow);
 		
-
-		
 	public:
 		Map(string mapFile);
 		~Map() = default;// destructor.

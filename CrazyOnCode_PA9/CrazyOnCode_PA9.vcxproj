@@ -166,7 +166,12 @@
     <Media Include="destroyed.wav" />
     <Media Include="smoke.wav" />
     <None Include="map1.tnkm" />
-    <None Include="mapTest.tnkm" />
+    <None Include="map2.tnkm" />
+    <None Include="map3.tnkm" />
+    <None Include="map4.tnkm" />
+    <None Include="map5.tnkm" />
+    <None Include="map6.tnkm" />
+    <None Include="map7.tnkm" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="listMaps.txt" />

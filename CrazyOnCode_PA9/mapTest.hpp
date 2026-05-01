@@ -7,7 +7,6 @@ void mapLayoutTest()
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
 	SetTargetFPS(60);
 
-
 	Map map("map1.tnkm");
 
 	while (!WindowShouldClose())
