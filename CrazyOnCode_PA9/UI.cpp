@@ -2,60 +2,17 @@
 #include "common.hpp"
 #include <iostream>
 
-Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds,
-    const char* firePath, const char* destroyedPath)
+Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds)
     : RectangleEntity(pos, 0, 0, 200, fontSize * 2 + 10)
     , score1(0)
     , score2(0)
     , fontSize(fontSize)
     , textColor(BLACK)
     , numRounds(numRounds)
-    , fire{0}
-    , destroyed{0}
-    , firePath(firePath)
-    , destroyedPath(destroyedPath)
-    , soundsLoaded(false) // allows for sound error checking
 {
 }
 
-void Scoreboard::loadSounds()
-{
-    if (soundsLoaded) return;  // Prevents double loading
 
-    if (firePath && FileExists(firePath))
-    {
-        fire = LoadSound(firePath);
-        if (fire.frameCount > 0)
-        {
-            std::cout << "Fire sound loaded successfully" << std::endl;
-        }
-        else
-        {
-            std::cout << "Failed to load fire sound" << std::endl;
-        }
-
-    }
-
-    if (destroyedPath && FileExists(destroyedPath))
-    {
-        destroyed = LoadSound(destroyedPath);
-        if (destroyed.frameCount > 0)
-        {
-            std::cout << "Destroyed sound loaded successfully" << std::endl;
-        }
-        else
-        {
-            std::cout << "Failed to load destroyed sound" << std::endl;
-        }
-    }
-    soundsLoaded = true;
-}
-
-Scoreboard::~Scoreboard()
-{
-    UnloadSound(fire);
-    UnloadSound(destroyed);
-}
 
 void Scoreboard::draw()
 {
@@ -147,15 +104,6 @@ void Scoreboard::resetScore()
 //}
 
 // Use this to play fire sound example shown in testUI
-void Scoreboard::playFire()
-{
-    PlaySound(fire);
-}
-// destroyed sound effect
-void Scoreboard::playDestroyed()
-{
-    PlaySound(destroyed);
-}
 
 unsigned int Scoreboard::foundWinner() const
 {
@@ -168,18 +116,6 @@ unsigned int Scoreboard::foundWinner() const
         return 2;
     }
     return 0;
-}
-
-Texture2D Scoreboard::chooseMap(Texture2D woodTex, Texture2D poolTex)
-{
-    if (IsKeyPressed('T'))
-    {
-        return woodTex;
-    }
-    if (IsKeyPressed('P'))
-    {
-        return poolTex;
-    }
 }
 
 // Dynamic Background switching

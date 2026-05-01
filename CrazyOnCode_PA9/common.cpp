@@ -1,22 +1,43 @@
 #include "common.hpp"
-
-// Used before game loop
-Texture2D drawWood()
+/*
+Stage::Stage()
 {
-    return LoadTexture("AtariWood.png");
-}
-Texture2D drawPool()
-{
-    return LoadTexture("AtariPool.png");
+    currentBackground = { 0 };
 }
 
-// Frees GPU VRAM, should be placed after game loop
-void unloadWood(Texture2D background)
+void Stage::drawWii()
 {
-    UnloadTexture(background); 
-}
-void unloadPool(Texture2D background2)
-{
-    UnloadTexture(background2);
+    // Unload previous texture if it exists
+    if (currentBackground.id != 0) 
+    {
+        UnloadTexture(currentBackground);
+    }
+    currentBackground = LoadTexture("WiiWood.png");
+    DrawTexture(currentBackground, 0, 0, WHITE);   
 }
 
+void Stage::drawPool()
+{
+    if (currentBackground.id != 0) {
+        UnloadTexture(currentBackground);
+    }
+    currentBackground = LoadTexture("AtariPool.png");
+    DrawTexture(currentBackground, 0, 0, WHITE);
+}
+
+void Stage::unloadWii()
+{
+    if (currentBackground.id != 0) {
+        UnloadTexture(currentBackground);
+        currentBackground = { 0 };
+    }
+}
+
+void Stage::unloadPool()
+{
+    if (currentBackground.id != 0) {
+        UnloadTexture(currentBackground);
+        currentBackground = { 0 };
+    }
+}
+*/

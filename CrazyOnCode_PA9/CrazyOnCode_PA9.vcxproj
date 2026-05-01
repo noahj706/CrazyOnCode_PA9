@@ -165,6 +165,14 @@
     <Library Include="..\lib\raylib.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="assets\bounce.wav" />
+    <Media Include="assets\explode.wav" />
+    <Media Include="assets\explodev2.wav" />
+    <Media Include="assets\Jazz - Picross DS.mp3" />
+    <Media Include="assets\other.wav" />
+    <Media Include="assets\shoot.wav" />
+    <Media Include="assets\shootv2.wav" />
+    <Media Include="assets\sound.wav" />
     <Media Include="destroyed.wav" />
     <Media Include="smoke.wav" />
     <None Include="map1.tnkm" />

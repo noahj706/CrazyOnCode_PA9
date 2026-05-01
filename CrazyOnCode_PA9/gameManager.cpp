@@ -130,8 +130,6 @@ void GameManager::frameUpdateBullets()//updates all bullets, deletes "inactive" 
 void GameManager::play()//initializes stuff then loops for entirety of game window being open
 {
 	// Pre-loads textures to avoid potential frame drops or flickering
-	Texture2D woodTex = drawWood();
-	Texture2D poolTex = drawPool();
 
 	// Gameplay Loop
 	while (!WindowShouldClose())
@@ -139,8 +137,6 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		//make window exist
 		BeginDrawing();
 		ClearBackground(BG_COLOR);
-		Texture2D choiceTex = scoreBoard.chooseMap(woodTex, poolTex); // Allows for dynamic stage switching
-		DrawTexture(choiceTex, 0, 0, WHITE);
 
 		//check for reset
 		if (IsKeyPressed(' '))
@@ -168,8 +164,6 @@ void GameManager::play()//initializes stuff then loops for entirety of game wind
 		EndDrawing();
 	}
 
-	UnloadTexture(woodTex);
-	UnloadTexture(poolTex);
 	CloseWindow();
 
 }
@@ -182,6 +176,7 @@ GameManager::GameManager()//constructor
 
 	// Initial window setupization
 	InitWindow(SCREENWIDTH, SCREENHEIGHT, "Atari Combat + Wii Tanks Love Child");
+	// loadSounds(); // Used to allow sfx
 	SetTargetFPS(60);
 
 	//player setup
