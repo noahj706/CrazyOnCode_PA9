@@ -1,0 +1,1 @@
+The maps are 25 wide and 13 tall. 
