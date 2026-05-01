@@ -13,10 +13,12 @@ Description: Local 2 player pvp with tanks, first to 15 wins
 #include "walltest.hpp"
 #include "wall.hpp"
 #include "gameManager.hpp"
+#include "mapTest.hpp"
 
 int main()
 {
-    GameManager gamer;
+    //GameManager gamer;
+	mapLayoutTest();
 
     return 0;
 }

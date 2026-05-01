@@ -19,17 +19,11 @@ class Map
 		void place(char tileType);
 		void translateLine(string mapRow);
 		
+
+		
 	public:
-		Map(FILE* mapfile);
-		//{
-		//	int i = 0;
-		//		string lineofMap;
-		//		while (mapfile) {
-		//			//translateLine(getline(mapfile,));
-		//			//getline("map1.tnkm", lineofMap[10]);
-		//		}
-		//		currentpos.y + WALL_SIZE;
-		//};// makes the map and initializes the 
+		Map(string mapFile);
 		~Map() = default;// destructor.
+		void draw();
 		
 };

@@ -168,6 +168,9 @@
     <None Include="map1.tnkm" />
     <None Include="mapTest.tnkm" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="listMaps.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

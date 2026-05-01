@@ -4,12 +4,11 @@ using std::getline;
 
 void Map::cycleTile()
 {
-	currentpos.x + WALL_SIZE;
+	currentpos.x += WALL_SIZE;
 }
 void Map::place(char wallChar)
 {
 	if (wallChar == 'X') {
-		new Wall(currentpos);
 		walls.push_back(new Wall(currentpos));
 	}
 	cycleTile();
@@ -17,22 +16,30 @@ void Map::place(char wallChar)
 
 void Map::translateLine(string mapRow)
 {
-	for (int i = 0; mapRow[i] = nullptr || mapRow[i] != '/n'; i++)
+	for (char c : mapRow)
 	{
-		place(mapRow[i]);
-		i++;
+		place(c);
 	}
 }
 
-Map::Map(FILE* mapfile)
+Map::Map(string mapFile)
+	: currentpos({ 0,68 })
 {
-
-	ifstream mapStream(mapfile);
-	int i = 0;
+	ifstream mapStream(mapFile);
 	string mapLine;
-	while (getline(mapStream, mapLine)) {
-		
+	string buffer;
+	while (getline(mapStream, buffer)) {
+		mapLine = buffer;
 		translateLine(mapLine);
+		currentpos.x = 0;
+		currentpos.y += WALL_SIZE;
 	}
-	currentpos.y + WALL_SIZE;
+	
+}
+void Map::draw()
+{
+	for (Wall* pCur : walls)
+	{
+		pCur->draw();
+	}
 }

@@ -57,7 +57,6 @@ void Wall::update()
 }
 void Wall::draw()
 {
-     
      DrawRectangleRec(getBounds(), BROWN);
 }
 
