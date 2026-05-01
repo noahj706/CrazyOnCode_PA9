@@ -9,7 +9,7 @@ int Wall::drawWallDisplay()
     const int screenWidth = 900;
     const int screenHeight = 500;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(screenWidth, screenHeight, "TestMap");
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -57,7 +57,6 @@ void Wall::update()
 }
 void Wall::draw()
 {
-     
      DrawRectangleRec(getBounds(), BROWN);
 }
 
@@ -83,11 +82,3 @@ void Wall::defaultArena1()// 500 / 900
         wall4.draw();// right wall
     }
 }
-
-void Wall::arenaFromfile(const char* filename)
-{
-    // get the "mapbse.tnkm" file.
-
-}
-
-

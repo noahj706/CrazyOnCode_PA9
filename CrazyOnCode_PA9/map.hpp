@@ -1,15 +1,29 @@
 #pragma once
-#include "map.cpp"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
 #include "wall.hpp"
-/*
-class map:public wall
+
+using std::ifstream;
+using std::vector;
+using std::getline;
+
+class Map
 {
-	public:
-		map();// makes the map and initializes the walls
-		~map();
-		
 	private:
-		void inputfile();
+		ifstream mapfilestream;
+		Vector2 currentpos;
+		vector<Wall*> walls;
+		void cycleTile();
+		void place(char tileType);
+		void translateLine(string mapRow);
+		
+
+		
+	public:
+		Map(string mapFile);
+		~Map() = default;// destructor.
+		void draw();
 		
 };
-*/

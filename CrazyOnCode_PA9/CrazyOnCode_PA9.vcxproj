@@ -176,6 +176,10 @@
     <Media Include="destroyed.wav" />
     <Media Include="smoke.wav" />
     <None Include="map1.tnkm" />
+    <None Include="mapTest.tnkm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="listMaps.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="AtariWood.png" />
