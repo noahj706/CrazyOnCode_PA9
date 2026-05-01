@@ -75,6 +75,7 @@ void Bullet::bulletHitVertWallAct()//bullet will bounce or deactivate
 	}
 	if (bounces > 0)
 	{
+		if (sounds) sounds->playBounce();
 		angle = 180.0f - angle;//reflects angle horizontally
 		--bounces;
 		bounceImmunityTimer = BOUNCECOOLDOWN;//start bounce cooldown

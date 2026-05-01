@@ -8,7 +8,7 @@ Scoreboard::Scoreboard(Vector2 pos, int fontSize, unsigned int numRounds)
     , score2(0)
     , fontSize(fontSize)
     , textColor(BLACK)
-    , numRounds(numRounds)
+    , winningScore(numRounds)
 {
 }
 

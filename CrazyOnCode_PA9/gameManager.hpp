@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "UI.hpp"
 #include "wall.hpp"
+#include "map.hpp"
 #include "common.hpp"
 #include <vector>
 #include <list>

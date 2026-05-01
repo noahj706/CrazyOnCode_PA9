@@ -17,9 +17,6 @@ private:
 public:
     Scoreboard(Vector2 pos = { 10, 10 }, int fontSize = 20,
         unsigned int numRounds = WINNING_SCORE);
-    ~Scoreboard();
-
-    void loadSounds();
     void draw() override;
     void update() override; 
 
