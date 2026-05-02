@@ -85,11 +85,22 @@ public:
         else if (mapName.find("pool") != std::string::npos) 
         {
             currentBackground = LoadTexture("assets/pool.png");
-            wallTextures.push_back(LoadTexture("assets/poolball2.png"));
-            wallTextures.push_back(LoadTexture("assets/pool_ball.png"));
-            wallTextures.push_back(LoadTexture("assets/poolball3.png"));
-            wallTextures.push_back(LoadTexture("assets/poolball4.png"));
-            wallTextures.push_back(LoadTexture("assets/poolball5.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls00.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls01.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls02.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls03.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls04.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls05.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls06.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls07.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls08.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls09.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls10.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls11.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls12.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls13.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls14.png"));
+            wallTextures.push_back(LoadTexture("assets/pool_balls15.png"));
         }
         else if (mapName.find("wii") != std::string::npos) 
         {

@@ -4,183 +4,149 @@
 
 // ------- FUNCTION DEFINITIONS -------
 
-// Player constructor
-//Player::Player(const Vector2& position, const float& angle, const float& speed, const unsigned& id) :
-//	Entity(position, angle, speed)
-//{
-//	// Visual stuff
-//	this->barrelLength = 35;
-//	this->body = { .x = position.x, .y = position.y, .width = 30, .height = 30  };
-//	this->cannon = { .x = position.x + barrelLength*cosf(angle), .y = position.y + barrelLength*sinf(angle), .width = 10, .height = 10};
-//
-//	// Set the player number
-//	this->id = id;
-//
-//	// Depending on the player, set their color
-//	switch (id)
-//	{
-//	// Player 1
-//	case 1:
-//		this->color = RED;
-//		this->playerSprites[0] = LoadImage("Sprites/p1_tank.png");
-//		this->playerSprites[1] = LoadImage("Sprites/p1_tank_fire.png");
-//		break;
-//	case 2:
-//		this->color = BLUE;
-//		this->playerSprites[0] = LoadImage("Sprites/p2_tank.png");
-//		this->playerSprites[1] = LoadImage("Sprites/p2_tank_fire.png");
-//		break;
-//	}
-//
-//	this->current = LoadTextureFromImage(playerSprites[0]);
-//
-//	// Movement stuff
-//	this->baseSpeed = 5;
-//	this->turningRate = 0.1;
-//	this->fireCooldownTime = 15;
-//	this->fireCooldownTimer = 0;
-//
-//	// Scoring
-//	this->score = 0;
-//
-//};
-//
-//// Updates the player's position based on key presses.
-//void Player::update(void)
-//{
-//	// Player key presses
-//	bool forwardKeyDown = false;
-//	bool backwardKeyDown = false;
-//	bool turnLeftKeyDown = false;
-//	bool turnRightKeyDown = false;
-//	bool fireKeyDown = false;
-//
-//	// Change the checks depending on player
-//	switch (id)
-//	{
-//	case 1:
-//		forwardKeyDown = IsKeyDown('W');
-//		backwardKeyDown = IsKeyDown('S');
-//		turnLeftKeyDown = IsKeyDown('A');
-//		turnRightKeyDown = IsKeyDown('D');
-//		fireKeyDown = IsKeyDown('F');
-//		break;
-//	case 2:
-//		forwardKeyDown = IsKeyDown(KEY_UP);
-//		backwardKeyDown = IsKeyDown(KEY_DOWN);
-//		turnLeftKeyDown = IsKeyDown(KEY_LEFT);
-//		turnRightKeyDown = IsKeyDown(KEY_RIGHT);
-//		fireKeyDown = IsKeyDown(KEY_RIGHT_CONTROL);
-//		break;
-//	}
-//
-//	// Handle player movement
-//	speed = baseSpeed * (int)forwardKeyDown + -1 * baseSpeed * (int)backwardKeyDown;
-//	angle += -1 * turningRate * (int)turnLeftKeyDown + turningRate * (int)turnRightKeyDown;
-//
-//	// Update the location of the body to match position
-//	body.x = position.x;
-//	body.y = position.y;
-//
-//	// Move the player forward if possible
-//	moveForward();
-//
-//
-//	// Handle player firing
-//	if (fireKeyDown && fireCooldownTimer == 0)
-//	{
-//		// Fire a bullet
-//		fire();
-//
-//		// Start the cooldown timer
-//		fireCooldownTimer = fireCooldownTime;
-//	}
-//	// Tick the fire time down
-//	if (fireCooldownTimer > 0) fireCooldownTimer--;
-//
-//
-//	// Handle player collisions
-//
-//}
-//
-//// Draws the player on the screen.
-//void Player::draw(void)
-//{
-//	// Draw the body
-///*	DrawRectangle(body.x, body.y, body.width, body.height, color);
-//
-//	// Draw the cannon
-//	DrawLine(body.x + body.width/2, position.y + body.height / 2, 
-//		     body.x + body.width / 2 + barrelLength * cosf(angle), body.y + body.height/2 + barrelLength * sinf(angle), color);
-//	DrawRectangle(body.x + body.width / 2 + barrelLength * cosf(angle) - cannon.width/2, body.y + body.width / 2 + barrelLength * sinf(angle) - cannon.height / 2,cannon.width,cannon.height,color); */
-//	
-//	ImageRotate(playerSprites, angle);
-//	current = LoadTextureFromImage(playerSprites[0]);
-//	DrawTexture(current, body.x, body.y, { 255,255,255,255 });
-//}
-//
-//// Returns the ID number of the player.
-//unsigned Player::getId(void) const { return id; }
-//
-//// Returns the player's current score.
-//unsigned Player::getScore(void) const { return score; }
-//
-//// Resets the player's score to zero.
-//void Player::resetScore(void) { score = 0; }
-//
-//// Scores one point for a player.
-//void Player::scorePoint(void) { score++; }
-//
-//// Fires a bullet.
-//void Player::fire(void)
-//{
-//	DrawText("Bang!", position.x, position.y - body.height/2,15,color);
-//}
-//
-//// Checks for a collision with another player
-//bool Player::collidingWith(const Player& player) const
-//{
-//	return CheckCollisionRecs(this->body, player.body);
-//}
+Player::Player(const Vector2& position, const PlayerId& playerId, const float& angle, int cooldownLength, const float& speed
+	, const float& radius) : CircleEntity(position, angle, speed, radius), cooldownLength(cooldownLength)
+{
+	this->playerId = playerId;
+	this->cooldownTimer = 0;
+	this->explosionTimer = TANK_EXPLOSION_FRAME_COUNT;
+	this->movementEnabled = true;
+	this->isAlive = true;
 
-///* Test function for the player */
-//void Player::testPlayer(void)
-//{
-//	// Define constant screen variables
-//	const int screenWidth = 800;
-//	const int screenHeight = 450;
-//	const Vector2 screenCenter = { .x = screenWidth / 2, .y = screenHeight / 2 };
-//
-//	// Initialization
-//	InitWindow(screenWidth, screenHeight, "Player Test");
-//	SetTargetFPS(60);
-//
-//	// Create player
-//	Player p1(screenCenter, 0, 5, PLAYER_ONE);
-//	Player p2({100,100}, 0, 5, PLAYER_TWO);
-//
-//	// Gameplay Loop
-//	while (!WindowShouldClose())
-//	{
-//		// Begin Drawing
-//		BeginDrawing();
-//
-//		// Set the background of the level
-//		ClearBackground(RAYWHITE);
-//
-//		// Perform drawing
-//		p1.draw();
-//		p2.draw();
-//
-//		// Player movement
-//		p1.update();
-//		p2.update();
-//
-//
-//		// End Drawing
-//		EndDrawing();
-//
-//	}
-//
-//	CloseWindow();
-//}
+	switch (playerId)
+	{
+	case PLAYER_ONE:
+
+		this->forwardKey = 'W';
+		this->backwardKey = 'S';
+		this->leftKey = 'A';
+		this->rightKey = 'D';
+		this->fireKey = 'F';
+		this->spritesheet = LoadTexture("Sprites/p1_tank.png");
+		break;
+
+	case PLAYER_TWO:
+
+		this->forwardKey = KEY_UP;
+		this->backwardKey = KEY_DOWN;
+		this->leftKey = KEY_LEFT;
+		this->rightKey = KEY_RIGHT;
+		this->fireKey = KEY_RIGHT_CONTROL;
+		this->spritesheet = LoadTexture("Sprites/p2_tank.png");
+		break;
+	}
+
+	this->stillFrame = { 0.0f, 0.0f, 32, 32 };
+	this->fireFrame = { 32.f, 0.0f, 32, 32 };
+	this->explodeFrame[0] = {64.f,0.0f,32, 32};
+	this->explodeFrame[1] = { 96.f,0.0f,32,32 };
+	this->deathFrame = { 128.f,0.0f,32,32 };
+
+	this->currentFrame = stillFrame;
+}
+
+void Player::doMovement()
+{
+	speed = movementEnabled * (TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey));
+	angle += movementEnabled * (-1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey));
+	moveForward();
+}
+
+void Player::ceaseFire()
+{
+	currentFrame = stillFrame;
+	if (cooldownTimer > 0.0f) cooldownTimer -= GetFrameTime();
+	if (fireFrameTimer > 0.0f)
+	{
+		currentFrame = fireFrame;
+		fireFrameTimer -= GetFrameTime();
+	}
+}
+
+void Player::update(void)
+{
+	// Handle player motions
+	doMovement();
+	if (isAlive == false)
+	{
+		explode();
+	}
+}
+
+void Player::draw(void)
+{
+	DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE }, { TANK_SIZE / 2,TANK_SIZE / 2 }, angle, WHITE);
+}
+
+void Player::enablePlayerMovement(const bool& tf) 
+{ 
+	movementEnabled = tf; 
+}
+
+void Player::setSoundManager(SoundManager* soundMgr)
+{
+	sounds = soundMgr;
+}
+PlayerId Player::getId(void) const 
+{ 
+	return playerId; 
+}
+void Player::playerHitWallAct(Rectangle bounds)
+{
+	// find closest point on rectangle to circle center
+	Vector2 closestPoint =
+	{
+		Clamp(this->position.x, bounds.x, bounds.x + bounds.width),
+		Clamp(this->position.y, bounds.y, bounds.y + bounds.height)
+	};
+
+	// get vector from closest point to circle center
+	Vector2 betweenie = this->position - closestPoint;
+	Vector2 normalBetweenie = Vector2Normalize(betweenie);
+
+	// push player out by the overlap amount
+	float overlap = Vector2Length(betweenie) - getRadius();
+	this->position -= Vector2Scale(normalBetweenie, overlap);
+}
+
+// Handles tank death
+void Player::explode()
+{
+	if (sounds && explosionTimer == TANK_EXPLOSION_FRAME_COUNT) sounds->playExplosion();
+	// Stop the player from moving
+	this->movementEnabled = false;
+	this->isAlive = false;
+
+	angle = 0;
+	currentFrame = explodeFrame[explosionTimer % 2];
+
+	if (explosionTimer > 0)
+	{
+		explosionTimer -= GetFrameTime();
+	}
+	else
+	{
+		currentFrame = deathFrame;
+	}
+}
+
+void Player::playerHitBulletAct()
+{
+	explode();
+}
+
+void Player::freeze()  //turns off movement
+{
+	movementEnabled = false;
+}
+
+void Player::playerHitPlayerAct(const Vector2& otherPosition, float otherRadius)
+{
+	//get vector from center to center
+	Vector2 betweenie = this->position - otherPosition;
+	Vector2 normalBetweenie = Vector2Normalize(betweenie);
+
+	//push player out by overlap amount
+	float overlap = Vector2Length(betweenie) - (getRadius() + otherRadius);
+	this->position -= Vector2Scale(normalBetweenie, overlap);
+}

@@ -16,11 +16,12 @@
 #include <vector>
 
 // ------- DEFINE CONSTANTS -------
-#define TANK_BASE_SPEED 5.5f
+#define TANK_BASE_SPEED 4.5f
 #define TANK_TURNING_RATE 3.3f
 #define TANK_FIRE_COOLDOWN 40
 #define TANK_SIZE 64
 #define FIRE_FRAME_LENGTH 6.0f
+#define TANK_EXPLOSION_FRAME_COUNT 30
 
 
 // ------- DEFINE ENUMS -------
@@ -40,44 +41,9 @@ public:
 
 	/* Creates a player with the given ID, which is either PLAYER_ONE or PLAYER_TWO */
 	Player(const Vector2& position = { 0,0 }, const PlayerId& playerId = PLAYER_ONE, const float& angle = 0, int cooldownLength = TANK_FIRE_COOLDOWN, const float& speed = 0
-		, const float& radius = TANK_SIZE / 2)
-		: CircleEntity(position, angle, speed, radius), cooldownLength(cooldownLength)
-	{
-		this->playerId = playerId;
-		this->cooldownTimer = 0;
-		this->movementEnabled = true;
-		this->isAlive = true;
-
-		switch (playerId)
-		{
-		case PLAYER_ONE:
-
-			this->forwardKey = 'W';
-			this->backwardKey = 'S';
-			this->leftKey = 'A';
-			this->rightKey = 'D';
-			this->fireKey = 'F';
-			this->spritesheet = LoadTexture("Sprites/p1_tank.png");
-			break;
-
-		case PLAYER_TWO:
-
-			this->forwardKey = KEY_UP;
-			this->backwardKey = KEY_DOWN;
-			this->leftKey = KEY_LEFT;
-			this->rightKey = KEY_RIGHT;
-			this->fireKey = KEY_RIGHT_CONTROL;
-			this->spritesheet = LoadTexture("Sprites/p2_tank.png");
-			break;
-		}
-
-		this->stillFrame = { 0.0f, 0.0f, 32, 32 };
-		this->fireFrame = { 32.f, 0.0f, 32, 32 };
-		this->deathFrame = { 64.f,0.0f,32, 32 };
-	}
+		, const float& radius = TANK_SIZE / 2);
 	
-	void setSoundManager(SoundManager* soundMgr) { sounds = soundMgr; }
-
+	void setSoundManager(SoundManager* soundMgr);
 	/* Default player destructor. */
 	~Player() = default;
 
@@ -85,21 +51,17 @@ public:
 
 
 	// Returns the player's ID to the user.
-	PlayerId getId(void) const { return playerId; }
+	PlayerId getId(void) const;
 
 	// Enable/disable player movement
-	void enablePlayerMovement(const bool& tf) { movementEnabled = tf; }
+	void enablePlayerMovement(const bool& tf);
 
 
 	// -------- PLAYER CONTROL METHODS --------
 
 
 	// Performs these actions every frame. Checks for player inputs.
-	void update(void) override
-	{
-		// Handle player motions
-		doMovement();
-	}
+	void update(void) override;
 
 	//code was originally in update(), but in order to have no parameters in update(), I(Noah) moved the check to a separate function
 	//shoots bullet if conditions met
@@ -117,70 +79,18 @@ public:
 	}
 
 	// Draws the player and all of their bullets to the screen.
-	void draw(void) override
-	{
-		DrawTexturePro(spritesheet, currentFrame, { getCenter().x , getCenter().y,TANK_SIZE,TANK_SIZE}, {TANK_SIZE / 2,TANK_SIZE / 2}, angle, WHITE);
-	}
+	void draw(void) override;
 
 	// Checks collisions with the opponent and the opponent's bullets
-	void checkCollisionsWith(const Player& opponent)
-	{
-		// Opponent body collisions
-		if (collidingWith(opponent))
-		{
-			DrawText("OW!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
-		}
-
-		// Wall collisions
-
-		// Bullet collisions
-		for (int i = 0; i < opponent.activeBullets.size(); i++)
-		{
-			if (collidingWith(*(opponent.activeBullets[i])))
-			{
-				DrawText("OOF!", 0, 0, 30, (playerId == PLAYER_ONE) ? RED : BLUE);
-				explode();
-			}
-		}
-	}
 
 	//collision acts - All by Noah :D
-	void playerHitPlayerAct(const Vector2& otherPosition, float otherRadius)
-	{
-		//get vector from center to center
-		Vector2 betweenie = this->position - otherPosition;
-		Vector2 normalBetweenie = Vector2Normalize(betweenie);
+	void playerHitPlayerAct(const Vector2& otherPosition, float otherRadius);
+	void playerHitBulletAct();
 
-		//push player out by overlap amount
-		float overlap = Vector2Length(betweenie) - (getRadius() + otherRadius);
-		this->position -= Vector2Scale(normalBetweenie, overlap);
-	}
-	void playerHitBulletAct()
-	{
-		explode();
-	}
-	void playerHitWallAct(Rectangle bounds)
-	{
-		// find closest point on rectangle to circle center
-		Vector2 closestPoint = 
-		{
-			Clamp(this->position.x, bounds.x, bounds.x + bounds.width),
-			Clamp(this->position.y, bounds.y, bounds.y + bounds.height)
-		};
+	void playerHitWallAct(Rectangle bounds);
 
-		// get vector from closest point to circle center
-		Vector2 betweenie = this->position - closestPoint;
-		Vector2 normalBetweenie = Vector2Normalize(betweenie);
+	void freeze(); //turns off movement
 
-		// push player out by the overlap amount
-		float overlap = Vector2Length(betweenie) - getRadius();
-		this->position -= Vector2Scale(normalBetweenie, overlap);
-	}
-
-	void freeze()//turns off movement
-	{
-		movementEnabled = false;
-	}
 	// ------- TEST FUNCTIONS -------
 	/*
 	// Player test function
@@ -245,12 +155,14 @@ private:
 	//timers
 	int cooldownTimer;
 	int fireFrameTimer;//timer to hold the shooting sprite
+	int explosionTimer;
 
 	// Sprite Controllers
 	Texture2D spritesheet;
 	Rectangle stillFrame;
 	Rectangle fireFrame;
 	Rectangle deathFrame;
+	Rectangle explodeFrame[2];
 	Rectangle currentFrame;
 
 	// Key controllers
@@ -263,12 +175,7 @@ private:
 	// ------- PRIVATE FUNCTIONS -------
 
 	// Handle the player's movement
-	void doMovement()
-	{
-		speed = movementEnabled*(TANK_BASE_SPEED * (int)IsKeyDown(forwardKey) + -1 * TANK_BASE_SPEED * (int)IsKeyDown(backwardKey));
-		angle += movementEnabled*( - 1 * TANK_TURNING_RATE * (int)IsKeyDown(leftKey) + TANK_TURNING_RATE * (int)IsKeyDown(rightKey));
-		moveForward();
-	}
+	void doMovement();
 
 	// Fires a bullet in the player's current direction.
 	//[FROM NOAH] - hey gang, Noah here making this function walker designed a general function, this 
@@ -291,43 +198,9 @@ private:
 	}
 
 	// Handles code for when the player is not firing.
-	void ceaseFire()
-	{
-		currentFrame = (isAlive ? stillFrame : deathFrame);
-		if (cooldownTimer > 0.0f) cooldownTimer -= GetFrameTime();
-		if (fireFrameTimer > 0.0f)
-		{
-			currentFrame = fireFrame;
-			fireFrameTimer -= GetFrameTime();
-		}
-	}
+	void ceaseFire();
 
-	// Handles tank death
-	void explode()
-	{ 
-		if (sounds) sounds->playExplosion();
-		// Stop the player from moving
-		this->movementEnabled = false;
-		this->isAlive = false;
-		
-		angle = 0;
-		currentFrame = deathFrame;
-	}
-
-
-	//WALKER!!!!! I already made these functions in gameManager!!!!!!
-	/* Returns true if the player is colliding with the opponent's body. */
-	bool collidingWith(const Player& opponent)
-	{
-		return CheckCollisionCircles(getCenter(), getRadius(), opponent.getCenter(), opponent.getRadius());
-	}
-
-	/* Returns true if the player is colliding with a bullet. */
-	bool collidingWith(const Bullet& bullet)
-	{
-		return CheckCollisionCircles(getCenter(), getRadius(), bullet.getCenter(), bullet.getRadius());
-	}
-	
+	void explode();
 
 
 };
