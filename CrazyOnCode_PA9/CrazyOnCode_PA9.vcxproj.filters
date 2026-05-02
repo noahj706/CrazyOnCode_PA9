@@ -7,9 +7,6 @@
     <Filter Include="assets">
       <UniqueIdentifier>{b1546d1d-caa0-4c3b-b573-e422c1f6d276}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{cd4c1076-508c-4bfd-8b88-54b82020b430}</UniqueIdentifier>
-    </Filter>
     <Filter Include="test">
       <UniqueIdentifier>{07a09546-8a68-4143-a988-ee842a2d8f5d}</UniqueIdentifier>
     </Filter>
@@ -121,7 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
-      <Filter>lib</Filter>
+      <Filter>assets\lib</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
