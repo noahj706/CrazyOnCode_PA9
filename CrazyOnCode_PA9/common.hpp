@@ -101,6 +101,12 @@ public:
             wallTextures.push_back(LoadTexture("assets/pool_balls13.png"));
             wallTextures.push_back(LoadTexture("assets/pool_balls14.png"));
             wallTextures.push_back(LoadTexture("assets/pool_balls15.png"));
+
+            wallTextures.push_back(LoadTexture("assets/pool_ball.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball2.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball3.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball4.png"));
+            wallTextures.push_back(LoadTexture("assets/poolball5.png"));
         }
         else if (mapName.find("wii") != std::string::npos) 
         {
