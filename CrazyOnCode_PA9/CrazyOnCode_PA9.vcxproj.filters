@@ -7,9 +7,6 @@
     <Filter Include="assets">
       <UniqueIdentifier>{b1546d1d-caa0-4c3b-b573-e422c1f6d276}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{cd4c1076-508c-4bfd-8b88-54b82020b430}</UniqueIdentifier>
-    </Filter>
     <Filter Include="test">
       <UniqueIdentifier>{07a09546-8a68-4143-a988-ee842a2d8f5d}</UniqueIdentifier>
     </Filter>
@@ -43,6 +40,9 @@
     <Filter Include="src\bullet">
       <UniqueIdentifier>{db60ffa9-eb78-4236-9a89-7fcdd44567e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\lib">
+      <UniqueIdentifier>{cd4c1076-508c-4bfd-8b88-54b82020b430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example.cpp">
@@ -72,8 +72,8 @@
     <ClCompile Include="Player.cpp">
       <Filter>src\player</Filter>
     </ClCompile>
-	<ClCompile Include="gameManager.cpp">
-	  <Filter>src</Filter>
+    <ClCompile Include="gameManager.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,12 +108,12 @@
       <Filter>src\player</Filter>
     </ClInclude>
     <ClInclude Include="gameManager.hpp">
-	  <Filter>src</Filter>
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
-      <Filter>lib</Filter>
+      <Filter>assets\lib</Filter>
     </Library>
   </ItemGroup>
   <ItemGroup>
@@ -123,8 +123,8 @@
     <Media Include="smoke.wav">
       <Filter>assets</Filter>
     </Media>
-	<None Include="map1.tnkm">
-	  <Filter>assets</Filter>
-	</None>
+    <None Include="map1.tnkm">
+      <Filter>assets</Filter>
+    </None>
   </ItemGroup>
 </Project>
