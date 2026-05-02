@@ -12,7 +12,8 @@ Noah Julius - Lab Section 07
 
 \-General project structure
 
-\-Game manager (including object collisions and menus), entity, rectangle entity, circle entity, 
+\-GameManager (including object collisions and menus),
+\-Entity, rectangle entity, circle entity, 
 
 &#x09;and bullet object class
 
