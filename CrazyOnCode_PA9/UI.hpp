@@ -2,7 +2,7 @@
 #include "entity.hpp"
 #include <string>
 
-#define WINNING_SCORE 3
+#define WINNING_SCORE 5
 
 class Scoreboard : public RectangleEntity
 {
