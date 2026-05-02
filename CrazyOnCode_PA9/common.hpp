@@ -1,6 +1,8 @@
 // Hewwo, this is misc. stuff that give the game some sound and more visuals so backgrounds,
 // sound effects, background music, and maybe menu system...we'll see
 // In the process of testing all assets, and organizing if working
+// Author: Angelo Reyes
+
 
 #ifndef COMMON_HPP
 #define COMMON_HPP
@@ -19,7 +21,8 @@
 // Recall tiles take up 64 x 64 pixels
 
 
-class Stage {
+class Stage 
+{
 private:
     Texture2D currentBackground;
     std::vector<Texture2D> wallTextures;  // Multi-use textures
@@ -86,16 +89,17 @@ public:
             wallTextures.push_back(LoadTexture("assets/pool_ball.png"));
             wallTextures.push_back(LoadTexture("assets/poolball3.png"));
             wallTextures.push_back(LoadTexture("assets/poolball4.png"));
-        }
-        else if (mapName.find("wiitwo") != std::string::npos) 
-        {
-            currentBackground = LoadTexture("assets/Wii.png");
-            wallTexture = LoadTexture("assets/wii_block.png");
+            wallTextures.push_back(LoadTexture("assets/poolball5.png"));
         }
         else if (mapName.find("wii") != std::string::npos) 
         {
             currentBackground = LoadTexture("assets/wii3.png");
-            wallTexture = LoadTexture("assets/wii_block.png");
+            wallTexture = LoadTexture("assets/woodblock.png");
+        }
+        else if (mapName.find("atari2") != std::string::npos)
+        {
+            currentBackground = LoadTexture("assets/3A.png");
+            wallTexture = LoadTexture("assets/ataritext.png");
         }
         else 
         {

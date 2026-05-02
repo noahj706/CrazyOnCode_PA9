@@ -78,9 +78,7 @@
     <ClCompile Include="gameManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="common.cpp">
-      <Filter>src\common</Filter>
-    </ClCompile>
+    <ClCompile Include="button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="example.hpp">
@@ -119,6 +117,7 @@
     <ClInclude Include="common.hpp">
       <Filter>src\common</Filter>
     </ClInclude>
+    <ClInclude Include="button.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\raylib.lib">
@@ -148,17 +147,59 @@
     <Media Include="assets\bounce.wav">
       <Filter>assets</Filter>
     </Media>
+    <Media Include="assets\backgroundmusic.wav" />
+    <Media Include="assets\aquired.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="assets\overclock.wav">
+      <Filter>assets</Filter>
+    </Media>
+    <Media Include="assets\powershell.wav">
+      <Filter>assets</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
-    <None Include="mapTest.tnkm" />
-    <None Include="map1.tnkm">
-      <Filter>assets\maps</Filter>
-    </None>
+    <None Include="pool1.tnkm" />
+    <None Include="pool2.tnkm" />
+    <None Include="atari1.tnkm" />
+    <None Include="atari2.tnkm" />
+    <None Include="wii1.tnkm" />
+    <None Include="wii2.tnkm" />
+    <None Include="wii3.tnkm" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="AtariWood.png" />
+    <Image Include="assets\ping_pong.png" />
+    <Image Include="assets\pool.png" />
+    <Image Include="assets\pool2.png" />
+    <Image Include="assets\pool_ball.png" />
+    <Image Include="assets\Wii.png" />
+    <Image Include="assets\Wii2.png" />
+    <Image Include="assets\Wii3.png" />
+    <Image Include="assets\Atari3.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\ataritext.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\poolball2.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\poolball3.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\poolball4.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\poolball5.png">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\seashell1.png">
+      <Filter>assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="listMaps.txt" />
+    <Text Include="Readmemaps.txt" />
   </ItemGroup>
 </Project>

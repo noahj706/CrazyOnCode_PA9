@@ -136,7 +136,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="common.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="example.cpp" />
@@ -167,12 +166,15 @@
     <Library Include="..\lib\raylib.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="assets\aquired.wav" />
     <Media Include="assets\backgroundmusic.wav" />
     <Media Include="assets\bounce.wav" />
     <Media Include="assets\explode.wav" />
     <Media Include="assets\explodev2.wav" />
     <Media Include="assets\Jazz - Picross DS.mp3" />
     <Media Include="assets\other.wav" />
+    <Media Include="assets\overclock.wav" />
+    <Media Include="assets\powershell.wav" />
     <Media Include="assets\shoot.wav" />
     <Media Include="assets\shootv2.wav" />
     <Media Include="assets\sound.wav" />
@@ -191,10 +193,17 @@
     <Text Include="Readmemaps.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\Atari3.png" />
+    <Image Include="assets\ataritext.png" />
     <Image Include="assets\ping_pong.png" />
     <Image Include="assets\pool.png" />
     <Image Include="assets\pool2.png" />
+    <Image Include="assets\poolball2.png" />
+    <Image Include="assets\poolball3.png" />
+    <Image Include="assets\poolball4.png" />
+    <Image Include="assets\poolball5.png" />
     <Image Include="assets\pool_ball.png" />
+    <Image Include="assets\seashell1.png" />
     <Image Include="assets\Wii.png" />
     <Image Include="assets\Wii2.png" />
     <Image Include="assets\Wii3.png" />

@@ -66,7 +66,7 @@ public:
 			this->backwardKey = KEY_DOWN;
 			this->leftKey = KEY_LEFT;
 			this->rightKey = KEY_RIGHT;
-			this->fireKey = KEY_KP_0;
+			this->fireKey = KEY_RIGHT_CONTROL;
 			this->spritesheet = LoadTexture("Sprites/p2_tank.png");
 			break;
 		}

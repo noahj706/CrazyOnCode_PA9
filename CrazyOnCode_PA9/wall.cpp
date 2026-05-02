@@ -57,7 +57,7 @@ void Wall::update()
 }
 void Wall::draw()
 {
-    // Only apply themed texture to NON-border walls
+    // Applying themed texture to non-border walls
     if (texture.id != 0 && !isBorder)
     {
         DrawTexturePro(texture,
