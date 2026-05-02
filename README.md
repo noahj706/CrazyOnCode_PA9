@@ -46,32 +46,31 @@ a quick understanding of existing raylib functions and their uses.
 
 __Noah Julius - Lab Section 07__
 
--General project structure (inheritance design and program workflow)
--GameManager class (wrapper that handles inter-object interactions)
--Entity abstract class
--RectangleEntity and CircleEntity classes 
--Bullet class
--Button class
+- General project structure (inheritance design and program workflow)
+- GameManager class (wrapper that handles inter-object interactions)
+- Entity abstract class
+- RectangleEntity and CircleEntity classes 
+- Bullet class
+- Button class
 
 __Walker Raubuch - Lab Section 11__
 
--Player object class (including controls and sprite management/animation)
--Wall and Player sprites
--this readme.txt file
+- Player object class (including controls and sprite management/animation)
+- Wall and Player sprites
 
 __Angelo Reyes - Lab Section 06__
 
--Scoreboard class
--Theme management (assigning proper sprites to objects)
--Sfx management (assigning sounds to event)
--Sound files (created with ChipTone by SFB Games)
+- Scoreboard class
+- Theme management (assigning proper sprites to objects)
+- Sfx management (assigning sounds to event)
+- Sound files (created with ChipTone by SFB Games)
 
 __Lincoln Young - Lab Section 01__
 
--Wall class
--Map container class
--.tnkm map file reader
--.tnkm map file creation
+- Wall class
+- Map container class
+- .tnkm map file reader
+- .tnkm map file creation
 
 
 
