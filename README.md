@@ -19,15 +19,28 @@ The first player to score 5 points is the winner!
 
 ## **Design**
 
-This program written in C++ primarily uses the basic OOP principles to operate.
+This project uses the Raylib and Raymath libraries found on either:
+Raylib website: https://www.raylib.com/
+Raylib & Raymath repo: https://github.com/raysan5/raylib
 
-All on screen game objects inherit from the Entity base class which tracks object position and movement methods.
+This program primarily written in C++ primarily uses the basic OOP principles to operate.
 
-Level information such as wall locations are stored in custom .tnkm files, which contain the level title, theme, and layout.
-Such files are then loaded into place by the Map container class, filled with Wall objects that behave as the in-game walls.
+All on screen game objects inherit from the Entity base class which tracks object position and 
+movement methods.
 
-All other objects including players, bullets, buttons, scoreboard, and the map are stored and managed in the GameManager container class,
-since this class has oversight over all objects it controls all inter-object events such as collisions, player death calls, level load calls, etc.
+Level information such as wall locations are stored in custom .tnkm files, which contain the level title, 
+theme, and layout. Such files are then loaded into place by the Map container class, filled with Wall 
+objects that behave as the in-game walls.
+
+All other objects including players, bullets, buttons, scoreboard, and the map are stored and managed in
+the GameManager container class, since this class has oversight over all objects it controls all inter-object 
+events such as collisions, player death calls, level load calls, etc.
+
+## **AI Usage**
+
+No AI generated code is present in our program, however during the coding process Claude Code Sonnet 4.6
+was used to aid in the raylib documentation combing alongside the raylib and raymath "cheat sheets", to get
+a quick understanding of existing raylib functions and their uses. 
 
 ## **Members and Constributions**
 
